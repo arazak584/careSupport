@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">CareSupport</string>
+    <string name="yes">Yes</string>
+    <string name="login_signin_msg_lbl">User Login</string>
+    <string name="phone">Phone Number</string>
+    <string name="pin">PIN</string>
+    <string name="login_form_login">LOGIN</string>
+    <string name="download">Download</string>
+    <string name="name">Name</string>
+    <string name="report">Report</string>
+    <string name="pname">Please Enter Your Name</string>
+    <string name="response">Please Enter Your Response</string>
+    <string name="closedata">Close</string>
+    <string name="saveclosedata">Save</string>
+    <string name="action_sign_in">Save</string>
+    <string name="fac">Facility</string>
+    <string name="view">View Feedback</string>
+    <string name="exit_confirmation_title">Exit</string>
+    <string name="exiting_lbl">Are you sure you want to exit?</string>
+    <string name="no">No</string>
+    <string name="please_wait_lbl">Please Wait</string>
+    <string name="feedback">Feedback</string>
+    <string name="id">ID</string>
+    <string name="hfac">Health Facility</string>
+    <string name="text_searchid">Search Using Facility or Name or Contact</string>
+</resources>
