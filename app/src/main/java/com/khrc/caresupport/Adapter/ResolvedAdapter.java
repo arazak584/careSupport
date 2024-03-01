@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.khrc.caresupport.Activity.ComplaintActivity;
 import com.khrc.caresupport.Activity.FeedbackActivity;
+import com.khrc.caresupport.Activity.LoginActivity;
 import com.khrc.caresupport.Activity.MainActivity;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
 import com.khrc.caresupport.entity.Complaints;
+import com.khrc.caresupport.entity.Users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +32,12 @@ public class ResolvedAdapter extends RecyclerView.Adapter<ResolvedAdapter.ViewHo
     LayoutInflater inflater;
     private Complaints complaints;
     private final List<Complaints> complaintsList;
+    private Users userData;
 
-    public ResolvedAdapter(Context context, FeedbackActivity activity, Complaints complaints) {
+    public ResolvedAdapter(Context context, FeedbackActivity activity, Complaints complaints,Users userData) {
         this.activity = activity;
         this.complaints = complaints;
+        this.userData = userData;
         complaintsList = new ArrayList<>();
         inflater = LayoutInflater.from(context);
     }
@@ -127,6 +131,7 @@ public class ResolvedAdapter extends RecyclerView.Adapter<ResolvedAdapter.ViewHo
 
         Intent intent = new Intent(activity, ComplaintActivity.class);
         intent.putExtra("selectedComplaint", selectedComplaint);
+        intent.putExtra(LoginActivity.USER_DATA, userData);
         activity.startActivity(intent);
     }
 }

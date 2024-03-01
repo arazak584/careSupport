@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -37,8 +39,13 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
+        final Intent f = getIntent();
+        final Users userData = f.getParcelableExtra(LoginActivity.USER_DATA);
+        String fac = userData.getMothn();
+        Log.d("FeedbackActivity", "Username of Individual " + fac);
+
         recyclerView = findViewById(R.id.my_recycler_view);
-        adapter = new ResolvedAdapter(this, FeedbackActivity.this, complaints);
+        adapter = new ResolvedAdapter(this, FeedbackActivity.this, complaints, userData);
         complaitViewModel = new ViewModelProvider(this).get(ComplaitViewModel.class);
 
         //recyclerView.setHasFixedSize(true);

@@ -158,6 +158,7 @@ public class UsersApiClient {
                 user.setTel(profile.getTel());
                 user.setHfac(profile.getHfac());
                 user.setPin(profile.getPin());
+                user.setMothn(profile.getMothn());
 
                 users.add(user);
             }
@@ -181,6 +182,7 @@ public class UsersApiClient {
                 profile.setTel(jsonProfileObject.optString("tel", null));
                 profile.setHfac(jsonProfileObject.optString("hfac", null));
                 profile.setPin(jsonProfileObject.optString("pin", null));
+                profile.setMothn(jsonProfileObject.optString("mothn", null));
 
                 if (uniqueTels.add(profile.getTel())) {
                     jsonProfiles.add(profile);

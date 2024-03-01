@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private NewAdapter adapter;
     private ComplaitViewModel complaitViewModel;
 
+    public static final String USER_DATA = "com.khrc.caresupport.Activity.MainActivity.USER_DATA";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
         final Intent f = getIntent();
         final Users userData = f.getParcelableExtra(LoginActivity.USER_DATA);
-        String fac = userData.getHfac();
+        String fac = userData.getMothn();
+
+        Log.d("MainActivity", "Username of Individual " + fac);
 
         recyclerView = findViewById(R.id.my_recycler_view);
-        adapter = new NewAdapter(this, MainActivity.this, complaints);
+        adapter = new NewAdapter(this, MainActivity.this, complaints,userData);
         complaitViewModel = new ViewModelProvider(this).get(ComplaitViewModel.class);
 
         //recyclerView.setHasFixedSize(true);
@@ -88,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         final Button fdb = findViewById(R.id.view);
         fdb.setOnClickListener(v -> {
             final Intent i = new Intent(this, FeedbackActivity.class);
+            i.putExtra(LoginActivity.USER_DATA, userData);
             startActivity(i);
         });
 

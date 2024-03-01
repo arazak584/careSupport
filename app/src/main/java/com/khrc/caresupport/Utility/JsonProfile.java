@@ -4,6 +4,7 @@ public class JsonProfile {
     private String tel;
     private String pin;
     private String hfac;
+    private String mothn;
 
     public String getTel() {
         return tel;
@@ -27,5 +28,13 @@ public class JsonProfile {
 
     public void setHfac(String hfac) {
         this.hfac = hfac;
+    }
+
+    public String getMothn() {
+        return mothn;
+    }
+
+    public void setMothn(String mothn) {
+        this.mothn = mothn;
     }
 }

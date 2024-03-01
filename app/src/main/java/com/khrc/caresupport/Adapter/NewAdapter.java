@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khrc.caresupport.Activity.ComplaintActivity;
+import com.khrc.caresupport.Activity.LoginActivity;
 import com.khrc.caresupport.Activity.MainActivity;
 import com.khrc.caresupport.entity.Complaints;
 import com.khrc.caresupport.entity.Users;
@@ -31,11 +32,13 @@ public class NewAdapter extends RecyclerView.Adapter<NewAdapter.ViewHolder> {
     MainActivity activity;
     LayoutInflater inflater;
     private Complaints complaints;
+    private Users userData;
     private final List<Complaints> complaintsList;
 
-    public NewAdapter(Context context, MainActivity activity, Complaints complaints) {
+    public NewAdapter(Context context, MainActivity activity, Complaints complaints, Users userData) {
         this.activity = activity;
         this.complaints = complaints;
+        this.userData = userData;
         complaintsList = new ArrayList<>();
         inflater = LayoutInflater.from(context);
     }
@@ -130,6 +133,8 @@ public class NewAdapter extends RecyclerView.Adapter<NewAdapter.ViewHolder> {
 
         Intent intent = new Intent(activity, ComplaintActivity.class);
         intent.putExtra("selectedComplaint", selectedComplaint);
+        intent.putExtra(LoginActivity.USER_DATA, userData);
+        Log.i("Clicked Name", userData.mothn);
         activity.startActivity(intent);
     }
 

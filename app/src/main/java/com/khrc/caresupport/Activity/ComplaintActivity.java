@@ -1,5 +1,6 @@
 package com.khrc.caresupport.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,10 +20,9 @@ import java.util.concurrent.ExecutionException;
 public class ComplaintActivity extends AppCompatActivity {
 
     private ActivityComplaintBinding binding;
-    private Users profile;
-
     private ComplaitViewModel viewModel;
     private Complaints selectedComplaint;
+    private Users userData;
 
 
     @Override
@@ -35,9 +35,16 @@ public class ComplaintActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(ComplaitViewModel.class);
         binding.setComp(new Complaints());
         selectedComplaint = getIntent().getParcelableExtra("selectedComplaint");
+        //userData = getIntent().getParcelableExtra("USER_DATA");
+        userData = getIntent().getParcelableExtra(LoginActivity.USER_DATA);
+
+
+        Log.d("Activity", "ProviderName Phone" + selectedComplaint.tel);
+        Log.d("Activity", "ProviderName " + userData.getMothn());
 
         // Set up the lifecycle owner for LiveData in the ViewModel
         binding.setLifecycleOwner(this);
+
 
         if (!TextUtils.isEmpty(selectedComplaint.id)) {
             try {
@@ -48,6 +55,11 @@ public class ComplaintActivity extends AppCompatActivity {
                 if (data != null) {
                     // MomProfile exists, populate the binding
                     binding.setComp(data);
+                    if (data.providers_name == null || data.providers_name.equals("")) {
+                        data.providers_name = userData.getMothn();
+                    }else{
+                        data.providers_name = data.providers_name;
+                    }
                 }
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();

@@ -151,7 +151,7 @@
                 android:id="@+id/provider_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="true"
+                android:enabled="false"
                 android:text="@={comp.providers_name}"
                 android:textColor="@color/purple_700"
                 android:inputType="textPersonName"/>

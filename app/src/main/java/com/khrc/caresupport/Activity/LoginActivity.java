@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private Users profile;
 
     private EditText username;
-    public static final String USER_DATA = "com.khrc.caresupport.activity.MainActivity.USER_DATA";
+    public static final String USER_DATA = "com.khrc.caresupport.Activity.MainActivity.USER_DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
