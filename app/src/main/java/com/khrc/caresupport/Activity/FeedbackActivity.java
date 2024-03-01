@@ -106,4 +106,10 @@ public class FeedbackActivity extends AppCompatActivity {
         ComplaintsApi complaintsApi = new ComplaintsApi(FeedbackActivity.this);
         complaintsApi.loadAndInsertCompData(callback, FeedbackActivity.this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.pull("", complaitViewModel);
+        };
 }

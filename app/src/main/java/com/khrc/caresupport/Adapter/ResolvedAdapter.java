@@ -45,9 +45,7 @@ public class ResolvedAdapter extends RecyclerView.Adapter<ResolvedAdapter.ViewHo
         public ViewHolder(View view) {
             super(view);
             this.names = view.findViewById(R.id.text_name);
-            this.phone = view.findViewById(R.id.text_phone);
             this.comp = view.findViewById(R.id.text_complaint);
-            this.date = view.findViewById(R.id.text_date);
             this.res = view.findViewById(R.id.text_response);
             this.cardView = view.findViewById(R.id.searchedItem);
 
@@ -77,11 +75,9 @@ public class ResolvedAdapter extends RecyclerView.Adapter<ResolvedAdapter.ViewHo
     public void onBindViewHolder(@NonNull ResolvedAdapter.ViewHolder holder, int position) {
         final Complaints complaints = complaintsList.get(position);
 
-        holder.names.setText(complaints.getMothn());
-        holder.phone.setText(complaints.getTel());
-        holder.comp.setText(complaints.getComplts());
-        holder.date.setText(complaints.getComplaints_date());
-        holder.res.setText(complaints.getResponse_txt());
+        holder.names.setText(complaints.getMothn() + " (" + complaints.getTel() + ")");
+        holder.comp.setText(complaints.getComplaints_date() + " - " +complaints.getComplts());
+        holder.res.setText(complaints.getResponse_date() + " - " + complaints.getResponse_txt());
     }
 
     @Override
