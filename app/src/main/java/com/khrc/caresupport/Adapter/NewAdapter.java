@@ -47,9 +47,8 @@ public class NewAdapter extends RecyclerView.Adapter<NewAdapter.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             this.names = view.findViewById(R.id.text_name);
-            this.phone = view.findViewById(R.id.text_phone);
             this.comp = view.findViewById(R.id.text_complaint);
-            this.date = view.findViewById(R.id.text_date);
+            this.phone = view.findViewById(R.id.text_phone);
             this.cardView = view.findViewById(R.id.searchedItem);
 
             // Add click listener to the cardView
@@ -78,10 +77,9 @@ public class NewAdapter extends RecyclerView.Adapter<NewAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Complaints complaints = complaintsList.get(position);
 
-        holder.names.setText(complaints.getMothn());
-        holder.phone.setText(complaints.getTel());
-        holder.comp.setText(complaints.getComplts());
-        holder.date.setText(complaints.getComplaints_date());
+        holder.names.setText(complaints.getMothn() + " (" + complaints.getTel() + ")");
+        holder.comp.setText(complaints.getComplaints_date() + " - " +complaints.getComplts());
+        holder.phone.setText(complaints.getHfac());
     }
 
     @Override

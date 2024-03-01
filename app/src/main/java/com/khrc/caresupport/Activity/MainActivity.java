@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 // This code will run after initiateBackgroundTask() is complete
                 importComplaints();
+                adapter.pull("", complaitViewModel);
             }
         });
     }

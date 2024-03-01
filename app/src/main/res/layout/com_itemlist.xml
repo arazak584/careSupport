@@ -48,19 +48,11 @@
                 android:textStyle="bold"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/text_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"/>
-
-        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="5dp"
+            android:background="@color/color_text_green" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -73,6 +65,7 @@
                 android:id="@+id/text_complaint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/MediumBlue"
                 android:textSize="20dp"/>
         </LinearLayout>
 
