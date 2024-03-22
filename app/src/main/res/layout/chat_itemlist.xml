@@ -26,6 +26,7 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/right_chat_layout"
         android:layout_width="wrap_content"
@@ -47,5 +48,7 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
