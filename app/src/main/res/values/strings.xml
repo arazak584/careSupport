@@ -23,4 +23,5 @@
     <string name="id">ID</string>
     <string name="hfac">Health Facility</string>
     <string name="text_searchid">Search Using Facility or Name or Contact</string>
+    <string name="chat">Chat</string>
 </resources>

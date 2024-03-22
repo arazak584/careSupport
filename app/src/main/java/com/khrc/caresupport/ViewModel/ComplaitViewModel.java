@@ -28,6 +28,10 @@ public class ComplaitViewModel extends AndroidViewModel {
     public List<Complaints> searchs(String id) throws ExecutionException, InterruptedException {
         return complaintRepository.searchs("%" + id + "%");
     }
+
+    public List<Complaints> repo(String id) throws ExecutionException, InterruptedException {
+        return complaintRepository.repo(id);
+    }
     public Complaints retrieves(String id) throws ExecutionException, InterruptedException {
         return complaintRepository.retrieves(id);
     }

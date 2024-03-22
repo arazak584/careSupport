@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#00796B" /> <!-- Change color to the desired receiver chat bubble color -->
+    <corners android:radius="8dp" /> <!-- Adjust the corner radius as needed -->
+</shape>

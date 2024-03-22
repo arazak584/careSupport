@@ -47,6 +47,10 @@ public interface ComplaintsDao {
             " (hfac LIKE:id OR mothn LIKE:id OR tel LIKE:id) ORDER BY complaints_date")
     List<Complaints> searchs(String id);
 
+    @Query("SELECT a.id,a.tel,a.record_id,b.response_date as response_date,a.complaints_date,b.response_text as response_txt,complts " +
+            " FROM Complaints as a LEFT JOIN chat as b ON a.tel=b.tel WHERE a.tel=:id ORDER BY a.complaints_date,b.response_date")
+    List<Complaints> repo(String id);
+
     @Query("SELECT * FROM Complaints WHERE response_txt IS NULL OR response_txt= '' ORDER BY complaints_date")
     List<Complaints> not();
 

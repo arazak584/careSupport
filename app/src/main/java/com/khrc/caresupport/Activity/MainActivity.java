@@ -96,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        final Button cht = findViewById(R.id.chat);
+        cht.setOnClickListener(v -> {
+            final Intent i = new Intent(this, ChatActivity.class);
+            i.putExtra(LoginActivity.USER_DATA, userData);
+            startActivity(i);
+        });
+
         // Locate the EditText in listview_main.xml
         final SearchView editSearch = findViewById(R.id.comp_search);
         // below line is to call set on query text listener method.

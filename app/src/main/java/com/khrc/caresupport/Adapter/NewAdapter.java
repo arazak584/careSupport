@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.khrc.caresupport.Activity.ChatActivity;
 import com.khrc.caresupport.Activity.ComplaintActivity;
 import com.khrc.caresupport.Activity.LoginActivity;
 import com.khrc.caresupport.Activity.MainActivity;
@@ -131,7 +132,7 @@ public class NewAdapter extends RecyclerView.Adapter<NewAdapter.ViewHolder> {
         String clickedRecordId = selectedComplaint.getId();
         Log.i("Clicked Record Id", clickedRecordId);
 
-        Intent intent = new Intent(activity, ComplaintActivity.class);
+        Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra("selectedComplaint", selectedComplaint);
         intent.putExtra(LoginActivity.USER_DATA, userData);
         Log.i("Clicked Name", userData.mothn);

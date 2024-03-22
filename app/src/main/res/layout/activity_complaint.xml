@@ -13,7 +13,6 @@
     </data>
 
 
-
     <LinearLayout
         android:id="@+id/REGISTER"
         android:layout_width="match_parent"

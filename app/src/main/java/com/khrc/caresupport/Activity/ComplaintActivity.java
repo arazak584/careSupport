@@ -35,9 +35,7 @@ public class ComplaintActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(ComplaitViewModel.class);
         binding.setComp(new Complaints());
         selectedComplaint = getIntent().getParcelableExtra("selectedComplaint");
-        //userData = getIntent().getParcelableExtra("USER_DATA");
         userData = getIntent().getParcelableExtra(LoginActivity.USER_DATA);
-
 
         Log.d("Activity", "ProviderName Phone" + selectedComplaint.tel);
         Log.d("Activity", "ProviderName " + userData.getMothn());

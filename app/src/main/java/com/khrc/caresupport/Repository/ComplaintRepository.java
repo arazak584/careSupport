@@ -74,6 +74,14 @@ public class ComplaintRepository {
         return future.get();
     }
 
+    public List<Complaints> repo(String id) throws ExecutionException, InterruptedException {
+        Callable<List<Complaints>> callable = () -> dao.repo(id);
+
+        Future<List<Complaints>> future = Executors.newSingleThreadExecutor().submit(callable);
+
+        return future.get();
+    }
+
     public Complaints retrieves(String id) throws ExecutionException, InterruptedException {
         Callable<Complaints> callable = () -> dao.retrieves(id);
 
