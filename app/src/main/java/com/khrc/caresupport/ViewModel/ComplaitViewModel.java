@@ -25,8 +25,8 @@ public class ComplaitViewModel extends AndroidViewModel {
         return complaintRepository.search("%" + id + "%");
     }
 
-    public List<Complaints> searchs(String id) throws ExecutionException, InterruptedException {
-        return complaintRepository.searchs("%" + id + "%");
+    public List<Complaints> searchs(String id,String ids) throws ExecutionException, InterruptedException {
+        return complaintRepository.searchs("%" + id + "%",ids);
     }
 
     public List<Complaints> repo(String id) throws ExecutionException, InterruptedException {
@@ -35,6 +35,15 @@ public class ComplaitViewModel extends AndroidViewModel {
     public Complaints retrieves(String id) throws ExecutionException, InterruptedException {
         return complaintRepository.retrieves(id);
     }
+
+    public long reply(String id) throws ExecutionException, InterruptedException {
+        return complaintRepository.reply(id);
+    }
+
+    public long replys(String id) throws ExecutionException, InterruptedException {
+        return complaintRepository.replys(id);
+    }
+
     public List<Complaints> sync() throws ExecutionException, InterruptedException {
         return complaintRepository.sync();
     }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khrc.caresupport.Activity.ChatActivity;
@@ -23,7 +24,10 @@ import com.khrc.caresupport.entity.Users;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -34,12 +38,14 @@ public class NewAdapter extends RecyclerView.Adapter<NewAdapter.ViewHolder> {
     LayoutInflater inflater;
     private Complaints complaints;
     private Users userData;
+    private final ComplaitViewModel complaitViewModel;
     private final List<Complaints> complaintsList;
 
-    public NewAdapter(Context context, MainActivity activity, Complaints complaints, Users userData) {
+    public NewAdapter(Context context, MainActivity activity, Complaints complaints, Users userData,ComplaitViewModel complaitViewModel) {
         this.activity = activity;
         this.complaints = complaints;
         this.userData = userData;
+        this.complaitViewModel = complaitViewModel;
         complaintsList = new ArrayList<>();
         inflater = LayoutInflater.from(context);
     }
@@ -81,9 +87,38 @@ public class NewAdapter extends RecyclerView.Adapter<NewAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Complaints complaints = complaintsList.get(position);
 
-        holder.names.setText(complaints.getMothn() + " (" + complaints.getTel() + ")");
-        holder.comp.setText(complaints.getComplaints_date() + " - " +complaints.getComplts());
-        holder.phone.setText(complaints.getHfac());
+        String dateString = complaints.getComplaints_date();
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+
+        //holder.names.setText(complaints.getMothn() + " (" + complaints.getTel() + ")");
+
+
+        try {
+            Date date = inputFormat.parse(dateString);
+            String formattedDate = outputFormat.format(date);
+
+            holder.comp.setText(formattedDate);
+            holder.phone.setText(complaints.getHfac());
+
+            // Assuming you have access to the necessary ViewModel instances
+            long count = complaitViewModel.reply(complaints.tel);
+            long counts = complaitViewModel.replys(complaints.tel);
+            Log.d("Display", "Total Count " + complaints.tel + counts);
+
+            if (counts>0) {
+                holder.names.setText(complaints.getMothn() + " (" + complaints.getTel() + ")");
+                holder.names.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.color_text_green));
+            }else{
+                holder.names.setText(complaints.getMothn() + " (" + complaints.getTel() + ")");
+                holder.names.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.red));
+            }
+
+        } catch (ExecutionException | InterruptedException | ParseException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately, for example, show an error message
+            Toast.makeText(activity, "Error updating counts", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -66,8 +66,8 @@ public class ComplaintRepository {
         return future.get();
     }
 
-    public List<Complaints> searchs(String id) throws ExecutionException, InterruptedException {
-        Callable<List<Complaints>> callable = () -> dao.searchs(id);
+    public List<Complaints> searchs(String id,String ids) throws ExecutionException, InterruptedException {
+        Callable<List<Complaints>> callable = () -> dao.searchs(id,ids);
 
         Future<List<Complaints>> future = Executors.newSingleThreadExecutor().submit(callable);
 
@@ -87,6 +87,18 @@ public class ComplaintRepository {
 
         Future<Complaints> future = Executors.newSingleThreadExecutor().submit(callable);
 
+        return future.get();
+    }
+
+    public long reply(String id) throws ExecutionException, InterruptedException {
+        Callable<Long> callable = () -> dao.reply(id);
+        Future<Long> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
+    public long replys(String id) throws ExecutionException, InterruptedException {
+        Callable<Long> callable = () -> dao.replys(id);
+        Future<Long> future = Executors.newSingleThreadExecutor().submit(callable);
         return future.get();
     }
 }

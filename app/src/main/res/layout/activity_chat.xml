@@ -22,16 +22,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/my_primary"
+        android:background="@color/color_text_green"
         android:padding="10dp"
         android:id="@+id/toolbar">
 
         <SearchView
-            android:id="@+id/searchloc"
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dip"
-            android:inputType="textPersonName|textCapCharacters"
+            android:inputType="textPersonName"
             android:layout_toRightOf="@id/other_username">
 
             <requestFocus />
@@ -81,22 +81,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:orientation="vertical">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/bottom_layout"
-        android:id="@+id/chat_recycler_view"/>
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:layout_above="@id/bottom_layout"
+            android:id="@+id/chat_recycler_view"/>
 
 
     </LinearLayout>
-    </ScrollView>
+
+
+        </ScrollView>
 
 
         <RelativeLayout

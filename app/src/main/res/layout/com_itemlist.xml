@@ -22,12 +22,20 @@
             android:orientation="horizontal"
             android:layout_gravity="fill_horizontal">
 
+            <include layout="@layout/profile_pic_view"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@id/back_btn"
+                android:id="@+id/profile_pic_layout"
+                />
+
             <TextView
                 android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
-                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:textSize="25sp"
                 android:textStyle="bold"/>
 
 

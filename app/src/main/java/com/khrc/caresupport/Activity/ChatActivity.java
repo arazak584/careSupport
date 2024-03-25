@@ -6,10 +6,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -53,6 +57,17 @@ public class ChatActivity extends AppCompatActivity {
 
         ph = binding.getRoot().findViewById(R.id.other_username);
 
+        // Inside your activity or fragment
+        ImageButton backButton = findViewById(R.id.back_btn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Implement the logic to navigate back
+                onBackPressed(); // This will perform the same action as pressing the back key
+            }
+        });
+
+
         viewModel = new ViewModelProvider(this).get(ComplaitViewModel.class);
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         binding.setComp(new Complaints());
@@ -77,7 +92,24 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setAdapter(chatAdapter);
 
         //Initial loading of complaints
-        chatAdapter.pull("", viewModel);
+        chatAdapter.pull("", viewModel, chatViewModel);
+
+        final SearchView editSearch = findViewById(R.id.search);
+        // below line is to call set on query text listener method.
+        editSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // inside on query text change method we are
+                // calling a method to filter our recycler view.
+                chatAdapter.pull(newText, viewModel, chatViewModel);
+                return false;
+            }
+        });
 
         binding.messageSendBtn.setOnClickListener(v -> {
             save(true, true, chatViewModel);
@@ -115,7 +147,7 @@ public class ChatActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        chatAdapter.pull("", viewModel);
+        chatAdapter.pull("", viewModel, chatViewModel);
     }
 
 }

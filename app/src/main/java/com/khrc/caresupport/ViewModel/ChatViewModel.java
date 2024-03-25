@@ -27,6 +27,14 @@ public class ChatViewModel extends AndroidViewModel {
     public ChatResponse retrieves(String id) throws ExecutionException, InterruptedException {
         return chatRepository.retrieves(id);
     }
+
+    public List<ChatResponse> repo(String id) throws ExecutionException, InterruptedException {
+        return chatRepository.repo(id);
+    }
+
+    public List<ChatResponse> searchs(String id,String ids) throws ExecutionException, InterruptedException {
+        return chatRepository.searchs("%" + id + "%",ids);
+    }
     public List<ChatResponse> sync() throws ExecutionException, InterruptedException {
         return chatRepository.sync();
     }

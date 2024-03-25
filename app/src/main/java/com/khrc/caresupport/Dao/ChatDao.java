@@ -42,4 +42,10 @@ public interface ChatDao {
     @Query("SELECT * FROM chat WHERE id=:id ")
     ChatResponse retrieves(String id);
 
+    @Query("SELECT * FROM chat WHERE tel=:id ORDER BY response_date")
+    List<ChatResponse> repo(String id);
+
+    @Query("SELECT * FROM chat WHERE " +
+            " (response_text LIKE:id OR response_date LIKE:id ) AND tel=:ids ")
+    List<ChatResponse> searchs(String id,String ids);
 }

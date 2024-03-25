@@ -54,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "Username of Individual " + fac);
 
         recyclerView = findViewById(R.id.my_recycler_view);
-        adapter = new NewAdapter(this, MainActivity.this, complaints,userData);
         complaitViewModel = new ViewModelProvider(this).get(ComplaitViewModel.class);
+        adapter = new NewAdapter(this, MainActivity.this, complaints,userData,complaitViewModel);
+
+
 
         //recyclerView.setHasFixedSize(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -87,20 +89,6 @@ public class MainActivity extends AppCompatActivity {
                     importComplaints();
                 }
             });
-        });
-
-        final Button fdb = findViewById(R.id.view);
-        fdb.setOnClickListener(v -> {
-            final Intent i = new Intent(this, FeedbackActivity.class);
-            i.putExtra(LoginActivity.USER_DATA, userData);
-            startActivity(i);
-        });
-
-        final Button cht = findViewById(R.id.chat);
-        cht.setOnClickListener(v -> {
-            final Intent i = new Intent(this, ChatActivity.class);
-            i.putExtra(LoginActivity.USER_DATA, userData);
-            startActivity(i);
         });
 
         // Locate the EditText in listview_main.xml

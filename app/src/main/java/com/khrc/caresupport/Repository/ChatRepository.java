@@ -51,4 +51,20 @@ public class ChatRepository {
 
         return future.get();
     }
+
+    public List<ChatResponse> repo(String id) throws ExecutionException, InterruptedException {
+        Callable<List<ChatResponse>> callable = () -> dao.repo(id);
+
+        Future<List<ChatResponse>> future = Executors.newSingleThreadExecutor().submit(callable);
+
+        return future.get();
+    }
+
+    public List<ChatResponse> searchs(String id,String ids) throws ExecutionException, InterruptedException {
+        Callable<List<ChatResponse>> callable = () -> dao.searchs(id,ids);
+
+        Future<List<ChatResponse>> future = Executors.newSingleThreadExecutor().submit(callable);
+
+        return future.get();
+    }
 }
