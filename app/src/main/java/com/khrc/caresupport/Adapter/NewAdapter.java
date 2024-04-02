@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +15,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khrc.caresupport.Activity.ChatActivity;
-import com.khrc.caresupport.Activity.ComplaintActivity;
 import com.khrc.caresupport.Activity.LoginActivity;
 import com.khrc.caresupport.Activity.MainActivity;
 import com.khrc.caresupport.entity.Complaints;

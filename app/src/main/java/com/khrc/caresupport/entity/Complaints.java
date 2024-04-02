@@ -36,12 +36,6 @@ public class Complaints extends BaseObservable implements Parcelable {
     @ColumnInfo(name = "complaints_date")
     public Date complaints_date;
 
-    @ColumnInfo(name = "response_date")
-    public Date response_date;
-
-    @ColumnInfo(name = "gen_hlth")
-    public Integer gen_hlth;
-
     @Expose
     public String complts;
 
@@ -51,11 +45,6 @@ public class Complaints extends BaseObservable implements Parcelable {
     @Expose
     public String hfac;
 
-    @Expose
-    public String providers_name;
-
-    @Expose
-    public String response_txt;
 
     @Expose
     public Integer complete;
@@ -75,20 +64,6 @@ public class Complaints extends BaseObservable implements Parcelable {
         if (complaints_date == null ) this.complaints_date=null;
         try {
             this.complaints_date = f.parse(complaints_date);
-        } catch (ParseException e) {
-            System.out.println(" Date Error " + e.getMessage());
-        }
-    }
-
-    public String getResponse_date() {
-        if (response_date == null) return null;
-        return f.format(response_date);
-    }
-
-    public void setResponse_date(String response_date) {
-        if (response_date == null ) this.response_date=null;
-        try {
-            this.response_date = f.parse(response_date);
         } catch (ParseException e) {
             System.out.println(" Date Error " + e.getMessage());
         }
@@ -119,36 +94,12 @@ public class Complaints extends BaseObservable implements Parcelable {
         this.tel = tel;
     }
 
-    public Integer getGen_hlth() {
-        return gen_hlth;
-    }
-
-    public void setGen_hlth(Integer gen_hlth) {
-        this.gen_hlth = gen_hlth;
-    }
-
     public String getComplts() {
         return complts;
     }
 
     public void setComplts(String complts) {
         this.complts = complts;
-    }
-
-    public String getProviders_name() {
-        return providers_name;
-    }
-
-    public void setProviders_name(String providers_name) {
-        this.providers_name = providers_name;
-    }
-
-    public String getResponse_txt() {
-        return response_txt;
-    }
-
-    public void setResponse_txt(String response_txt) {
-        this.response_txt = response_txt;
     }
 
     public Integer getComplete() {
@@ -181,12 +132,8 @@ public class Complaints extends BaseObservable implements Parcelable {
         this.tel = in.readString();
         this.hfac = in.readString();
         this.complaints_date = (Date) in.readSerializable();
-        this.gen_hlth = in.readInt();
         this.complts = in.readString();
         this.mothn = in.readString();
-        this.providers_name = in.readString();
-        this.response_txt = in.readString();
-        this.response_date = (Date) in.readSerializable();
     }
 
     public static final Creator<Complaints> CREATOR = new Creator<Complaints>() {
@@ -213,12 +160,8 @@ public class Complaints extends BaseObservable implements Parcelable {
         dest.writeString(this.tel);
         dest.writeString(this.hfac);
         dest.writeSerializable(this.complaints_date);
-        dest.writeInt(this.gen_hlth);
         dest.writeString(this.complts);
         dest.writeString(this.mothn);
-        dest.writeString(this.providers_name);
-        dest.writeString(this.response_txt);
-        dest.writeSerializable(this.response_date);
 
     }
 

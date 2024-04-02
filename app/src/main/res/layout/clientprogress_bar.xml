@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/total_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:layout_margin="@dimen/dimen_8"
+        app:cardBackgroundColor="@color/surface"
+        app:cardElevation="@dimen/dimen_0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <!-- Background Circle -->
+            <ProgressBar
+                android:id="@+id/circularProgressBarBackground"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="100"
+                android:progressDrawable="@drawable/circular_progress_background" />
+
+            <!-- Progress Circle -->
+            <ProgressBar
+                android:id="@+id/circularProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:indeterminate="false"
+                android:layout_gravity="center"
+                android:max="100"
+                android:progress="50"
+                android:progressDrawable="@drawable/circular_progress_bar" />
+
+            <!-- TextView for displaying text in the middle -->
+            <TextView
+                android:id="@+id/textWeeks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/lmps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_semibold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintStart_toEndOf="@id/textWeeks"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity="center"
+            tools:text="LMP" />
+
+    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

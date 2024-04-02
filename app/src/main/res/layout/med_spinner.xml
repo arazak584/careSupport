@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/total_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:layout_margin="@dimen/dimen_8"
+        app:cardBackgroundColor="@color/surface"
+        app:cardElevation="@dimen/dimen_0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/total_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_12"
+            android:fontFamily="@font/open_sans_semibold"
+            android:gravity="center_horizontal"
+            android:text="@string/med_history"
+            android:paddingLeft="15dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+
+        <Spinner
+            android:id="@+id/med"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="left"
+            android:minHeight="48dp"
+            android:padding="15dp"
+            android:background="@drawable/rs_spinner"
+            android:spinnerMode="dropdown"
+            android:focusable="true"
+            android:textColor="#000301" />
+
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

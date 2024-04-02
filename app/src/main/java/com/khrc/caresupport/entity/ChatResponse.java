@@ -23,7 +23,7 @@ public class ChatResponse {
     public Integer id;
 
     @ColumnInfo(name = "record_id")
-    public Integer record_id;
+    public String record_id;
 
     @NotNull
     @ColumnInfo(name = "tel")
@@ -68,16 +68,13 @@ public class ChatResponse {
 
     public void setId(@NotNull Integer id) {
         this.id = id;
-        if (id != null) {
-            this.record_id = id;
-        }
     }
 
-    public Integer getRecord_id() {
+    public String getRecord_id() {
         return record_id;
     }
 
-    public void setRecord_id(Integer record_id) {
+    public void setRecord_id(String record_id) {
         this.record_id = record_id;
     }
 

@@ -41,6 +41,6 @@ public interface UsersDao {
     @Query("SELECT * FROM users WHERE tel=:id")
     Users retrieves(String id);
 
-    @Query("SELECT * FROM users WHERE tel=:id AND pin=:password")
+    @Query("SELECT * FROM users WHERE tel=:id AND pin=:password AND ustatus=1")
     Users find(String id, String password);
 }

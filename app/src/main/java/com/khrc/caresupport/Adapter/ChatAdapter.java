@@ -1,7 +1,6 @@
 package com.khrc.caresupport.Adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,22 +11,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khrc.caresupport.Activity.ChatActivity;
-import com.khrc.caresupport.Activity.MainActivity;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.ChatViewModel;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
 import com.khrc.caresupport.entity.ChatResponse;
 import com.khrc.caresupport.entity.Complaints;
-import com.khrc.caresupport.entity.Users;
-import com.khrc.caresupport.entity.subentity.Chat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<Complaints> complaintsList;
     private List<ChatResponse> chatResponseList;
-    private List<Chat> filter;
+    private List<Object> mergedList;
     private final Complaints selectedComplaint;
 
     private static final int VIEW_TYPE_COMPLAINT = 1;
@@ -51,6 +48,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.selectedComplaint = selectedComplaint;
         this.complaintsList = new ArrayList<>();
         this.chatResponseList = new ArrayList<>();
+        this.mergedList = new ArrayList<>();
         inflater = LayoutInflater.from(activity);
         context = activity;
     }
@@ -84,40 +82,39 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        int totalItemCount = complaintsList.size() + chatResponseList.size();
-        // Return 0 if both lists are empty, otherwise return totalItemCount
-        return (totalItemCount > 0) ? totalItemCount : 0;
+        return mergedList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        // Determine the view type based on position and list sizes
-        if (!complaintsList.isEmpty() && position < complaintsList.size()) {
+        if (mergedList.get(position) instanceof Complaints) {
             return VIEW_TYPE_COMPLAINT;
-        } else {
+        } else if (mergedList.get(position) instanceof ChatResponse) {
             return VIEW_TYPE_CHAT_RESPONSE;
         }
+        return -1;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate layout based on view type
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view;
         if (viewType == VIEW_TYPE_COMPLAINT) {
-            View complaintView = inflater.inflate(R.layout.chat_itemlist, parent, false);
-            return new ComplaintViewHolder(complaintView);
-        } else {
-            View chatResponseView = inflater.inflate(R.layout.chat_itemlist, parent, false);
-            return new ChatResponseViewHolder(chatResponseView);
+            view = inflater.inflate(R.layout.chat_itemlist, parent, false);
+            return new ChatAdapter.ComplaintViewHolder(view);
+        } else if (viewType == VIEW_TYPE_CHAT_RESPONSE) {
+            view = inflater.inflate(R.layout.chat_itemlist, parent, false);
+            return new ChatAdapter.ChatResponseViewHolder(view);
         }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ComplaintViewHolder) {
-            ComplaintViewHolder complaintHolder = (ComplaintViewHolder) holder;
-            Complaints complaint = complaintsList.get(position);
+        Object item = mergedList.get(position);
+        if (holder instanceof ChatAdapter.ComplaintViewHolder && item instanceof Complaints) {
+            ChatAdapter.ComplaintViewHolder complaintHolder = (ChatAdapter.ComplaintViewHolder) holder;
+            Complaints complaint = (Complaints) item;
             if (!TextUtils.isEmpty(complaint.getComplts())) {
 
                 String dateString = complaint.getComplaints_date();
@@ -125,22 +122,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
 
                 try {
-                Date date = inputFormat.parse(dateString);
-                String formattedDate = outputFormat.format(date);
+                    Date date = inputFormat.parse(dateString);
+                    String formattedDate = outputFormat.format(date);
 
-                complaintHolder.leftChatLayout.setVisibility(View.VISIBLE);
-                complaintHolder.leftChatTextview.setText(complaint.getComplts());
-                complaintHolder.leftChatDate.setText(formattedDate);
+                    complaintHolder.leftChatLayout.setVisibility(View.VISIBLE);
+                    complaintHolder.leftChatTextview.setText(complaint.getComplts());
+                    complaintHolder.leftChatDate.setText(formattedDate);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             } else {
                 complaintHolder.leftChatLayout.setVisibility(View.GONE);
             }
-        } else if (holder instanceof ChatResponseViewHolder) {
-            ChatResponseViewHolder chatResponseHolder = (ChatResponseViewHolder) holder;
-            int adjustedPosition = position - complaintsList.size();
-            ChatResponse chatResponse = chatResponseList.get(adjustedPosition);
+        } else if (holder instanceof ChatAdapter.ChatResponseViewHolder && item instanceof ChatResponse) {
+            ChatAdapter.ChatResponseViewHolder chatResponseHolder = (ChatAdapter.ChatResponseViewHolder) holder;
+            ChatResponse chatResponse = (ChatResponse) item;
             if (!TextUtils.isEmpty(chatResponse.getResponse_text())) {
                 String dateString = chatResponse.getResponse_date();
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -149,9 +145,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 try {
                     Date date = inputFormat.parse(dateString);
                     String formattedDate = outputFormat.format(date);
-                chatResponseHolder.rightChatLayout.setVisibility(View.VISIBLE);
-                chatResponseHolder.rightChatTextview.setText(chatResponse.getResponse_text());
-                chatResponseHolder.rightChatDate.setText(formattedDate + " - " + chatResponse.providers_name);
+                    chatResponseHolder.rightChatLayout.setVisibility(View.VISIBLE);
+                    chatResponseHolder.rightChatTextview.setText(chatResponse.getResponse_text());
+                    chatResponseHolder.rightChatDate.setText(formattedDate + " - " + chatResponse.providers_name);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -161,6 +157,45 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public void updateData(List<Complaints> complaintsList, List<ChatResponse> chatResponseList) {
+        mergedList.clear();
+        mergedList.addAll(complaintsList);
+        mergedList.addAll(chatResponseList);
+        // Sort the merged list based on date
+        Collections.sort(mergedList, new Comparator<Object>() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                Date date1 = getDateFromItem(o1);
+                Date date2 = getDateFromItem(o2);
+                return date1.compareTo(date2);
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    // Helper method to extract date from complaint/chat response object
+    private Date getDateFromItem(Object item) {
+        if (item instanceof Complaints) {
+            try {
+                String dateString = ((Complaints) item).getComplaints_date();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                return format.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else if (item instanceof ChatResponse) {
+            try {
+                String dateString = ((ChatResponse) item).getResponse_date();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                return format.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
 
     public void pull(String charText, ComplaitViewModel complaitViewModel, ChatViewModel chatViewModel) {
         complaintsList.clear();
@@ -205,8 +240,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 e.printStackTrace();
             }
         }
-
-        notifyDataSetChanged();
+        updateData(complaintsList, chatResponseList);
     }
 
 }

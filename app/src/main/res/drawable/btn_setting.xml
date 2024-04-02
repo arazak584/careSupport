@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- pressed -->
+    <item android:state_pressed="true"
+        android:left="5dp"
+        android:right="5dp"
+        android:top="5dp">
+        <bitmap android:src="@mipmap/new_settings_shadow" android:gravity="center" android:alpha="0.5"/>
+    </item>
+
+    <!-- normal -->
+    <item
+        android:left="5dp"
+        android:right="5dp"
+        android:top="5dp">
+        <bitmap android:src="@mipmap/new_settings" android:gravity="center" android:alpha="0.5"/>
+    </item>
+</selector>

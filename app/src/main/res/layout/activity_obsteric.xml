@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="obsteric"
+            type="com.khrc.caresupport.entity.Obsteric" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/OBS_LAYOUT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".Client.Activity.ObstericActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/obs"
+            android:textAllCaps="true"
+            android:textColor="@color/purple_700"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="5dp"
+            android:background="@color/grey" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phone1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={obsteric.tel}"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/parity"
+                    android:text="@string/parity">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/parity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={obsteric.parity}"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/GRAVIDITY"
+                    android:text="@string/GRAVIDITY">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/GRAVIDITY"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={obsteric.gravidity}"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/SPONTANEOUS_ABORTIONS"
+                    android:text="@string/SPONTANEOUS_ABORTIONS">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/SPONTANEOUS_ABORTIONS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={obsteric.spontaneous_abortions}"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/INDUCED_ABORTIONS"
+                    android:text="@string/INDUCED_ABORTIONS">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/INDUCED_ABORTIONS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={obsteric.induced_abortions}"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/buttonSaveClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btnd_rone_black"
+                android:textColor="@android:color/background_light"
+                android:text="@string/saveclosedata" />
+
+            <Button
+                android:id="@+id/buttonClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btnd_rone_black"
+                android:textColor="@android:color/background_light"
+                android:text="@string/closedata" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</layout>

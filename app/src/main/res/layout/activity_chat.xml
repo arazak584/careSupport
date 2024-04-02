@@ -7,7 +7,7 @@
 
         <variable
             name="comp"
-            type="com.khrc.caresupport.entity.Complaints" />
+            type="com.khrc.caresupport.entity.ChatResponse" />
 
     </data>
 
@@ -72,6 +72,61 @@
 
     </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/total_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_balance_view">
+
+            <include
+                android:id="@+id/med_view"
+                layout="@layout/med_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/obs_view"
+                layout="@layout/progress_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/total_views"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/total_view">
+
+        <include
+            android:id="@+id/med_spin"
+            layout="@layout/med_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/fam_spin"
+            layout="@layout/fam_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -116,7 +171,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="@={comp.response_txt}"
+                android:text="@={comp.response_text}"
                 android:layout_marginBottom="10dp"
                 android:layout_toLeftOf="@id/message_send_btn"
                 android:background="@drawable/edit_text_rounded_corner"

@@ -5,6 +5,7 @@ import android.app.Application;
 import com.khrc.caresupport.Dao.ComplaintsDao;
 import com.khrc.caresupport.entity.Complaints;
 import com.khrc.caresupport.Utility.AppDatabase;
+import com.khrc.caresupport.entity.subentity.ChatItem;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -31,23 +32,6 @@ public class ComplaintRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             dao.create(data);
         });
-    }
-
-
-    public List<Complaints> sync() throws ExecutionException, InterruptedException {
-        Callable<List<Complaints>> callable = () -> dao.sync();
-
-        Future<List<Complaints>> future = Executors.newSingleThreadExecutor().submit(callable);
-
-        return future.get();
-    }
-
-    public List<Complaints> notdone() throws ExecutionException, InterruptedException {
-        Callable<List<Complaints>> callable = () -> dao.notdone();
-
-        Future<List<Complaints>> future = Executors.newSingleThreadExecutor().submit(callable);
-
-        return future.get();
     }
 
     public List<Complaints> not() throws ExecutionException, InterruptedException {
@@ -101,4 +85,5 @@ public class ComplaintRepository {
         Future<Long> future = Executors.newSingleThreadExecutor().submit(callable);
         return future.get();
     }
+
 }

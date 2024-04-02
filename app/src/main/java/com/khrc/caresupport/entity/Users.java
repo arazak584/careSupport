@@ -27,6 +27,9 @@ public class Users extends BaseObservable implements Parcelable {
     @ColumnInfo(name = "mothn")
     public String mothn;
 
+    @ColumnInfo(name = "ustatus")
+    public Integer ustatus;
+
     public Users() {
         this.tel = tel;
     }
@@ -64,11 +67,20 @@ public class Users extends BaseObservable implements Parcelable {
         this.mothn = mothn;
     }
 
+    public Integer getUstatus() {
+        return ustatus;
+    }
+
+    public void setUstatus(Integer ustatus) {
+        this.ustatus = ustatus;
+    }
+
     protected Users(Parcel in) {
         this.tel = in.readString();
         this.hfac = in.readString();
         this.pin = in.readString();
         this.mothn = in.readString();
+        this.ustatus = in.readInt();
     }
 
     public static final Creator<Users> CREATOR = new Creator<Users>() {
@@ -94,6 +106,7 @@ public class Users extends BaseObservable implements Parcelable {
         dest.writeString(this.hfac);
         dest.writeString(this.pin);
         dest.writeString(this.mothn);
+        dest.writeInt(this.ustatus);
     }
 
     @Override

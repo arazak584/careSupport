@@ -16,11 +16,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.khrc.caresupport.Client.Activity.LoginsActivity;
 import com.khrc.caresupport.entity.LogBook;
 import com.khrc.caresupport.entity.Users;
 import com.khrc.caresupport.R;
-import com.khrc.caresupport.Utility.JsonProfile;
-import com.khrc.caresupport.Utility.UsersApiClient;
+import com.khrc.caresupport.importredcap.UserProfile;
+import com.khrc.caresupport.importredcap.UsersApiClient;
 import com.khrc.caresupport.ViewModel.LogViewModel;
 import com.khrc.caresupport.ViewModel.UsersViewModel;
 
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private Users profile;
-
+    private Button btn;
     private EditText username;
     public static final String USER_DATA = "com.khrc.caresupport.Activity.MainActivity.USER_DATA";
 
@@ -49,6 +50,13 @@ public class LoginActivity extends AppCompatActivity {
 
         username = findViewById(R.id.text_username);
         final EditText password = findViewById(R.id.text_password);
+        btn = findViewById(R.id.btnclient);
+
+        btn.setOnClickListener(v -> {
+            // Start the Activity
+            final Intent i = new Intent(this, LoginsActivity.class);
+            startActivity(i);
+        });
 
         start.setOnClickListener(v -> {
 
@@ -81,6 +89,12 @@ public class LoginActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 Toast.makeText(this,"Something terrible went wrong", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
+                return;
+            }
+
+            if(profile != null && profile.ustatus!=1){
+                username.setError("Access Denied");
+                Toast.makeText(this,"Access Denied", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -125,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
         UsersApiClient.RedcapApiCallback callback = new UsersApiClient.RedcapApiCallback() {
 
             @Override
-            public void onSuccess(List<JsonProfile> result) {
+            public void onSuccess(List<UserProfile> result) {
                 // Handle success, if needed
                 runOnUiThread(() -> {
                     Toast.makeText(LoginActivity.this, "User Download successful", Toast.LENGTH_SHORT).show();
@@ -165,13 +179,16 @@ public class LoginActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        try{
-                            LoginActivity.this.finish();
+                        try {
+                            // Finish the activity when the back key is pressed
+                            finish();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        catch(Exception e){}
                     }
                 })
                 .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
+
 }

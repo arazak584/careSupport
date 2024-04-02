@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.khrc.caresupport.entity.Complaints;
 import com.khrc.caresupport.Repository.ComplaintRepository;
+import com.khrc.caresupport.entity.subentity.ChatItem;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -44,13 +45,6 @@ public class ComplaitViewModel extends AndroidViewModel {
         return complaintRepository.replys(id);
     }
 
-    public List<Complaints> sync() throws ExecutionException, InterruptedException {
-        return complaintRepository.sync();
-    }
-
-    public List<Complaints> notdone() throws ExecutionException, InterruptedException {
-        return complaintRepository.notdone();
-    }
 
     public List<Complaints> not() throws ExecutionException, InterruptedException {
         return complaintRepository.not();

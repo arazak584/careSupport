@@ -14,20 +14,24 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.khrc.caresupport.Adapter.NewAdapter;
+import com.khrc.caresupport.importredcap.HistoryApi;
+import com.khrc.caresupport.importredcap.JsonChatresponse;
+import com.khrc.caresupport.importredcap.JsonHistory;
+import com.khrc.caresupport.importredcap.JsonPregnancy;
+import com.khrc.caresupport.importredcap.PregnancyApi;
 import com.khrc.caresupport.entity.Complaints;
 import com.khrc.caresupport.entity.Users;
 import com.khrc.caresupport.R;
-import com.khrc.caresupport.Utility.ComplaintsApi;
-import com.khrc.caresupport.Utility.JsonComplaints;
+import com.khrc.caresupport.importredcap.ComplaintsApi;
+import com.khrc.caresupport.importredcap.JsonComplaints;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
-import com.khrc.caresupport.redcap.ImportComplaints;
-import com.khrc.caresupport.redcap.ImportLog;
+import com.khrc.caresupport.importredcap.ResponseApi;
+import com.khrc.caresupport.redcapsend.ImportChatresponse;
 
 import java.util.List;
 
@@ -57,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         complaitViewModel = new ViewModelProvider(this).get(ComplaitViewModel.class);
         adapter = new NewAdapter(this, MainActivity.this, complaints,userData,complaitViewModel);
 
-
-
         //recyclerView.setHasFixedSize(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 RecyclerView.VERTICAL);
@@ -69,17 +71,6 @@ public class MainActivity extends AppCompatActivity {
         //Initial loading of complaints
         adapter.pull("", complaitViewModel);
 
-//        initiateBackgroundTask(new Runnable() {
-//            @Override
-//            public void run() {
-//                // This code will run after initiateBackgroundTask() is complete
-//                importComplaints();
-//                adapter.pull("", complaitViewModel);
-//                // Now, you can call adapter.pull("", complaitViewModel);
-//            }
-//        });
-
-
         final ImageView refresh = findViewById(R.id.menu);
         refresh.setOnClickListener(v -> {
             initiateBackgroundTask(new Runnable() {
@@ -87,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     // This code will run after initiateBackgroundTask() is complete
                     importComplaints();
+                    importPregnancy();
+                    importHistory();
+                    importChat();
                 }
             });
         });
@@ -112,17 +106,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void importComplaints() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Refreshing...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("Refreshing...");
+//        progressDialog.setCancelable(false);
+//        progressDialog.show();
 
         ComplaintsApi.CompApiCallback callback = new ComplaintsApi.CompApiCallback() {
             @Override
             public void onSuccess(List<JsonComplaints> result) {
                 runOnUiThread(() -> {
                     Toast.makeText(MainActivity.this, "Refresh successful", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                     // Update the adapter with the new data
                     adapter.pull("", complaitViewModel);
                 });
@@ -132,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             public void onError(String error) {
                 runOnUiThread(() -> {
                     Toast.makeText(MainActivity.this, "Feedback Error: " + error, Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                 });
             }
         };
@@ -140,6 +134,66 @@ public class MainActivity extends AppCompatActivity {
         ComplaintsApi complaintsApi = new ComplaintsApi(MainActivity.this);
         complaintsApi.loadAndInsertCompData(callback, MainActivity.this);
         Log.d("ImportComplaints", "ImportComplaints method completed.");
+    }
+
+    private void importPregnancy() {
+        PregnancyApi.PregnancyApiCallback callback = new PregnancyApi.PregnancyApiCallback() {
+            @Override
+            public void onSuccess(List<JsonPregnancy> result) {
+                // Handle success, if needed
+                runOnUiThread(() -> {
+                });
+            }
+            @Override
+            public void onError(String error) {
+                // Handle error, if needed
+                runOnUiThread(() -> {
+                });
+            }
+        };
+        // Start the import and insert process
+        PregnancyApi pregnancyApi = new PregnancyApi(MainActivity.this);
+        pregnancyApi.loadAndInsertPregnancyData(callback, MainActivity.this);
+    }
+
+    private void importChat() {
+        ResponseApi.ChatApiCallback callback = new ResponseApi.ChatApiCallback() {
+            @Override
+            public void onSuccess(List<JsonChatresponse> result) {
+                // Handle success, if needed
+                runOnUiThread(() -> {
+                });
+            }
+            @Override
+            public void onError(String error) {
+                // Handle error, if needed
+                runOnUiThread(() -> {
+                });
+            }
+        };
+        // Start the import and insert process
+        ResponseApi responseApi = new ResponseApi(MainActivity.this);
+        responseApi.loadAndInsertChatData(callback, MainActivity.this);
+    }
+
+    private void importHistory() {
+        HistoryApi.HistoryApiCallback callback = new HistoryApi.HistoryApiCallback() {
+            @Override
+            public void onSuccess(List<JsonHistory> result) {
+                // Handle success, if needed
+                runOnUiThread(() -> {
+                });
+            }
+            @Override
+            public void onError(String error) {
+                // Handle error, if needed
+                runOnUiThread(() -> {
+                });
+            }
+        };
+        // Start the import and insert process
+        HistoryApi historyApi = new HistoryApi(MainActivity.this);
+        historyApi.loadAndInsertHistoryData(callback, MainActivity.this);
     }
 
 
@@ -152,6 +206,9 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 // This code will run after initiateBackgroundTask() is complete
                 importComplaints();
+                importPregnancy();
+                importHistory();
+                importChat();
                 adapter.pull("", complaitViewModel);
             }
         });
@@ -165,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportComplaints importComplaints = new ImportComplaints(MainActivity.this);
-                    importComplaints.fetchComplaintsAndPost();
+                    ImportChatresponse importChatresponse = new ImportChatresponse(MainActivity.this);
+                    importChatresponse.fetchChatAndPost();
                     return null;
                 }
 
@@ -179,6 +236,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }.execute();
+
+
         }
     }
 

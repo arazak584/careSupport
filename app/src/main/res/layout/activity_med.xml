@@ -1,0 +1,1367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="med"
+            type="com.khrc.caresupport.entity.MedHistory" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/MED_LAYOUT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".Client.Activity.MedActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/med"
+            android:textAllCaps="true"
+            android:textColor="@color/purple_700"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/phone"
+                    android:text="@string/phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={med.tel}"
+                        
+                        android:enabled="false"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/demo_insertDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:minHeight="30dp"
+                    android:textSize="20sp"
+                    android:text="@string/diagnse"
+                    
+                    tools:ignore="TextContrastCheck" />
+
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioGroup
+                        android:id="@+id/hyp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onCheckedChanged="@{med::setMh1}"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="HYPERTENSION"
+                            android:textAlignment="gravity" />
+
+                        <RadioButton
+                            android:id="@+id/mh1_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{med.mh1==1}"
+                            android:tag="1"
+                            android:text="@string/yes" />
+
+                        <RadioButton
+                            android:id="@+id/mh1_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{med.mh1==2}"
+                            android:tag="2"
+                            android:text="@string/no" />
+
+                        <RadioButton
+                            android:id="@+id/mh1_99"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{med.mh1==99}"
+                            android:tag="99"
+                            android:text="@string/dnk" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{med.mh1==0}"
+                            android:tag="0"
+                            android:visibility="invisible" />
+
+                    </RadioGroup>
+
+                </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/HEART_DISEASE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh2}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/HEART_DISEASE"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/HEART_DISEASE_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh2==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/HEART_DISEASE_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh2==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh2_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh2==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh2==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/SICKLE_CELL_DISEASE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh3}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/SICKLE_CELL_DISEASE"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/SICKLE_CELL_DISEASE_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh3==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/SICKLE_CELL_DISEASE_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh3==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh3_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh3==99}"
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh3==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/DIABETES"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh4}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/DIABETES"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/DIABETES_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh4==1}"
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/DIABETES_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh4==2}"
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh4_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh4==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh4==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/EPILEPSY"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh5}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/EPILEPSY"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/EPILEPSY_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh5==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/EPILEPSY_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh5==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh5_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh5==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh5==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/HIV_INFECTION"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh6}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/HIV_INFECTION"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/HIV_INFECTION_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh6==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/HIV_INFECTION_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh6==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh6_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh6==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh6==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/ASTHMA"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh7}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/ASTHMA"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/ASTHMA_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh7==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/ASTHMA_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh7==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh7_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh7==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh7==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/ALLERGIES"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh8}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/ALLERGIES"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/ALLERGIES_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh8==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/ALLERGIES_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh8==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh8_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh8==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh8==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/RESPIRATORY_DISEASE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh9}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/RESPIRATORY_DISEASE"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/RESPIRATORY_DISEASE_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh9==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/RESPIRATORY_DISEASE_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh9==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh9_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh9==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh9==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/TB_INFECTION"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh10}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/TB_INFECTION"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/TB_INFECTION_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh10==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/TB_INFECTION_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh10==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh10_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh10==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh10==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/MENTAL_HEALTH"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh11}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/MENTAL_HEALTH"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/MENTAL_HEALTH_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh11==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/MENTAL_HEALTH_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh11==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh11_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh11==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh11==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/SURGERY"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh12}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/SURGERY"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/SURGERY_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh12==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/SURGERY_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh12==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh12_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh12==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh12==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/OTHER"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setMh13}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/Other"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/Other_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh13==1}"
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/Other_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh13==2}"
+                                android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/mh13_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh13==99}"
+                                android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.mh13==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+                               
+            
+                </TableLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    goneUnless="@{med.mh13==1}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/oth"
+                    android:text="@string/oth">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/oth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={med.oth}"
+                        
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/fam_history"
+                    android:textAllCaps="true"
+                    android:textColor="@color/purple_700"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/demo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:minHeight="30dp"
+                    android:textSize="20sp"
+                    android:text="@string/diagnose"
+                    
+                    tools:ignore="TextContrastCheck" />
+
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+
+                        <RadioGroup
+                            android:id="@+id/famhyp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setFh1}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="HYPERTENSION"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/yn_firstName_1_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh1==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/yn_firstName_1_0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh1==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/fh1_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh1==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh1==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/FAM_HEART_DISEASE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setFh2}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/HEART_DISEASE"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/FAM_HEART_DISEASE_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh2==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/FAM_HEART_DISEASE_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh2==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/fh2_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh2==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh2==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+
+                        <RadioGroup
+                            android:id="@+id/FAM_SICKLE_CELL_DISEASE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setFh3}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/SICKLE_CELL_DISEASE"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/FAM_SICKLE_CELL_DISEASE_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh3==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/FAM_SICKLE_CELL_DISEASE_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh3==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/fh3_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh3==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh3==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/FAM_DIABETES"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setFh4}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/DIABETES"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/FAM_DIABETES_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh4==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/FAM_DIABETES_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh4==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/fh4_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh4==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh4==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+
+                        <RadioGroup
+                            android:id="@+id/MULTIPLE_P"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setFh5}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/MULTIPLE_PREGNANCIES"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/fh5_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh5==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/fh5_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh5==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/fh5_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh5==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh5==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/BIRTH_DEFECT"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setFh6}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/BIRTH_DEFECTS"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/fh6_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh6==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/fh6_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh6==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/fh6_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh6==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh6==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/MENTAL_HEALTH_DIS"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setFh7}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/MENTAL_HEALTH"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/fh7_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh7==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/fh7_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh7==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/fh7_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh7==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh7==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/OTH_FAM"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onCheckedChanged="@{med::setFh8}"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/Other"
+                                
+                                android:textAlignment="gravity" />
+
+                            <RadioButton
+                                android:id="@+id/fh8_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh8==1}"
+                                
+                                    android:tag="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/fh8_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh8==2}"
+                                
+                                    android:tag="2"
+                                android:text="@string/no" />
+
+                            <RadioButton
+                                android:id="@+id/fh8_99"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh8==99}"
+                                
+                                    android:tag="99"
+                                android:text="@string/dnk" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{med.fh8==0}"
+                                android:tag="0"
+                                android:visibility="invisible" />
+                        </RadioGroup>
+
+                    </TableRow>
+
+                </TableLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    goneUnless="@{med.fh8==1}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/oth"
+                    android:text="@string/oth">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/oth_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={med.oth_2}"
+                        
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                
+            </LinearLayout> 
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/buttonSaveClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btnd_rone_black"
+                android:textColor="@android:color/background_light"
+                android:text="@string/saveclosedata" />
+
+            <Button
+                android:id="@+id/buttonClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btnd_rone_black"
+                android:textColor="@android:color/background_light"
+                android:text="@string/closedata" />
+
+        </LinearLayout>
+        
+    </LinearLayout>
+
+</layout>

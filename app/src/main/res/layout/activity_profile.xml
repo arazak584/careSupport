@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="profile"
+            type="com.khrc.caresupport.entity.MomProfile" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/PRO_LAYOUT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".Client.Activity.ProfileActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/profile"
+            android:textAllCaps="true"
+            android:textColor="@color/purple_700"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="5dp"
+            android:background="@color/grey" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/phone"
+                    android:text="@string/phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.tel}"
+                        android:enabled="false"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/pin"
+                    android:text="@string/pin">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/pin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.pin}"
+
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/name"
+                    android:text="@string/name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.mothn}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/hfac"
+                    android:text="@string/hfac">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/hfac"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.hfac}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/nhisno"
+                    android:text="@string/nhisno">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nhisno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.nhisno}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/community"
+                    android:text="@string/community">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/community"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.community}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/addr"
+                    android:text="@string/addr">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.addr}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/lma"
+                    android:text="@string/lma">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.lma}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/dis"
+                    android:text="@string/dis">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.dis}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mstatus"
+                    android:gravity="start"
+                    android:textAlignment="gravity" />
+
+                <Spinner
+                    android:id="@+id/mstatus"
+                    selection="@{profile.mstatus}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:minHeight="48dp"
+                    android:onItemSelected="@{profile::setMstatus}"
+                    android:padding="15dp"
+                    android:background="@drawable/rs_spinner"
+                    android:spinnerMode="dialog"
+                    android:focusable="true"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/edul"/>
+
+                <Spinner
+                    android:id="@+id/edul"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    selection="@{profile.edul}"
+                    android:onItemSelected="@{profile::setEdul}"
+                    android:background="@drawable/rs_spinner"
+                    android:spinnerMode="dropdown"
+                    android:padding="15dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:text="@string/occu"/>
+
+                <Spinner
+                    android:id="@+id/occu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textColor="@color/white"
+                    selection="@{profile.occu}"
+                    android:onItemSelected="@{profile::setOccu}"
+                    android:background="@drawable/rs_spinner"
+                    android:spinnerMode="dropdown"
+                    android:padding="15dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/g6pd"
+                    android:text="@string/g6pd">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/g6pd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.g6pd}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/button_individual_Dob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dob"
+                    tools:ignore="DuplicateSpeakableTextCheck"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btnd_rone_black"
+                    android:textColor="@android:color/background_light"
+                    />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:inputType="text"
+                    android:hint="@string/dob"
+                    android:text="@string/dob">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dobs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.dob}"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/nos"
+                    android:text="@string/nos">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.nos}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/tels"
+                    android:text="@string/tels">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tels"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.tels}"
+                        android:inputType="textCapCharacters"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/addrs"
+                    android:text="@string/addrs">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phone1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={profile.addrs}"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/buttonSaveClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btnd_rone_black"
+                android:textColor="@android:color/background_light"
+                android:text="@string/saveclosedata" />
+
+            <Button
+                android:id="@+id/buttonClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btnd_rone_black"
+                android:textColor="@android:color/background_light"
+                android:text="@string/closedata" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</layout>
