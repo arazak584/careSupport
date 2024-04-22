@@ -150,7 +150,31 @@
     <string name="desc">Décrivez votre problème de santé</string>
     <string name="feedback">Retour d\'information</string>
     <string name="refresh">Rafraîchir</string>
-    <string name="ancerror">Date Cannot Be Less Than Today\'s Date</string>
-    <string name="providers">Provider?</string>
+
+    <!--Convert TO French    -->
+    <string name="ancerror">La date ne peut être antérieure à la date d\'aujourd'hui</string>
+    <string name="providers">Prestataire?</string>
     <string name="clients">Clients</string>
+    <string name="report">Rapport</string>
+    <string name="pname">Veuillez saisir votre nom</string>
+    <string name="response">Veuillez saisir votre réponse</string>
+    <string name="fac">Localité</string>
+    <string name="view">Voir les commentaires</string>
+    <string name="please_wait_lbl">Veuillez patienter</string>
+    <string name="id">ID</string>
+    <string name="text_searchid">Recherche par localité, nom ou contact</string>
+    <string name="chat">Discuter</string>
+    <string name="women_name">Nom de la femmme</string>
+    <string name="text_total_income">Total des revenus</string>
+    <string name="text_recent_transactions">Date de la prochaine CPN</string>
+    <string name="provider">PRESTATAIRE</string>
+    <string name="client">Client</string>
+    <string name="next_anc">Date de la prochaine CPN</string>
+    <string name="text_medical">Antécédents Médicaux</string>
+    <string name="text_fam">Antécédents Familiaux</string>
+    <string name="enquiry">Renseignement</string>
+    <string name="end_preg">Fin de la grossesse</string>
+    <string name="medi">MEDICAL</string>
+    <string name="obst">obstétrique</string>
+    <string name="health">Centre de Santé</string>
 </resources>

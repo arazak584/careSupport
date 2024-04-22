@@ -38,9 +38,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login_signin_msg_lbl"
-                android:textColor="@color/color_text_darkgray"
+                android:text="@string/health"
                 android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/teal_700"
+                android:textStyle="bold"
                 android:textSize="30sp" />
 
         </LinearLayout>
@@ -170,11 +172,11 @@
 
     <LinearLayout
         android:id="@+id/copyright_layout"
-        android:layout_width="0dip"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="150dp"
         android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -194,7 +196,7 @@
             android:drawablePadding="5dip"
             android:text="@string/clients"
             android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/teal_700" />
 
 
 

@@ -174,5 +174,6 @@
     <string name="ancerror">Date Cannot Be Less Than Today\'s Date</string>
     <string name="providers">Provider?</string>
     <string name="clients">Client?</string>
+    <string name="health">Health Facility</string>
 
 </resources>
