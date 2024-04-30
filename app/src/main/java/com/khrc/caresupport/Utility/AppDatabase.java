@@ -36,7 +36,7 @@ import java.util.concurrent.Executors;
 
 @Database(  entities = {Complaints.class, Users.class, LogBook.class, ChatResponse.class, Pregnancy.class, MedHistory.class,
         MomProfile.class, CodeBook.class, DailyCondition.class, Obsteric.class},
-        version = 2 , exportSchema = true)
+        version = 4 , exportSchema = true)
 
 @TypeConverters({Converter.class})
 public abstract class AppDatabase extends RoomDatabase {

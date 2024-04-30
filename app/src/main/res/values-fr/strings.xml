@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- French -->
     <string name="app_name">Avancé</string>
     <string name="phone">Numéro de téléphone</string>
     <string name="login_form_login">CONNEXION</string>
@@ -118,7 +117,6 @@
     <string name="edd">Date probable d\'accouchement</string>
     <string name="outcomeDate">Date du résultat</string>
     <string name="signup">S\'inscrire</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">S\'inscrire</string>
@@ -151,8 +149,7 @@
     <string name="feedback">Retour d\'information</string>
     <string name="refresh">Rafraîchir</string>
 
-    <!--Convert TO French    -->
-    <string name="ancerror">La date ne peut être antérieure à la date d\'aujourd'hui</string>
+    <string name="ancerror">La date ne peut être antérieure à la date d\'aujourd\'hui</string>
     <string name="providers">Prestataire?</string>
     <string name="clients">Clients</string>
     <string name="report">Rapport</string>
@@ -177,4 +174,7 @@
     <string name="medi">MEDICAL</string>
     <string name="obst">obstétrique</string>
     <string name="health">Centre de Santé</string>
+
+
+
 </resources>

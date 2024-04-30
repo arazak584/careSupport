@@ -18,14 +18,13 @@ import java.util.Locale;
 public class ChatResponse {
 
     @NotNull
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     @ColumnInfo(name = "id")
-    public Integer id;
+    public String id;
 
     @ColumnInfo(name = "record_id")
-    public String record_id;
+    public Integer record_id;
 
-    @NotNull
     @ColumnInfo(name = "tel")
     public String tel;
 
@@ -62,19 +61,42 @@ public class ChatResponse {
     }
 
     @NotNull
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(@NotNull Integer id) {
+    public void setId(@NotNull String id) {
+        // Set the id field
         this.id = id;
+        // Check if id is null
+        if (id == null) {
+            this.record_id = null;
+        } else {
+            // Split the id string by underscore
+            String[] parts = id.split("_");
+            // Check if the id has at least two parts (before and after underscore)
+            if (parts.length >= 2) {
+                // Attempt to parse the second part (the number after underscore) as an integer
+                try {
+                    this.record_id = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException e) {
+                    // Handle the case where the number after underscore is not a valid integer
+                    System.err.println("Invalid id format: " + id);
+                }
+            } else {
+                // Handle the case where id does not contain an underscore
+                System.err.println("Invalid id format: " + id);
+            }
+        }
     }
 
-    public String getRecord_id() {
+
+
+    public Integer getRecord_id() {
         return record_id;
     }
 
-    public void setRecord_id(String record_id) {
+    public void setRecord_id(Integer record_id) {
         this.record_id = record_id;
     }
 

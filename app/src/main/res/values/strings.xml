@@ -37,7 +37,6 @@
     <string name="text_fam">Family History</string>
     <string name="lmp">LMP</string>
 
-    //Client
     <string name="mom">MOM ID</string>
     <string name="dob">Date of Birth</string>
     <string name="address">Address</string>

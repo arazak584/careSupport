@@ -145,13 +145,13 @@ public class ResponseApi {
             dao.insert(chatResponses);
 
             int insertedRecords = chatResponses.size();
-            Log.d("ComplaintsApi", "ComplaintsApi Successfully inserted " + insertedRecords + " records into the database");
+            Log.d("ResponseApi", "ResponseApi Successfully inserted " + insertedRecords + " records into the database");
             for (ChatResponse chatResponse : chatResponses) {
-                Log.d("ComplaintsApi", "ComplaintsApi Successfully inserted record with id " + chatResponse.getTel() + " into the database");
+                Log.d("ResponseApi", "ResponseApi Successfully inserted record with id " + chatResponse.getTel() + " into the database");
             }
 
             if (insertedRecords < 1 ){
-                Toast.makeText(context, "No Feedback Yet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "No Response Yet", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -190,14 +190,14 @@ public class ResponseApi {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonItemObject = jsonArray.getJSONObject(i);
                 String tel = jsonItemObject.optString("tel", "");
-                String recordId = jsonItemObject.optString("record_id", "");
+                String recordId = jsonItemObject.optString("response_id", "");
 
                 if (tel != null && recordId != null) {
                     String concatenatedId = tel + "_" + recordId;
                     JsonChatresponse item = new JsonChatresponse();
-                    item.setRecord_id(concatenatedId);
+                    item.setId(concatenatedId);
                     item.setTel(tel);
-                    item.setId(jsonItemObject.optInt("response_id", 0));
+                    item.setRecord_id(jsonItemObject.optInt("response_id", 0));
                     item.setResponse_date(jsonItemObject.optString("date_respondent", null));
                     item.setProviders_name(jsonItemObject.optString("respondent", null));
                     item.setResponse_text(jsonItemObject.optString("response_text", null));
@@ -213,7 +213,7 @@ public class ResponseApi {
 
             System.out.println("Total added records count: " + addedRecordsCount);
         } catch (JSONException e) {
-            Log.e("ComplaintApiClient", "Error parsing JSON response", e);
+            Log.e("ResponseApiClient", "Error parsing JSON response", e);
         }
 
         return jsonItems;

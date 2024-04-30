@@ -23,12 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_text_green"
-        android:padding="10dp"
+        android:padding="5dp"
         android:id="@+id/toolbar">
 
         <SearchView
             android:id="@+id/search"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="48dip"
             android:inputType="textPersonName"

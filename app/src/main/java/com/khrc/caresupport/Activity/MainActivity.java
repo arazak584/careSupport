@@ -32,6 +32,7 @@ import com.khrc.caresupport.importredcap.JsonComplaints;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
 import com.khrc.caresupport.importredcap.ResponseApi;
 import com.khrc.caresupport.redcapsend.ImportChatresponse;
+import com.khrc.caresupport.redcapsend.ImportComplaints_Old;
 
 import java.util.List;
 
@@ -224,8 +225,14 @@ public class MainActivity extends AppCompatActivity {
                 protected Void doInBackground(Void... voids) {
                     ImportChatresponse importChatresponse = new ImportChatresponse(MainActivity.this);
                     importChatresponse.fetchChatAndPost();
+
+                    // Fetch complaints
+                    ImportComplaints_Old importComplaints = new ImportComplaints_Old(MainActivity.this);
+                    importComplaints.fetchComplaintsAndPost();
+
                     return null;
                 }
+
 
                 @Override
                 protected void onPostExecute(Void aVoid) {

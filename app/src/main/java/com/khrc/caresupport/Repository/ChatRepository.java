@@ -52,6 +52,27 @@ public class ChatRepository {
         return future.get();
     }
 
+    public String retrieveMaxTel(String id) throws ExecutionException, InterruptedException {
+        Callable<String> callable = () -> dao.retrieveMaxTel(id);
+
+        Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
+    public ChatResponse retrieveMaxTels(String id) throws ExecutionException, InterruptedException {
+        Callable<ChatResponse> callable = () -> dao.retrieveMaxTels(id);
+
+        Future<ChatResponse> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
+    public String retrieve(String id) throws ExecutionException, InterruptedException {
+        Callable<String> callable = () -> dao.retrieve(id);
+
+        Future<String> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
     public List<ChatResponse> repo(String id) throws ExecutionException, InterruptedException {
         Callable<List<ChatResponse>> callable = () -> dao.repo(id);
 

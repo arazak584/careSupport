@@ -38,7 +38,7 @@ public interface ComplaintsDao {
 
 
     @Query("SELECT * FROM Complaints WHERE " +
-            " (hfac LIKE:id OR mothn LIKE:id OR tel LIKE:id) ORDER BY complaints_date")
+            " (hfac LIKE:id OR mothn LIKE:id OR tel LIKE:id) GROUP BY tel ORDER BY complaints_date DESC")
     List<Complaints> search(String id);
 
 

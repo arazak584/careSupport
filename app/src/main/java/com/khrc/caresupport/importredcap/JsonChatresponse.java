@@ -11,26 +11,26 @@ import java.util.Date;
 
 public class JsonChatresponse {
 
-    private Integer id;
-    private String record_id;
+    private String id;
+    private Integer record_id;
     private String tel;
     private String response_date;
     private String providers_name;
     private String response_text;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getRecord_id() {
+    public Integer getRecord_id() {
         return record_id;
     }
 
-    public void setRecord_id(String record_id) {
+    public void setRecord_id(Integer record_id) {
         this.record_id = record_id;
     }
 

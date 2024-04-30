@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +25,11 @@ import android.widget.TextView;
 
 import com.khrc.caresupport.Adapter.ChatAdapter;
 import com.khrc.caresupport.Client.Adapter.ChatsAdapter;
+import com.khrc.caresupport.Client.redcapexport.ImportComplaints;
+import com.khrc.caresupport.Client.redcapexport.ImportHistory;
+import com.khrc.caresupport.Client.redcapexport.ImportObsteric;
+import com.khrc.caresupport.Client.redcapexport.ImportPregnancy;
+import com.khrc.caresupport.Client.redcapexport.ImportRecords;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.ChatViewModel;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
@@ -37,6 +45,7 @@ import com.khrc.caresupport.entity.MedHistory;
 import com.khrc.caresupport.entity.MomProfile;
 import com.khrc.caresupport.entity.Pregnancy;
 import com.khrc.caresupport.entity.Users;
+import com.khrc.caresupport.redcapsend.ImportLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -97,12 +106,15 @@ public class ChatsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.chat_recycler_view);
         chatsAdapter = new ChatsAdapter(this, phoneNumber);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
         //recyclerView.setHasFixedSize(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 RecyclerView.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(chatsAdapter);
+        recyclerView.scrollToPosition(chatsAdapter.getItemCount() - 1);
 
         //Initial loading of complaints
         chatsAdapter.pull("", dviewModel, chatViewModel);
@@ -124,6 +136,7 @@ public class ChatsActivity extends AppCompatActivity {
             }
         });
 
+        initiateBackgroundTask();
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         PregnancyViewModel viewModels = new ViewModelProvider(this).get(PregnancyViewModel.class);
@@ -326,6 +339,78 @@ public class ChatsActivity extends AppCompatActivity {
 
     }
 
+    private void initiateBackgroundTask() {
+        // Check for internet connection
+        if (isNetworkAvailable()) {
+            // Internet is available, initiate the background task
+            //showToast("Syncing data in the background...");
+
+            // Perform the API call in the background
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    ImportRecords importRecords = new ImportRecords(ChatsActivity.this);
+                    importRecords.fetchMomProfilesAndPost();
+                    return null;
+                }
+            }.execute();
+
+            // Perform the API call for Complaints in the background
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    ImportComplaints importComplaints = new ImportComplaints(ChatsActivity.this);
+                    importComplaints.fetchComplaintsAndPost();
+                    return null;
+                }
+            }.execute();
+
+            // Perform the API call for Log in the background
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    ImportLog importLog = new ImportLog(ChatsActivity.this);
+                    importLog.fetchLogAndPost();
+                    return null;
+                }
+            }.execute();
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    ImportPregnancy importPregnancy = new ImportPregnancy(ChatsActivity.this);
+                    importPregnancy.fetchPregnancyAndPost();
+                    return null;
+                }
+            }.execute();
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    ImportHistory importHistory = new ImportHistory(ChatsActivity.this);
+                    importHistory.fetchHistoryAndPost();
+                    return null;
+                }
+            }.execute();
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    ImportObsteric importObsteric = new ImportObsteric(ChatsActivity.this);
+                    importObsteric.fetchObstericAndPost();
+                    return null;
+                }
+            }.execute();
+
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     private Date parseDateString(String dateString) {
         try {
             return dateFormat.parse(dateString);
@@ -338,5 +423,6 @@ public class ChatsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         chatsAdapter.pull("", dviewModel, chatViewModel);
+        initiateBackgroundTask();
     }
 }

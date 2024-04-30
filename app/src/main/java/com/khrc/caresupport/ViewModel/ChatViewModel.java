@@ -28,6 +28,18 @@ public class ChatViewModel extends AndroidViewModel {
         return chatRepository.retrieves(id);
     }
 
+    public String retrieveMaxTel(String id) throws ExecutionException, InterruptedException {
+        return chatRepository.retrieveMaxTel(id);
+    }
+
+    public ChatResponse retrieveMaxTels(String id) throws ExecutionException, InterruptedException {
+        return chatRepository.retrieveMaxTels(id);
+    }
+
+    public String retrieve(String id) throws ExecutionException, InterruptedException {
+        return chatRepository.retrieve(id);
+    }
+
     public List<ChatResponse> repo(String id) throws ExecutionException, InterruptedException {
         return chatRepository.repo(id);
     }

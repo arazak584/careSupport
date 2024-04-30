@@ -1,12 +1,18 @@
 package com.khrc.caresupport.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,6 +24,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.khrc.caresupport.Adapter.ChatAdapter;
+import com.khrc.caresupport.Client.Activity.ChatsActivity;
+import com.khrc.caresupport.Client.redcapexport.ImportComplaints;
+import com.khrc.caresupport.Client.redcapexport.ImportHistory;
+import com.khrc.caresupport.Client.redcapexport.ImportObsteric;
+import com.khrc.caresupport.Client.redcapexport.ImportPregnancy;
+import com.khrc.caresupport.Client.redcapexport.ImportRecords;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.ChatViewModel;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
@@ -27,8 +39,12 @@ import com.khrc.caresupport.databinding.ActivityChatBinding;
 import com.khrc.caresupport.entity.ChatResponse;
 import com.khrc.caresupport.entity.Complaints;
 import com.khrc.caresupport.entity.MedHistory;
+import com.khrc.caresupport.entity.Obsteric;
 import com.khrc.caresupport.entity.Pregnancy;
 import com.khrc.caresupport.entity.Users;
+import com.khrc.caresupport.redcapsend.ImportChatresponse;
+import com.khrc.caresupport.redcapsend.ImportComplaints_Old;
+import com.khrc.caresupport.redcapsend.ImportLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +67,7 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private RecyclerView recyclerView;
     private SimpleDateFormat dateFormat;
+    private ChatResponse chatResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +88,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        chatResponse = new ChatResponse();
 
         viewModel = new ViewModelProvider(this).get(ComplaitViewModel.class);
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
@@ -83,7 +101,8 @@ public class ChatActivity extends AppCompatActivity {
 
         // Set up the lifecycle owner for LiveData in the ViewModel
         binding.setLifecycleOwner(this);
-        ph.setText(selectedComplaint.mothn +" (" +selectedComplaint.tel+ ")");
+        //ph.setText(selectedComplaint.mothn +" (" +selectedComplaint.tel+ ")");
+        ph.setText(selectedComplaint.mothn);
         final TextView wks = findViewById(R.id.textInMiddle);
         final TextView next = findViewById(R.id.next_date);
         final TextView lm = findViewById(R.id.lmp_title);
@@ -91,12 +110,16 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.chat_recycler_view);
         chatAdapter = new ChatAdapter(this, selectedComplaint);
 
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
         //recyclerView.setHasFixedSize(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 RecyclerView.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(chatAdapter);
+        recyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
 
         //Initial loading of complaints
         chatAdapter.pull("", viewModel, chatViewModel);
@@ -117,6 +140,8 @@ public class ChatActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        initiateBackgroundTask();
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         PregnancyViewModel viewModels = new ViewModelProvider(this).get(PregnancyViewModel.class);
@@ -285,6 +310,31 @@ public class ChatActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
+        try {
+            ChatResponse datae = chatViewModel.retrieveMaxTels(selectedComplaint.tel);
+            if (datae != null) {
+
+                String ids = datae.id;
+                String[] parts = ids.split("_");
+                String beforeUnderscore = parts[0];
+                String afterUnderscore = parts[1];
+
+                int numberAfterUnderscore = Integer.parseInt(parts[1]) + 1;
+                String newId = beforeUnderscore + "_" + numberAfterUnderscore;
+
+                Log.d("ActiveID", "New ID: " + newId);
+
+            }else {
+                String ids = selectedComplaint.tel;
+                int nextID = 1;
+                String newId = ids + "_" + nextID;
+                Log.d("ActiveID", "New ID: " + newId);
+            }
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
         binding.messageSendBtn.setOnClickListener(v -> {
             save(true, true, chatViewModel);
         });
@@ -293,29 +343,62 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void save(boolean save, boolean close, ChatViewModel chatViewModel) {
-
         if (save) {
-
+            // Get the response text
             String com = binding.getComp().response_text;
 
-                ChatResponse finalData = new ChatResponse();
-                finalData.response_date = new Date();
-                finalData.tel = selectedComplaint.tel;
-                finalData.providers_name = userData.getMothn();
-                finalData.setResponse_text(com);
+            // Create a new ChatResponse object with the necessary data
+            ChatResponse finalData = new ChatResponse();
+            finalData.response_date = new Date();
+            finalData.tel = selectedComplaint.tel;
+            finalData.providers_name = userData.getMothn() + " - " + userData.getTel();
+            finalData.setResponse_text(com);
 
+            // Generate new ID
+            String newId;
+            int newRecordId;
+            try {
+                ChatResponse datae = chatViewModel.retrieveMaxTels(selectedComplaint.tel);
+                if (datae != null) {
+                    String ids = datae.id;
+                    String[] parts = ids.split("_");
+                    String beforeUnderscore = parts[0];
+                    int numberAfterUnderscore = Integer.parseInt(parts[1]) + 1;
+                    newId = beforeUnderscore + "_" + numberAfterUnderscore;
+                    newRecordId = datae.record_id + 1; // Increment record_id
+                } else {
+                    newId = finalData.tel + "_1"; // If no existing data, set ID with "_1"
+                    newRecordId = 1; // Start record_id from 1
+                }
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+                // Default to tel + "_1" if an exception occurs
+                newId = finalData.tel + "_1";
+                newRecordId = 1; // Start record_id from 1
+            }
+            finalData.id = newId; // Set the ID in finalData
+            finalData.record_id = newRecordId; // Set the record_id in finalData
+
+            // Log the response date
             Log.d("RESPONSE", "User Response Date " + finalData.response_date);
 
+            // Set the 'complete' property
             finalData.complete = 1;
+
+            // Add the final data to the ChatViewModel
             chatViewModel.add(finalData);
 
             // Clear the text in the EditText
             EditText chatMessageInput = findViewById(R.id.chat_message_input);
             chatMessageInput.setText("");
-            recreate(); // This recreates the activity, effectively refreshing its state
-        }
 
+            // Recreate the activity to refresh its state
+            recreate();
+        }
     }
+
+
+
 
     private Date parseDateString(String dateString) {
         try {
@@ -326,9 +409,47 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
+
+        // Check for internet connection and initiate background task
+        initiateBackgroundTask();
         chatAdapter.pull("", viewModel, chatViewModel);
+    }
+
+    //Send Data to Redcap
+    private void initiateBackgroundTask() {
+        // Check for internet connection
+        if (isNetworkAvailable()) {
+            // Perform the API call for Complaints in the background
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    ImportChatresponse importChatresponse = new ImportChatresponse(ChatActivity.this);
+                    importChatresponse.fetchChatAndPost();
+                    return null;
+                }
+            }.execute();
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    ImportComplaints_Old importComplaints = new ImportComplaints_Old(ChatActivity.this);
+                    importComplaints.fetchComplaintsAndPost();
+                    return null;
+                }
+            }.execute();
+
+        }
+    }
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

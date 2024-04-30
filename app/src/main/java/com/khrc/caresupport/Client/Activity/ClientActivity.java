@@ -185,6 +185,7 @@ public class ClientActivity extends AppCompatActivity {
         initiateBackgroundTask();
         exportChat();
         updatePregnancyData();
+        exportComplaints();
     }
 
     private void initiateBackgroundTask() {

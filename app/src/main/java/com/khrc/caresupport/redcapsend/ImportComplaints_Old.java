@@ -1,6 +1,5 @@
 package com.khrc.caresupport.redcapsend;
 
-
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
@@ -18,10 +17,10 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.m
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.BasicNameValuePair;
 import com.khrc.caresupport.Dao.ChatDao;
-import com.khrc.caresupport.Dao.ComplaintsDao;
+import com.khrc.caresupport.Dao.DailyConditionDao;
 import com.khrc.caresupport.Utility.AppDatabase;
 import com.khrc.caresupport.entity.ChatResponse;
-import com.khrc.caresupport.entity.Complaints;
+import com.khrc.caresupport.entity.DailyCondition;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +32,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportChatresponse {
+public class ImportComplaints_Old {
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -45,22 +44,22 @@ public class ImportChatresponse {
     private String line;
     private JSONObject record;
     private JSONArray data;
-    private ChatApiPush chatApiPush;
+    private ComplaintApiPush complaintsApiPush;
 
     private ChatDao dao;
     private AppDatabase appDatabase;
     private AppCompatActivity activity;
 
-    public interface ChatApiPush {
+    public interface ComplaintApiPush {
         void onSuccess(String response);
         void onError(String error);
     }
 
-    public void setChatApiPush(ChatApiPush listener) {
-        this.chatApiPush = listener;
+    public void setComplaintApiPush(ComplaintApiPush listener) {
+        this.complaintsApiPush = listener;
     }
 
-    public ImportChatresponse(AppCompatActivity activity) {
+    public ImportComplaints_Old(AppCompatActivity activity) {
         // Initialize the Room database and DAO
         appDatabase = AppDatabase.getDatabase(activity);
         dao = appDatabase.chatDao();  // Assuming the DAO method is named profileDao()
@@ -68,30 +67,30 @@ public class ImportChatresponse {
         client = HttpClientBuilder.create().build();
     }
 
-    private static class FetchChatAsyncTask extends AsyncTask<Void, Void, List<ChatResponse>> {
-        private final ImportChatresponse importRecords;
+    private static class FetchComplaintsAsyncTask extends AsyncTask<Void, Void, List<ChatResponse>> {
+        private final ImportComplaints_Old importRecords;
 
-        public FetchChatAsyncTask(ImportChatresponse importRecords) {
+        public FetchComplaintsAsyncTask(ImportComplaints_Old importRecords) {
             this.importRecords = importRecords;
         }
 
         @Override
         protected List<ChatResponse> doInBackground(Void... voids) {
-            return importRecords.appDatabase.chatDao().sync();
+            return importRecords.appDatabase.chatDao().syncs();
         }
 
         @Override
-        protected void onPostExecute(List<ChatResponse> chatResponses) {
+        protected void onPostExecute(List<ChatResponse> dailyConditions) {
             try {
-                importRecords.onComplaintsFetched(chatResponses);
+                importRecords.onComplaintsFetched(dailyConditions);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void fetchChatAndPost() {
-        new FetchChatAsyncTask(this).execute();
+    public void fetchComplaintsAndPost() {
+        new FetchComplaintsAsyncTask(this).execute();
     }
 
     // Callback method when MomProfile records are fetched
@@ -100,13 +99,13 @@ public class ImportChatresponse {
             data = new JSONArray();
             for (ChatResponse item : dailyConditions) {
                 record = new JSONObject();
-                record.put("redcap_repeat_instrument", "chatresponse");
+                record.put("redcap_repeat_instrument", "complaints");
                 record.put("tel", item.getTel());
                 record.put("redcap_repeat_instance", item.getRecord_id());
-                record.put("response_id", item.getRecord_id());
-                record.put("respondent", item.getProviders_name());
-                record.put("response_text", item.getResponse_text());
-                record.put("date_respondent", item.getResponse_date());
+                record.put("record_id", item.getRecord_id());
+                record.put("response_date", item.getResponse_date());
+                record.put("response_txt", item.getResponse_text());
+                record.put("providers_name", item.getProviders_name());
 
                 data.put(record);
             }
@@ -137,9 +136,9 @@ public class ImportChatresponse {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportChatresponse importRecords;
+        private final ImportComplaints_Old importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportChatresponse importRecords) {
+        public ExecuteHttpPostAsyncTask(ImportComplaints_Old importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -166,8 +165,8 @@ public class ImportChatresponse {
                     result.append(line);
                 }
 
-                Log.d("ImportChat", "Chat Response Code: " + respCode);
-                Log.d("ImportChat", "Chat Response Result: " + result.toString());
+                Log.d("ImportComplaints", "Complaints Old Code: " + respCode);
+                Log.d("ImportComplaints", "Complaints Old Result: " + result.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,12 +181,12 @@ public class ImportChatresponse {
             }
         }
 
-        if (chatApiPush != null) {
+        if (complaintsApiPush != null) {
             // Notify the listener about the result
             if (respCode == HttpStatus.SC_OK) {
-                chatApiPush.onSuccess(result.toString());
+                complaintsApiPush.onSuccess(result.toString());
             } else {
-                chatApiPush.onError("HTTP response code: " + respCode);
+                complaintsApiPush.onError("HTTP response code: " + respCode);
             }
         }
     }

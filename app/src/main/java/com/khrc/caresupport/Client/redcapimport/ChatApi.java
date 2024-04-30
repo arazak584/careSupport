@@ -189,14 +189,14 @@ public class ChatApi {
                     String concatenatedId = tel + "_" + recordId;
                     JsonChatresponse item = new JsonChatresponse();
                     item.setTel(tel);
-                    item.setId(jsonItemObject.optInt("response_id", 0));
-                    item.setRecord_id(concatenatedId);
+                    item.setRecord_id(jsonItemObject.optInt("response_id", 0));
+                    item.setId(concatenatedId);
                     item.setResponse_date(jsonItemObject.optString("date_respondent", null));
                     item.setProviders_name(jsonItemObject.optString("respondent", null));
                     item.setResponse_text(jsonItemObject.optString("response_text", null));
 
                     //jsonItems.add(item);
-                    if (uniqueTels.add(item.getRecord_id()) && (item.getResponse_text() != null && !item.getResponse_text().equals(""))) {
+                    if (uniqueTels.add(item.getId()) && (item.getResponse_text() != null && !item.getResponse_text().equals(""))) {
                         jsonItems.add(item);
                     }
                 }
