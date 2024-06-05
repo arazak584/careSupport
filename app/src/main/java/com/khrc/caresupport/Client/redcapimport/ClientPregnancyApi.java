@@ -155,6 +155,7 @@ public class ClientPregnancyApi {
                 pregnancy.setPlanned_anc_facility(item.getPlanned_anc_facility());
                 pregnancy.setPlanned_delivery_place(item.getPlanned_delivery_place());
                 pregnancy.setOutcome_date(item.getOutcome_date());
+                pregnancy.setPreg_outcome(item.getPreg_outcome());
 
                 pregnancies.add(pregnancy);
             }
@@ -166,7 +167,7 @@ public class ClientPregnancyApi {
 
 
     private List<JsonPregnancy> parseJsonResponse(String jsonResponse) {
-        List<JsonPregnancy> jsonItems = new ArrayList<>();
+        Set<JsonPregnancy> jsonItems = new HashSet<>();
 
         try {
             JSONArray jsonArray = new JSONArray(jsonResponse);
@@ -184,17 +185,19 @@ public class ClientPregnancyApi {
                 item.setPlanned_anc_facility(jsonItemObject.optString("planned_anc_facility", null));
                 item.setPlanned_delivery_place(jsonItemObject.optString("planned_delivery_place", null));
                 item.setOutcome_date(jsonItemObject.optString("outcome_date", null));
+                item.setPreg_outcome(jsonItemObject.optInt("preg_outcome", 0));
 
                 //jsonItems.add(item);
-                if (uniqueTels.add(item.getTel())) {
-                    jsonItems.add(item);
-                }
+//                if (uniqueTels.add(item.getTel())) {
+//                    jsonItems.add(item);
+//                }
+                jsonItems.add(item);
             }
         } catch (JSONException e) {
             Log.e("RedcapApiClient", "Error parsing JSON response", e);
         }
-
-        return jsonItems;
+        return new ArrayList<>(jsonItems);
+        //return jsonItems;
     }
 
 

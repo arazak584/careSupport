@@ -1,12 +1,20 @@
 package com.khrc.caresupport.entity;
 
+import android.graphics.Color;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.TextView;
+
 import androidx.databinding.BaseObservable;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
+import com.khrc.caresupport.Utility.AppConstants;
+import com.khrc.caresupport.Utility.KeyValuePair;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -53,6 +61,9 @@ public class Pregnancy extends BaseObservable {
 
     @ColumnInfo(name = "complete")
     public Integer complete;
+
+    @ColumnInfo(name = "preg_outcome")
+    public Integer preg_outcome;
 
     public Pregnancy() {
       }
@@ -184,5 +195,30 @@ public class Pregnancy extends BaseObservable {
 
     public void setPlanned_delivery_place(String planned_delivery_place) {
         this.planned_delivery_place = planned_delivery_place;
+    }
+
+    public Integer getPreg_outcome() {
+        return preg_outcome;
+    }
+
+    public void setPreg_outcome(Integer preg_outcome) {
+        this.preg_outcome = preg_outcome;
+    }
+
+    public void setPreg_outcome(AdapterView<?> parent, View view, int position, long id) {
+
+        if (position != parent.getSelectedItemPosition()) {
+            parent.setSelection(position);
+        }
+        if (position == 0) {
+            preg_outcome = AppConstants.NOSELECT;
+        } else {
+            final KeyValuePair kv = (KeyValuePair) parent.getItemAtPosition(position);
+            preg_outcome = kv.codeValue;
+            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            ((TextView) parent.getChildAt(0)).setTextSize(20);
+            notifyPropertyChanged(BR._all);
+        }
+
     }
 }

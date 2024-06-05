@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="preg"
+            type="com.khrc.caresupport.entity.Pregnancy" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/PREGNANCY_LAYOUT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".Client.Activity.TerminateActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/endpreg"
+            android:textAllCaps="true"
+            android:textColor="@color/purple_700"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="5dp"
+            android:background="@color/grey" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:hint="@string/phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phone1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={preg.tel}"
+                        android:visibility="gone"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/PREG_DATE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/button_anc"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/MediumBlue"
+                    android:text="@={preg.first_ga_date}"
+                    android:textStyle="bold"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp">
+
+                    <ImageView
+                        android:id="@+id/button_anc"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circular_bg"
+                        android:backgroundTint="@color/off_white"
+                        android:src="@drawable/calendar_schedule" />
+
+                    <TextView
+                        android:id="@+id/label_next"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dimen_4"
+                        android:layout_toEndOf="@id/button_anc"
+                        android:layout_marginStart="8dp"
+                        android:layout_centerVertical="true"
+                        android:text="@string/outcomeDate"/>
+
+                    <TextView
+                        android:id="@+id/OUTCOME_DATE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/button_anc"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="20sp"
+                        android:textColor="@color/MediumBlue"
+                        android:text="@={preg.outcome_date}"
+                        android:textStyle="bold"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/teal_200" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/outcome"
+                    android:textColor="@color/black"
+                    android:gravity="start"
+                    android:textAlignment="gravity" />
+
+                <Spinner
+                    android:id="@+id/outcometype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="left"
+                    android:minHeight="48dp"
+                    selection="@{preg.preg_outcome}"
+                    android:onItemSelected="@{preg::setPreg_outcome}"
+                    android:padding="15dp"
+                    android:background="@drawable/rs_spinner"
+                    android:spinnerMode="dialog"
+                    android:focusable="true"
+                    android:textColor="#000301" />
+
+                <EditText
+                    android:id="@+id/hfac"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:hint="@string/placede"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionDone"
+                    android:text="@={preg.planned_delivery_place}"
+                    android:inputType="textCapCharacters"
+                    android:selectAllOnFocus="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/com" />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/buttonSaveClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btnd_rone_black"
+                android:textColor="@android:color/background_light"
+                android:text="@string/saveclosedata" />
+
+            <Button
+                android:id="@+id/buttonClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btnd_rone_black"
+                android:textColor="@android:color/background_light"
+                android:text="@string/closedata" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

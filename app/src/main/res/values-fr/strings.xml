@@ -174,7 +174,11 @@
     <string name="medi">MEDICAL</string>
     <string name="obst">obstétrique</string>
     <string name="health">Centre de Santé</string>
-
+    <string name="endpreg">TERMINATE PREGNANCY</string>
+    <string name="outcome">What was the Outcome</string>
+    <string name="placede">Place of Outcome/Delivery</string>
+    <string name="inactive">There is no Active Pregnancy?</string>
+    <string name="ancerrors">Cannot Be a Future Date</string>
 
 
 </resources>

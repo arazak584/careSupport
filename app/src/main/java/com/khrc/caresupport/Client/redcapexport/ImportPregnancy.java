@@ -107,6 +107,7 @@ public class ImportPregnancy {
                 record.put("planned_anc_facility", pregnancy.getPlanned_anc_facility());
                 record.put("planned_delivery_place", pregnancy.getPlanned_delivery_place());
                 record.put("outcome_date", pregnancy.getOutcome_date());
+                record.put("preg_outcome", pregnancy.getPreg_outcome());
 
                 data.put(record);
             }

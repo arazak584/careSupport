@@ -7,8 +7,8 @@ public class AppConstants {
 
 
     public static final String API_URL = "https://kcap.ksurvey.org/redcap/api/";
-    public static final String API_TOKEN = "8C05D8AD31437DED286B3D1534864431";
-    public static final String API_TOKEN_CODEBOOK = "615095D09AAA2654EE46B5CDDD1241F8";
+    public static final String API_TOKEN = "47D2B838B20ED1706E4D822DC3734131";
+    public static final String API_TOKEN_CODEBOOK = "BEE122A3CF4003E4A008EFD39E7E4A21";
 
 //    BENIN
 //    REGISTER: 7F2871F72B0198CB2C6FA03AB5314300
@@ -19,6 +19,6 @@ public class AppConstants {
 //    CODEBOOK: 615095D09AAA2654EE46B5CDDD1241F8
 
 //    BURKINA:
-//    REGISTER:
-//    CODEBOOK:
+//    REGISTER: 47D2B838B20ED1706E4D822DC3734131
+//    CODEBOOK: BEE122A3CF4003E4A008EFD39E7E4A21
 }

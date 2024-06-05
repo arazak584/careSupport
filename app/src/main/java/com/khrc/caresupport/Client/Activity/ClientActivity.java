@@ -82,6 +82,7 @@ public class ClientActivity extends AppCompatActivity {
         final ImageView pro = findViewById(R.id.mprofile);
         final ImageView sche = findViewById(R.id.schedule);
         final ImageView refresh = findViewById(R.id.btnrefresh);
+        final Button terminate = findViewById(R.id.end_button);
 
         ProfileViewModel viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         boolean profileFragmentShown = false;
@@ -114,6 +115,30 @@ public class ClientActivity extends AppCompatActivity {
             pregnancy = pModel.finds(phoneNumber);
             medHistory = mModel.finds(phoneNumber); // Fetch medical history
             obsteric = oModel.finds(phoneNumber);   // Fetch obstetric information
+
+            if (pregnancy != null) {
+                sche.setEnabled(true);
+                sche.setOnClickListener(v -> {
+                    // Start the Activity
+                    final Intent i = new Intent(this, AncActivity.class);
+                    startActivity(i);
+                });
+            }else{
+                sche.setEnabled(false);
+                Toast.makeText(this, getString(R.string.inactive), Toast.LENGTH_SHORT).show();
+            }
+
+            if (pregnancy != null) {
+                terminate.setEnabled(true);
+                terminate.setOnClickListener(v -> {
+                    // Start the Activity
+                    final Intent i = new Intent(this, TerminateActivity.class);
+                    startActivity(i);
+                });
+            }else{
+                terminate.setEnabled(false);
+                Toast.makeText(this, getString(R.string.inactive), Toast.LENGTH_SHORT).show();
+            }
 
             if (pregnancy == null) {
                 startActivity(new Intent(this, PregActivity.class));
@@ -167,11 +192,6 @@ public class ClientActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        sche.setOnClickListener(v -> {
-            // Start the Activity
-            final Intent i = new Intent(this, AncActivity.class);
-            startActivity(i);
-        });
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 

@@ -1,5 +1,7 @@
 package com.khrc.caresupport.importredcap;
 
+import java.util.Objects;
+
 public class JsonPregnancy {
 
     private String tel;
@@ -11,6 +13,8 @@ public class JsonPregnancy {
     private String planned_anc_facility;
     private String planned_delivery_place;
     private String outcome_date;
+
+    private Integer preg_outcome;
 
     public String getTel() {
         return tel;
@@ -82,5 +86,33 @@ public class JsonPregnancy {
 
     public void setOutcome_date(String outcome_date) {
         this.outcome_date = outcome_date;
+    }
+
+    public Integer getPreg_outcome() {
+        return preg_outcome;
+    }
+
+    public void setPreg_outcome(Integer preg_outcome) {
+        this.preg_outcome = preg_outcome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JsonPregnancy that = (JsonPregnancy) o;
+        return Objects.equals(tel, that.tel);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tel);
+    }
+
+    @Override
+    public String toString() {
+        return "JsonPregnancy{" +
+                "tel='" + tel + '\'' +
+                '}';
     }
 }
