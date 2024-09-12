@@ -7,8 +7,8 @@ public class AppConstants {
 
 
     public static final String API_URL = "https://kcap.ksurvey.org/redcap/api/";
-    public static final String API_TOKEN = "47D2B838B20ED1706E4D822DC3734131";
-    public static final String API_TOKEN_CODEBOOK = "BEE122A3CF4003E4A008EFD39E7E4A21";
+    public static final String API_TOKEN = "7F2871F72B0198CB2C6FA03AB5314300";
+    public static final String API_TOKEN_CODEBOOK = "1BABA3E6B951A159E3568CF9FEC9FF7A";
 
 //    BENIN
 //    REGISTER: 7F2871F72B0198CB2C6FA03AB5314300
