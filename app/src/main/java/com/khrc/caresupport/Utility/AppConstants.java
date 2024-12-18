@@ -6,13 +6,14 @@ public class AppConstants {
     public static final String SPINNER_NOSELECT = "--Select an option--";
 
 
-    public static final String API_URL = "https://kcap.ksurvey.org/redcap/api/";
-    public static final String API_TOKEN = "7F2871F72B0198CB2C6FA03AB5314300";
-    public static final String API_TOKEN_CODEBOOK = "1BABA3E6B951A159E3568CF9FEC9FF7A";
+//    public static final String API_URL = "https://kcap.ksurvey.org/redcap/api/";
+    public static final String API_URL = "https://cermeldata.net/redcap/api/";
+    public static final String API_TOKEN = "7B415699552DE92117C7F9DFAA342533";
+    public static final String API_TOKEN_CODEBOOK = "1B64C7F57A0745ED068CFA5FE289261C";
 
 //    BENIN
-//    REGISTER: 7F2871F72B0198CB2C6FA03AB5314300
-//    CODEBOOK: 1BABA3E6B951A159E3568CF9FEC9FF7A
+//    REGISTER: 7B415699552DE92117C7F9DFAA342533
+//    CODEBOOK: 1B64C7F57A0745ED068CFA5FE289261C
 
 //    GHANA:
 //    REGISTER: 8C05D8AD31437DED286B3D1534864431

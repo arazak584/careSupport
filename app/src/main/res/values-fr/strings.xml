@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Avancé</string>
+    <string name="app_name">ADVANCE</string>
     <string name="phone">Numéro de téléphone</string>
     <string name="login_form_login">CONNEXION</string>
     <string name="profile">Profil</string>
@@ -28,7 +28,7 @@
     <string name="SICKLE_CELL_DISEASE">DREPANOCYTOSE</string>
     <string name="DIABETES">DIABETES</string>
     <string name="EPILEPSY">EPILEPSIE</string>
-    <string name="HIV_INFECTION">INFECTION A VIH</string>
+    <string name="HIV_INFECTION">INFECTION AU VIH</string>
     <string name="ASTHMA">ASTHME</string>
     <string name="RESPIRATORY_DISEASE">MALADIES RESPIRATOIRES</string>
     <string name="TB_INFECTION">TUBERCULOSE</string>
@@ -41,7 +41,7 @@
     <string name="fam_history">Antécédents familiaux</string>
     <string name="inquiry">Informations sur la santé</string>
     <string name="anc_alert">Alerte CPN</string>
-    <!--    Prereminder-->
+    <!--     Prereminder -->
     <string name="PREGID">ID grossesse</string>
     <string name="FIRST_GA_DATE">Quelle est la date à laquelle vous avez constaté cette grossesse pour la première fois?</string>
     <string name="SELECT_DATE">CHOISIR LA DATE</string>
@@ -51,7 +51,7 @@
     <string name="PLANNED_ANC_FACILITY">Dans quel centre de santé se déroulera votre prochaine CPN??</string>
     <string name="PLANNED_DELIVERY_PLACE">Où envisagez-vous d\'accoucher (établissement de santé/domicile)?</string>
     <string name="parity">Parité</string>
-    <string name="GRAVIDITY">GRAVIDITE</string>
+    <string name="GRAVIDITY">GESTITE</string>
     <string name="SPONTANEOUS_ABORTIONS">FAUSSES COUCHES</string>
     <string name="INDUCED_ABORTIONS">AVORTEMENTS</string>
     <string name="delivery_out">Résultats de l\'accouchement</string>
@@ -84,7 +84,7 @@
     <string name="community">Commune</string>
     <string name="addr">Addresse</string>
     <string name="lma">Ville/Village</string>
-    <string name="dis">District</string>
+    <string name="dis">Commune</string>
     <string name="g6pd">Statut G6PD</string>
     <string name="mstatus">Statut matrimonial</string>
     <string name="edul">Niveau d\'éducation</string>
@@ -136,7 +136,7 @@
     <string name="kindly_schedule_next_anc">Veuillez planifier votre prochaine ANC</string>
     <string name="weeks"> Semaines</string>
     <string name="nextanc">Prochain calendrier ANC</string>
-    <string name="dayys">Votre prochain programme ANC est en</string>
+    <string name="dayys">Votre prochain CPN est en</string>
     <string name="dayy">Jours</string>
     <string name="med">antécédents médicaux</string>
     <string name="obs">antécédents obstétricaux</string>
@@ -148,7 +148,6 @@
     <string name="desc">Décrivez votre problème de santé</string>
     <string name="feedback">Retour d\'information</string>
     <string name="refresh">Rafraîchir</string>
-
     <string name="ancerror">La date ne peut être antérieure à la date d\'aujourd\'hui</string>
     <string name="providers">Prestataire?</string>
     <string name="clients">Clients</string>
@@ -169,16 +168,14 @@
     <string name="next_anc">Date de la prochaine CPN</string>
     <string name="text_medical">Antécédents Médicaux</string>
     <string name="text_fam">Antécédents Familiaux</string>
-    <string name="enquiry">Renseignement</string>
+    <string name="enquiry">renseignement</string>
     <string name="end_preg">Fin de la grossesse</string>
     <string name="medi">MEDICAL</string>
     <string name="obst">obstétrique</string>
     <string name="health">Centre de Santé</string>
-    <string name="endpreg">TERMINATE PREGNANCY</string>
-    <string name="outcome">What was the Outcome</string>
-    <string name="placede">Place of Outcome/Delivery</string>
-    <string name="inactive">There is no Active Pregnancy?</string>
-    <string name="ancerrors">Cannot Be a Future Date</string>
-
-
+    <string name="endpreg">FIN DE LA GROSSESSE</string>
+    <string name="outcome">Quel a été le résultat de l’accouchement</string>
+    <string name="placede">Lieu d’accouchement</string>
+    <string name="inactive">Il n’y a pas de grossesse en cours?</string>
+    <string name="ancerrors">Peut ne pas être une date future</string>
 </resources>
