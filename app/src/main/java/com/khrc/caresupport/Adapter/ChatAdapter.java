@@ -1,7 +1,11 @@
 package com.khrc.caresupport.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -142,12 +146,34 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
                 SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
 
+
                 try {
                     Date date = inputFormat.parse(dateString);
                     String formattedDate = outputFormat.format(date);
+
+                    // Create a SpannableString for the date + Nike symbols
+                    SpannableString spannableString;
+
+                    if (chatResponse.getRes_status() == 0) {
+                        // Single Nike symbol in RED color
+                        spannableString = new SpannableString(formattedDate + " ✓");
+                        spannableString.setSpan(new ForegroundColorSpan(Color.RED),
+                                formattedDate.length() + 1, formattedDate.length() + 2,
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } else if (chatResponse.getRes_status() == 1) {
+                        // Double Nike symbol in GREEN color
+                        spannableString = new SpannableString(formattedDate + " ✓✓");
+                        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE),
+                                formattedDate.length() + 1, formattedDate.length() + 3,
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } else {
+                        spannableString = new SpannableString(formattedDate); // No icon for other statuses
+                    }
+
+
                     chatResponseHolder.rightChatLayout.setVisibility(View.VISIBLE);
                     chatResponseHolder.rightChatTextview.setText(chatResponse.getResponse_text());
-                    chatResponseHolder.rightChatDate.setText(formattedDate + " - " + chatResponse.providers_name);
+                    chatResponseHolder.rightChatDate.setText(spannableString + " - " + chatResponse.providers_name);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

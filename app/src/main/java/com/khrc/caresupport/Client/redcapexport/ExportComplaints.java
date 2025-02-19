@@ -3,10 +3,9 @@ package com.khrc.caresupport.Client.redcapexport;
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
@@ -16,11 +15,9 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.e
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpPost;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.BasicNameValuePair;
-import com.khrc.caresupport.Dao.MedHistoryDao;
-import com.khrc.caresupport.Dao.PregnancyDao;
+import com.khrc.caresupport.Dao.DailyConditionDao;
 import com.khrc.caresupport.Utility.AppDatabase;
-import com.khrc.caresupport.entity.MedHistory;
-import com.khrc.caresupport.entity.Pregnancy;
+import com.khrc.caresupport.entity.DailyCondition;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportHistory {
+public class ExportComplaints {
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -44,86 +41,68 @@ public class ImportHistory {
     private String line;
     private JSONObject record;
     private JSONArray data;
-    private HistoryApiPush historyApiPush;
+    private ComplaintsApiPush complaintsApiPush;
 
-    private MedHistoryDao dao;
+    private DailyConditionDao dao;
     private AppDatabase appDatabase;
-    private AppCompatActivity activity;
+    private Context context;
 
-    public interface HistoryApiPush {
+    public interface ComplaintsApiPush {
         void onSuccess(String response);
         void onError(String error);
     }
 
-    public void setHistoryApiPush(HistoryApiPush listener) {
-        this.historyApiPush = listener;
+    public void setComplaintsApiPush(ComplaintsApiPush listener) {
+        this.complaintsApiPush = listener;
     }
 
-    public ImportHistory(AppCompatActivity activity) {
+    public ExportComplaints(Context context) {
         // Initialize the Room database and DAO
-        appDatabase = AppDatabase.getDatabase(activity);
-        dao = appDatabase.medHistoryDao();  // Assuming the DAO method is named profileDao()
-        this.activity = activity;
+        this.context = context;
+        appDatabase = AppDatabase.getDatabase(context);
+        dao = appDatabase.dailyConditionDao();  // Assuming the DAO method is named profileDao()
         client = HttpClientBuilder.create().build();
     }
 
-    private static class FetchHistoryAsyncTask extends AsyncTask<Void, Void, List<MedHistory>> {
-        private final ImportHistory importRecords;
+    private static class FetchComplaintsAsyncTask extends AsyncTask<Void, Void, List<DailyCondition>> {
+        private final ExportComplaints importRecords;
 
-        public FetchHistoryAsyncTask(ImportHistory importRecords) {
+        public FetchComplaintsAsyncTask(ExportComplaints importRecords) {
             this.importRecords = importRecords;
         }
 
         @Override
-        protected List<MedHistory> doInBackground(Void... voids) {
-            return importRecords.appDatabase.medHistoryDao().sync();
+        protected List<DailyCondition> doInBackground(Void... voids) {
+            return importRecords.appDatabase.dailyConditionDao().sync();
         }
 
         @Override
-        protected void onPostExecute(List<MedHistory> medHistorys) {
+        protected void onPostExecute(List<DailyCondition> dailyConditions) {
             try {
-                importRecords.onHistoryFetched(medHistorys);
+                importRecords.onComplaintsFetched(dailyConditions);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void fetchHistoryAndPost() {
-        new FetchHistoryAsyncTask(this).execute();
+    public void fetchComplaintsAndPost() {
+        new FetchComplaintsAsyncTask(this).execute();
     }
 
     // Callback method when MomProfile records are fetched
-    private void onHistoryFetched(List<MedHistory> medHistorys) throws JSONException {
-        if (medHistorys != null && !medHistorys.isEmpty()) {
+    private void onComplaintsFetched(List<DailyCondition> dailyConditions) throws JSONException {
+        if (dailyConditions != null && !dailyConditions.isEmpty()) {
             data = new JSONArray();
-            for (MedHistory medHistory : medHistorys) {
-
+            for (DailyCondition item : dailyConditions) {
                 record = new JSONObject();
-                record.put("tel", medHistory.getTel());
-                record.put("mh1", medHistory.getMh1());
-                record.put("mh2", medHistory.getMh2());
-                record.put("mh3", medHistory.getMh3());
-                record.put("mh4", medHistory.getMh4());
-                record.put("mh5", medHistory.getMh5());
-                record.put("mh6", medHistory.getMh6());
-                record.put("mh7", medHistory.getMh7());
-                record.put("mh8", medHistory.getMh8());
-                record.put("mh9", medHistory.getMh9());
-                record.put("mh10", medHistory.getMh10());
-                record.put("mh11", medHistory.getMh11());
-                record.put("mh12", medHistory.getMh12());
-                record.put("mh13", medHistory.getMh13());
-                record.put("oth", medHistory.getOth());
-                record.put("fh1", medHistory.getFh1());
-                record.put("fh2", medHistory.getFh2());
-                record.put("fh3", medHistory.getFh3());
-                record.put("fh4", medHistory.getFh4());
-                record.put("fh5", medHistory.getFh5());
-                record.put("fh6", medHistory.getFh6());
-                record.put("fh7", medHistory.getFh7());
-                record.put("fh8", medHistory.getFh8());
-                record.put("oth_2", medHistory.getOth_2());
+                record.put("redcap_repeat_instrument", "complaints");
+                record.put("tel", item.getTel());
+                record.put("redcap_repeat_instance", item.getRecord_id());
+                record.put("record_id", item.getRecord_id());
+                record.put("complaints_date", item.getComplaints_date());
+                record.put("complts", item.getComplts());
+                record.put("cpl_status", item.getCpl_status());
 
                 data.put(record);
             }
@@ -154,9 +133,9 @@ public class ImportHistory {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportHistory importRecords;
+        private final ExportComplaints importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportHistory importRecords) {
+        public ExecuteHttpPostAsyncTask(ExportComplaints importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -183,12 +162,11 @@ public class ImportHistory {
                     result.append(line);
                 }
 
-                Log.d("ImportRecords", "respCode: " + respCode);
-                Log.d("ImportRecords", "result: " + result.toString());
+                Log.d("ExportComplaint", "Complaint Code: " + respCode);
+                Log.d("ExportComplaint", "Complaint Result: " + result.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle exception...
         } finally {
             if (reader != null) {
                 try {
@@ -199,14 +177,34 @@ public class ImportHistory {
             }
         }
 
-        if (historyApiPush != null) {
-            // Notify the listener about the result
-            if (respCode == HttpStatus.SC_OK) {
-                historyApiPush.onSuccess(result.toString());
-            } else {
-                historyApiPush.onError("HTTP response code: History " + respCode);
+        if (respCode == HttpStatus.SC_OK) {
+            // Export successful, update cpl_status
+            updateCplStatus();
+
+            if (complaintsApiPush != null) {
+                complaintsApiPush.onSuccess(result.toString());
+            }
+        } else {
+            if (complaintsApiPush != null) {
+                complaintsApiPush.onError("HTTP response code: " + respCode);
             }
         }
+    }
+
+    // Method to update cpl_status in the database
+    private void updateCplStatus() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                List<DailyCondition> exportedComplaints = appDatabase.dailyConditionDao().sync();
+                for (DailyCondition complaint : exportedComplaints) {
+                    complaint.setCpl_status(1); // Set cpl_status to 1
+                    Log.d("Chat", "complaint status: " + complaint.cpl_status);
+                    appDatabase.dailyConditionDao().update(complaint); // Update in database
+                }
+                return null;
+            }
+        }.execute();
     }
 
 

@@ -161,6 +161,7 @@ public class ClientComplaintsApi {
                 dailyCondition.setTel(item.getTel());
                 dailyCondition.setComplaints_date(item.getComplaints_date());
                 dailyCondition.setComplts(item.getComplts());
+                dailyCondition.setCpl_status(item.getCpl_status());
 
                 dailyConditions.add(dailyCondition);
             }
@@ -186,6 +187,7 @@ public class ClientComplaintsApi {
                 item.setComplaints_date(jsonItemObject.optString("complaints_date", null));
                 item.setGen_hlth(jsonItemObject.optInt("gen_hlth", 0));
                 item.setComplts(jsonItemObject.optString("complts", null));
+                item.setCpl_status(jsonItemObject.optInt("cpl_status", 0));
 
                 //jsonItems.add(item);
                 if (uniqueTels.add(item.getRecord_id()) && (item.getComplts() != null && !item.getComplts().equals(""))) {

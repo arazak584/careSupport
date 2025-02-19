@@ -1,7 +1,6 @@
 package com.khrc.caresupport.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,7 +11,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,12 +22,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.khrc.caresupport.Adapter.ChatAdapter;
-import com.khrc.caresupport.Client.Activity.ChatsActivity;
-import com.khrc.caresupport.Client.redcapexport.ImportComplaints;
-import com.khrc.caresupport.Client.redcapexport.ImportHistory;
-import com.khrc.caresupport.Client.redcapexport.ImportObsteric;
-import com.khrc.caresupport.Client.redcapexport.ImportPregnancy;
-import com.khrc.caresupport.Client.redcapexport.ImportRecords;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.ChatViewModel;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
@@ -39,12 +31,10 @@ import com.khrc.caresupport.databinding.ActivityChatBinding;
 import com.khrc.caresupport.entity.ChatResponse;
 import com.khrc.caresupport.entity.Complaints;
 import com.khrc.caresupport.entity.MedHistory;
-import com.khrc.caresupport.entity.Obsteric;
 import com.khrc.caresupport.entity.Pregnancy;
 import com.khrc.caresupport.entity.Users;
-import com.khrc.caresupport.redcapsend.ImportChatresponse;
-import com.khrc.caresupport.redcapsend.ImportComplaints_Old;
-import com.khrc.caresupport.redcapsend.ImportLog;
+import com.khrc.caresupport.redcapsend.ExportChatresponse;
+import com.khrc.caresupport.redcapsend.ExportChats_Old;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -352,6 +342,7 @@ public class ChatActivity extends AppCompatActivity {
             finalData.response_date = new Date();
             finalData.tel = selectedComplaint.tel;
             finalData.providers_name = userData.getMothn() + " - " + userData.getTel();
+            finalData.res_status = 0;
             finalData.setResponse_text(com);
 
             // Generate new ID
@@ -427,7 +418,7 @@ public class ChatActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportChatresponse importChatresponse = new ImportChatresponse(ChatActivity.this);
+                    ExportChatresponse importChatresponse = new ExportChatresponse(ChatActivity.this);
                     importChatresponse.fetchChatAndPost();
                     return null;
                 }
@@ -436,7 +427,7 @@ public class ChatActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportComplaints_Old importComplaints = new ImportComplaints_Old(ChatActivity.this);
+                    ExportChats_Old importComplaints = new ExportChats_Old(ChatActivity.this);
                     importComplaints.fetchComplaintsAndPost();
                     return null;
                 }

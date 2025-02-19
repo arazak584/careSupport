@@ -12,10 +12,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -23,29 +21,24 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.khrc.caresupport.Adapter.ChatAdapter;
 import com.khrc.caresupport.Client.Adapter.ChatsAdapter;
-import com.khrc.caresupport.Client.redcapexport.ImportComplaints;
-import com.khrc.caresupport.Client.redcapexport.ImportHistory;
-import com.khrc.caresupport.Client.redcapexport.ImportObsteric;
-import com.khrc.caresupport.Client.redcapexport.ImportPregnancy;
-import com.khrc.caresupport.Client.redcapexport.ImportRecords;
+import com.khrc.caresupport.Client.redcapexport.ExportComplaints;
+import com.khrc.caresupport.Client.redcapexport.ExportHistory;
+import com.khrc.caresupport.Client.redcapexport.ExportObsteric;
+import com.khrc.caresupport.Client.redcapexport.ExportPregnancy;
+import com.khrc.caresupport.Client.redcapexport.ExportProfile;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.ChatViewModel;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
 import com.khrc.caresupport.ViewModel.DailyConditionViewModel;
 import com.khrc.caresupport.ViewModel.MedHistoryViewModel;
 import com.khrc.caresupport.ViewModel.PregnancyViewModel;
-import com.khrc.caresupport.databinding.ActivityChatBinding;
 import com.khrc.caresupport.databinding.ActivityChatsBinding;
-import com.khrc.caresupport.entity.ChatResponse;
 import com.khrc.caresupport.entity.Complaints;
 import com.khrc.caresupport.entity.DailyCondition;
 import com.khrc.caresupport.entity.MedHistory;
-import com.khrc.caresupport.entity.MomProfile;
 import com.khrc.caresupport.entity.Pregnancy;
-import com.khrc.caresupport.entity.Users;
-import com.khrc.caresupport.redcapsend.ImportLog;
+import com.khrc.caresupport.Client.redcapexport.ExportLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -329,6 +322,7 @@ public class ChatsActivity extends AppCompatActivity {
             //Log.d("RESPONSE", "User Response Date " + finalData.response_date);
 
             finalData.complete = 1;
+            finalData.cpl_status = 0;
             dviewModel.add(finalData);
 
             // Clear the text in the EditText
@@ -349,7 +343,7 @@ public class ChatsActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportRecords importRecords = new ImportRecords(ChatsActivity.this);
+                    ExportProfile importRecords = new ExportProfile(ChatsActivity.this);
                     importRecords.fetchMomProfilesAndPost();
                     return null;
                 }
@@ -359,7 +353,7 @@ public class ChatsActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportComplaints importComplaints = new ImportComplaints(ChatsActivity.this);
+                    ExportComplaints importComplaints = new ExportComplaints(ChatsActivity.this);
                     importComplaints.fetchComplaintsAndPost();
                     return null;
                 }
@@ -369,7 +363,7 @@ public class ChatsActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportLog importLog = new ImportLog(ChatsActivity.this);
+                    ExportLog importLog = new ExportLog(ChatsActivity.this);
                     importLog.fetchLogAndPost();
                     return null;
                 }
@@ -378,7 +372,7 @@ public class ChatsActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportPregnancy importPregnancy = new ImportPregnancy(ChatsActivity.this);
+                    ExportPregnancy importPregnancy = new ExportPregnancy(ChatsActivity.this);
                     importPregnancy.fetchPregnancyAndPost();
                     return null;
                 }
@@ -387,7 +381,7 @@ public class ChatsActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportHistory importHistory = new ImportHistory(ChatsActivity.this);
+                    ExportHistory importHistory = new ExportHistory(ChatsActivity.this);
                     importHistory.fetchHistoryAndPost();
                     return null;
                 }
@@ -396,7 +390,7 @@ public class ChatsActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportObsteric importObsteric = new ImportObsteric(ChatsActivity.this);
+                    ExportObsteric importObsteric = new ExportObsteric(ChatsActivity.this);
                     importObsteric.fetchObstericAndPost();
                     return null;
                 }

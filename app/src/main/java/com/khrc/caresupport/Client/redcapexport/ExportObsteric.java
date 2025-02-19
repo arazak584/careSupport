@@ -3,6 +3,7 @@ package com.khrc.caresupport.Client.redcapexport;
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -16,9 +17,9 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.e
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpPost;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.BasicNameValuePair;
-import com.khrc.caresupport.Dao.ProfileDao;
+import com.khrc.caresupport.Dao.ObstericDao;
 import com.khrc.caresupport.Utility.AppDatabase;
-import com.khrc.caresupport.entity.MomProfile;
+import com.khrc.caresupport.entity.Obsteric;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +31,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportRecords {
+public class ExportObsteric {
+
+    private Context context;
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -42,87 +45,75 @@ public class ImportRecords {
     private String line;
     private JSONObject record;
     private JSONArray data;
-    private RedcapApiPush redcapApiPushListener;
+    private ObstericApiPush obstericApiPush;
 
-    private ProfileDao dao;
+    private ObstericDao dao;
     private AppDatabase appDatabase;
     private AppCompatActivity activity;
 
-    public interface RedcapApiPush {
+    public interface ObstericApiPush {
         void onSuccess(String response);
         void onError(String error);
     }
 
-    public void setRedcapApiPush(RedcapApiPush listener) {
-        this.redcapApiPushListener = listener;
+    public void setObstericApiPush(ObstericApiPush listener) {
+        this.obstericApiPush = listener;
     }
 
-    public ImportRecords(AppCompatActivity activity) {
-        // Initialize the Room database and DAO
-        appDatabase = AppDatabase.getDatabase(activity);
-        dao = appDatabase.profileDao();  // Assuming the DAO method is named profileDao()
-        this.activity = activity;
+//    public ImportObsteric(AppCompatActivity activity) {
+//        // Initialize the Room database and DAO
+//        appDatabase = AppDatabase.getDatabase(activity);
+//        dao = appDatabase.obstericDao();  // Assuming the DAO method is named profileDao()
+//        this.activity = activity;
+//        client = HttpClientBuilder.create().build();
+//    }
+
+    public ExportObsteric(Context context) {
+        this.context = context;
+        appDatabase = AppDatabase.getDatabase(context); // Use context instead of activity
+        dao = appDatabase.obstericDao();
         client = HttpClientBuilder.create().build();
     }
 
-    private static class FetchMomProfilesAsyncTask extends AsyncTask<Void, Void, List<MomProfile>> {
-        private final ImportRecords importRecords;
 
-        public FetchMomProfilesAsyncTask(ImportRecords importRecords) {
+    private static class FetchHistoryAsyncTask extends AsyncTask<Void, Void, List<Obsteric>> {
+        private final ExportObsteric importRecords;
+
+        public FetchHistoryAsyncTask(ExportObsteric importRecords) {
             this.importRecords = importRecords;
         }
 
         @Override
-        protected List<MomProfile> doInBackground(Void... voids) {
-            return importRecords.appDatabase.profileDao().sync();
+        protected List<Obsteric> doInBackground(Void... voids) {
+            return importRecords.appDatabase.obstericDao().sync();
         }
 
         @Override
-        protected void onPostExecute(List<MomProfile> momProfiles) {
+        protected void onPostExecute(List<Obsteric> obsterics) {
             try {
-                importRecords.onMomProfilesFetched(momProfiles);
+                importRecords.onObstericFetched(obsterics);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void fetchMomProfilesAndPost() {
-        new FetchMomProfilesAsyncTask(this).execute();
+    public void fetchObstericAndPost() {
+        new FetchHistoryAsyncTask(this).execute();
     }
 
     // Callback method when MomProfile records are fetched
-    private void onMomProfilesFetched(List<MomProfile> momProfiles) throws JSONException {
-        if (momProfiles != null && !momProfiles.isEmpty()) {
+    private void onObstericFetched(List<Obsteric> obsterics) throws JSONException {
+        if (obsterics != null && !obsterics.isEmpty()) {
             data = new JSONArray();
-            for (MomProfile momProfile : momProfiles) {
-                System.out.println("MomProfile: " + momProfile.toString());
+            for (Obsteric obsteric : obsterics) {
+
                 record = new JSONObject();
-                record.put("tel", momProfile.getTel());
-                record.put("doe", momProfile.getDoe());
-                record.put("tels", momProfile.getTels());
-                record.put("hfac", momProfile.getHfac());
-                record.put("doi", momProfile.getDoi());
-                record.put("nhisno", momProfile.getNhisno());
-                record.put("mothn", momProfile.getMothn());
-                record.put("community", momProfile.getCommunity());
-                record.put("addr", momProfile.getAddr());
-                record.put("lma", momProfile.getLma());
-                record.put("dis", momProfile.getDis());
-                record.put("mstatus", momProfile.getMstatus());
-                record.put("edul", momProfile.getEdul());
-                record.put("occu", momProfile.getOccu());
-//                record.put("eduls", momProfile.getEduls());
-//                record.put("occus", momProfile.getOccus());
-                record.put("g6pd", momProfile.getG6pd());
-                record.put("nos", momProfile.getNos());
-                record.put("dob", momProfile.getDob());
-                record.put("addrs", momProfile.getAddrs());
-                record.put("lmas", momProfile.getLmas());
-                record.put("diss", momProfile.getDiss());
-                record.put("contactn", momProfile.getContactn());
-                record.put("contele", momProfile.getContele());
-                record.put("pin", momProfile.getPin());
+                record.put("tel", obsteric.getTel());
+                record.put("parity", obsteric.getParity());
+                record.put("gravidity", obsteric.getGravidity());
+                record.put("spontaneous_abortions", obsteric.getSpontaneous_abortions());
+                record.put("induced_abortions", obsteric.getInduced_abortions());
 
                 data.put(record);
             }
@@ -153,9 +144,9 @@ public class ImportRecords {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportRecords importRecords;
+        private final ExportObsteric importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportRecords importRecords) {
+        public ExecuteHttpPostAsyncTask(ExportObsteric importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -198,12 +189,12 @@ public class ImportRecords {
             }
         }
 
-        if (redcapApiPushListener != null) {
+        if (obstericApiPush != null) {
             // Notify the listener about the result
             if (respCode == HttpStatus.SC_OK) {
-                redcapApiPushListener.onSuccess(result.toString());
+                obstericApiPush.onSuccess(result.toString());
             } else {
-                redcapApiPushListener.onError("HTTP response code: " + respCode);
+                obstericApiPush.onError("HTTP response code: " + respCode);
             }
         }
     }

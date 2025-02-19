@@ -10,6 +10,7 @@ public class JsonComplaints {
     private String complts;
     private String hfac;
     private String mothn;
+    private Integer cpl_status;
 
     public Integer getRecord_id() {
         return record_id;
@@ -74,5 +75,13 @@ public class JsonComplaints {
 
     public void setMothn(String mothn) {
         this.mothn = mothn;
+    }
+
+    public Integer getCpl_status() {
+        return cpl_status;
+    }
+
+    public void setCpl_status(Integer cpl_status) {
+        this.cpl_status = cpl_status;
     }
 }

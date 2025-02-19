@@ -3,10 +3,9 @@ package com.khrc.caresupport.Client.redcapexport;
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
@@ -16,9 +15,9 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.e
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpPost;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.BasicNameValuePair;
-import com.khrc.caresupport.Dao.DailyConditionDao;
+import com.khrc.caresupport.Dao.PregnancyDao;
 import com.khrc.caresupport.Utility.AppDatabase;
-import com.khrc.caresupport.entity.DailyCondition;
+import com.khrc.caresupport.entity.Pregnancy;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportComplaints {
+public class ExportPregnancy {
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -42,67 +41,72 @@ public class ImportComplaints {
     private String line;
     private JSONObject record;
     private JSONArray data;
-    private ComplaintsApiPush complaintsApiPush;
+    private PregnancyApiPush pregnancyApiPush;
 
-    private DailyConditionDao dao;
+    private PregnancyDao dao;
     private AppDatabase appDatabase;
-    private AppCompatActivity activity;
+    private Context context;
 
-    public interface ComplaintsApiPush {
+    public interface PregnancyApiPush {
         void onSuccess(String response);
         void onError(String error);
     }
 
-    public void setComplaintsApiPush(ComplaintsApiPush listener) {
-        this.complaintsApiPush = listener;
+    public void setPregnancyApiPush(PregnancyApiPush listener) {
+        this.pregnancyApiPush = listener;
     }
 
-    public ImportComplaints(AppCompatActivity activity) {
+    public ExportPregnancy(Context context) {
         // Initialize the Room database and DAO
-        appDatabase = AppDatabase.getDatabase(activity);
-        dao = appDatabase.dailyConditionDao();  // Assuming the DAO method is named profileDao()
-        this.activity = activity;
+        this.context = context;
+        appDatabase = AppDatabase.getDatabase(context);
+        dao = appDatabase.pregnancyDao();  // Assuming the DAO method is named profileDao()
         client = HttpClientBuilder.create().build();
     }
 
-    private static class FetchComplaintsAsyncTask extends AsyncTask<Void, Void, List<DailyCondition>> {
-        private final ImportComplaints importRecords;
+    private static class FetchPregnancyAsyncTask extends AsyncTask<Void, Void, List<Pregnancy>> {
+        private final ExportPregnancy importRecords;
 
-        public FetchComplaintsAsyncTask(ImportComplaints importRecords) {
+        public FetchPregnancyAsyncTask(ExportPregnancy importRecords) {
             this.importRecords = importRecords;
         }
 
         @Override
-        protected List<DailyCondition> doInBackground(Void... voids) {
-            return importRecords.appDatabase.dailyConditionDao().sync();
+        protected List<Pregnancy> doInBackground(Void... voids) {
+            return importRecords.appDatabase.pregnancyDao().sync();
         }
 
         @Override
-        protected void onPostExecute(List<DailyCondition> dailyConditions) {
+        protected void onPostExecute(List<Pregnancy> pregnancies) {
             try {
-                importRecords.onComplaintsFetched(dailyConditions);
+                importRecords.onPregnancyFetched(pregnancies);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void fetchComplaintsAndPost() {
-        new FetchComplaintsAsyncTask(this).execute();
+    public void fetchPregnancyAndPost() {
+        new FetchPregnancyAsyncTask(this).execute();
     }
 
     // Callback method when MomProfile records are fetched
-    private void onComplaintsFetched(List<DailyCondition> dailyConditions) throws JSONException {
-        if (dailyConditions != null && !dailyConditions.isEmpty()) {
+    private void onPregnancyFetched(List<Pregnancy> pregnancies) throws JSONException {
+        if (pregnancies != null && !pregnancies.isEmpty()) {
             data = new JSONArray();
-            for (DailyCondition item : dailyConditions) {
+            for (Pregnancy pregnancy : pregnancies) {
+
                 record = new JSONObject();
-                record.put("redcap_repeat_instrument", "complaints");
-                record.put("tel", item.getTel());
-                record.put("redcap_repeat_instance", item.getRecord_id());
-                record.put("record_id", item.getRecord_id());
-                record.put("complaints_date", item.getComplaints_date());
-                record.put("complts", item.getComplts());
+                record.put("tel", pregnancy.getTel());
+                record.put("insertdate", pregnancy.getInsertdate());
+                record.put("first_ga_date", pregnancy.getFirst_ga_date());
+                record.put("first_ga_wks", pregnancy.getFirst_ga_wks());
+                record.put("edd", pregnancy.getEdd());
+                record.put("next_anc_schedule_date", pregnancy.getNext_anc_schedule_date());
+                record.put("planned_anc_facility", pregnancy.getPlanned_anc_facility());
+                record.put("planned_delivery_place", pregnancy.getPlanned_delivery_place());
+                record.put("outcome_date", pregnancy.getOutcome_date());
+                record.put("preg_outcome", pregnancy.getPreg_outcome());
 
                 data.put(record);
             }
@@ -133,9 +137,9 @@ public class ImportComplaints {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportComplaints importRecords;
+        private final ExportPregnancy importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportComplaints importRecords) {
+        public ExecuteHttpPostAsyncTask(ExportPregnancy importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -162,8 +166,8 @@ public class ImportComplaints {
                     result.append(line);
                 }
 
-                Log.d("ImportComplaint", "Complaint Code: " + respCode);
-                Log.d("ImportComplaint", "Complaint Result: " + result.toString());
+                Log.d("ImportRecords", "respCode: " + respCode);
+                Log.d("ImportRecords", "result: " + result.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,12 +182,12 @@ public class ImportComplaints {
             }
         }
 
-        if (complaintsApiPush != null) {
+        if (pregnancyApiPush != null) {
             // Notify the listener about the result
             if (respCode == HttpStatus.SC_OK) {
-                complaintsApiPush.onSuccess(result.toString());
+                pregnancyApiPush.onSuccess(result.toString());
             } else {
-                complaintsApiPush.onError("HTTP response code: " + respCode);
+                pregnancyApiPush.onError("HTTP response code: " + respCode);
             }
         }
     }

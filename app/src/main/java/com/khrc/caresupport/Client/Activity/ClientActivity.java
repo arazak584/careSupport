@@ -16,11 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.khrc.caresupport.Activity.MainActivity;
-import com.khrc.caresupport.Client.redcapexport.ImportComplaints;
-import com.khrc.caresupport.Client.redcapexport.ImportHistory;
-import com.khrc.caresupport.Client.redcapexport.ImportObsteric;
-import com.khrc.caresupport.Client.redcapexport.ImportPregnancy;
+import com.khrc.caresupport.Client.redcapexport.ExportComplaints;
+import com.khrc.caresupport.Client.redcapexport.ExportHistory;
+import com.khrc.caresupport.Client.redcapexport.ExportObsteric;
+import com.khrc.caresupport.Client.redcapexport.ExportPregnancy;
 import com.khrc.caresupport.Client.redcapimport.ChatApi;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.MedHistoryViewModel;
@@ -35,8 +34,8 @@ import com.khrc.caresupport.entity.Pregnancy;
 import com.khrc.caresupport.importredcap.JsonChatresponse;
 import com.khrc.caresupport.importredcap.JsonComplaints;
 import com.khrc.caresupport.Client.redcapimport.ClientComplaintsApi;
-import com.khrc.caresupport.redcapsend.ImportLog;
-import com.khrc.caresupport.Client.redcapexport.ImportRecords;
+import com.khrc.caresupport.Client.redcapexport.ExportLog;
+import com.khrc.caresupport.Client.redcapexport.ExportProfile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -218,7 +217,7 @@ public class ClientActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportRecords importRecords = new ImportRecords(ClientActivity.this);
+                    ExportProfile importRecords = new ExportProfile(ClientActivity.this);
                     importRecords.fetchMomProfilesAndPost();
                     return null;
                 }
@@ -228,7 +227,7 @@ public class ClientActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportComplaints importComplaints = new ImportComplaints(ClientActivity.this);
+                    ExportComplaints importComplaints = new ExportComplaints(ClientActivity.this);
                     importComplaints.fetchComplaintsAndPost();
                     return null;
                 }
@@ -238,7 +237,7 @@ public class ClientActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportLog importLog = new ImportLog(ClientActivity.this);
+                    ExportLog importLog = new ExportLog(ClientActivity.this);
                     importLog.fetchLogAndPost();
                     return null;
                 }
@@ -247,7 +246,7 @@ public class ClientActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportPregnancy importPregnancy = new ImportPregnancy(ClientActivity.this);
+                    ExportPregnancy importPregnancy = new ExportPregnancy(ClientActivity.this);
                     importPregnancy.fetchPregnancyAndPost();
                     return null;
                 }
@@ -256,7 +255,7 @@ public class ClientActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportHistory importHistory = new ImportHistory(ClientActivity.this);
+                    ExportHistory importHistory = new ExportHistory(ClientActivity.this);
                     importHistory.fetchHistoryAndPost();
                     return null;
                 }
@@ -265,7 +264,7 @@ public class ClientActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportObsteric importObsteric = new ImportObsteric(ClientActivity.this);
+                    ExportObsteric importObsteric = new ExportObsteric(ClientActivity.this);
                     importObsteric.fetchObstericAndPost();
                     return null;
                 }

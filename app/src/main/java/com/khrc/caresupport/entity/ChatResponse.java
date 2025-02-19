@@ -39,6 +39,8 @@ public class ChatResponse {
 
     @Expose
     public Integer complete;
+    @Expose
+    public Integer res_status =0;
 
     public ChatResponse() {
     }
@@ -131,5 +133,13 @@ public class ChatResponse {
 
     public void setComplete(Integer complete) {
         this.complete = complete;
+    }
+
+    public Integer getRes_status() {
+        return res_status;
+    }
+
+    public void setRes_status(Integer res_status) {
+        this.res_status = res_status;
     }
 }

@@ -1,221 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/loginMainLayout"
-    tools:context=".Activity.LoginActivity">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/loginLogoLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/mainGuidelineVertical"
-        app:layout_constraintTop_toTopOf="@id/mainGuidelineHorizontal">
+        android:id="@+id/loginMainLayout"
+        tools:context=".Activity.LoginActivity">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loginLogoLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/mainGuidelineVertical"
+            app:layout_constraintTop_toTopOf="@id/mainGuidelineHorizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/yes"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/welcomeLayout"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- welcome message -->
+            <LinearLayout
+                android:id="@+id/welcomeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/imageView"
+                app:layout_constraintStart_toStartOf="@id/imageView">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/health"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/teal_700"
+                    android:textStyle="bold"
+                    android:textSize="30sp" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/loginTextboxLayout"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/loginLogoLayout"
+            app:layout_constraintBottom_toTopOf="@id/loginButtonsLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- login form -->
+            <LinearLayout
+                android:id="@+id/login_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dip"
+                android:layout_marginEnd="30dip"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dip"
+                    android:text="@string/phone"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/color_text_green" />
+
+                <EditText
+                    android:id="@+id/text_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:layout_marginTop="8dip"
+                    android:background="@drawable/txtbox_rone_wbevel"
+                    android:labelFor="@id/text_username"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:paddingStart="20dip"
+                    android:paddingEnd="20dip"
+                    android:singleLine="true"
+                    android:text=""
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dip"
+                    android:layout_marginTop="15dip"
+                    android:text="@string/pin"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/color_text_green" />
+
+                <EditText
+                    android:id="@+id/text_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:layout_marginTop="8dip"
+                    android:autofillHints="name"
+                    android:background="@drawable/txtbox_rone_wbevel"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:paddingStart="20dip"
+                    android:paddingEnd="20dip"
+                    android:singleLine="true"
+                    android:text=""
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loginButtonsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/yes"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/welcomeLayout"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginTextboxLayout">
 
-        <!-- welcome message -->
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="300dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dip"
+                android:background="@drawable/btnd_rone_red"
+                android:elevation="10sp"
+                android:text="@string/login_form_login"
+                android:textColor="@android:color/background_light"
+                app:backgroundTint="@null"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:textSize="18sp"
+                android:translationZ="10dip" />
+
+            <Button
+                android:id="@+id/btn_bckup"
+                android:layout_width="300dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dip"
+                android:background="@drawable/btnd_rone_black"
+                android:text="@string/download"
+                android:textColor="@android:color/background_light"
+                app:backgroundTint="@null"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/welcomeLayout"
+            android:id="@+id/copyright_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginBottom="150dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginButtonsLayout">
+
+            <Button
+                android:id="@+id/btnclient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/btn_setting"
+                android:fontFamily="@font/open_sans_bold"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:drawablePadding="5dip"
+                android:text="@string/clients"
+                android:textStyle="bold"
+                android:textColor="@color/teal_700" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/mainGuidelineVertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/imageView"
-            app:layout_constraintStart_toStartOf="@id/imageView">
+            app:layout_constraintGuide_percent="0.1" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/health"
-                android:gravity="center"
-                android:textAllCaps="true"
-                android:textColor="@color/teal_700"
-                android:textStyle="bold"
-                android:textSize="30sp" />
-
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <LinearLayout
-        android:id="@+id/loginTextboxLayout"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginTop="5dp"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/loginLogoLayout"
-        app:layout_constraintBottom_toTopOf="@id/loginButtonsLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
-
-        <!-- login form -->
-        <LinearLayout
-            android:id="@+id/login_form"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/mainGuidelineHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dip"
-            android:layout_marginEnd="30dip"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dip"
-                android:text="@string/phone"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/color_text_green" />
-
-            <EditText
-                android:id="@+id/text_username"
-                android:layout_width="match_parent"
-                android:layout_height="50dip"
-                android:layout_marginTop="8dip"
-                android:background="@drawable/txtbox_rone_wbevel"
-                android:labelFor="@id/text_username"
-                android:inputType="number"
-                android:maxLines="1"
-                android:paddingStart="20dip"
-                android:paddingEnd="20dip"
-                android:singleLine="true"
-                android:text=""
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dip"
-                android:layout_marginTop="15dip"
-                android:text="@string/pin"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/color_text_green" />
-
-            <EditText
-                android:id="@+id/text_password"
-                android:layout_width="match_parent"
-                android:layout_height="50dip"
-                android:layout_marginTop="8dip"
-                android:autofillHints="name"
-                android:background="@drawable/txtbox_rone_wbevel"
-                android:inputType="number"
-                android:maxLines="1"
-                android:paddingStart="20dip"
-                android:paddingEnd="20dip"
-                android:singleLine="true"
-                android:text=""
-                tools:ignore="SpeakableTextPresentCheck" />
-
-
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/loginButtonsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginTextboxLayout">
-
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="300dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="6dip"
-            android:background="@drawable/btnd_rone_red"
-            android:elevation="10sp"
-            android:text="@string/login_form_login"
-            android:textColor="@android:color/background_light"
-            app:backgroundTint="@null"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:textSize="18sp"
-            android:translationZ="10dip" />
-
-        <Button
-            android:id="@+id/btn_bckup"
-            android:layout_width="300dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dip"
-            android:background="@drawable/btnd_rone_black"
-            android:text="@string/download"
-            android:textColor="@android:color/background_light"
-            app:backgroundTint="@null"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:textSize="18sp" />
-
-        <!--        android:enabled="false"-->
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/copyright_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginBottom="150dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButtonsLayout">
-
-        <Button
-            android:id="@+id/btnclient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/btn_setting"
-            android:fontFamily="@font/open_sans_bold"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:drawablePadding="5dip"
-            android:text="@string/clients"
-            android:textStyle="bold"
-            android:textColor="@color/teal_700" />
-
-
-
-
-    </LinearLayout>
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/mainGuidelineVertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/mainGuidelineHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

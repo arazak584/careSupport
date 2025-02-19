@@ -3,10 +3,9 @@ package com.khrc.caresupport.Client.redcapexport;
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
@@ -16,9 +15,9 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.e
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpPost;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.BasicNameValuePair;
-import com.khrc.caresupport.Dao.PregnancyDao;
+import com.khrc.caresupport.Dao.MedHistoryDao;
 import com.khrc.caresupport.Utility.AppDatabase;
-import com.khrc.caresupport.entity.Pregnancy;
+import com.khrc.caresupport.entity.MedHistory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportPregnancy {
+public class ExportHistory {
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -42,72 +41,86 @@ public class ImportPregnancy {
     private String line;
     private JSONObject record;
     private JSONArray data;
-    private PregnancyApiPush pregnancyApiPush;
+    private HistoryApiPush historyApiPush;
 
-    private PregnancyDao dao;
+    private MedHistoryDao dao;
     private AppDatabase appDatabase;
-    private AppCompatActivity activity;
+    private Context context;
 
-    public interface PregnancyApiPush {
+    public interface HistoryApiPush {
         void onSuccess(String response);
         void onError(String error);
     }
 
-    public void setPregnancyApiPush(PregnancyApiPush listener) {
-        this.pregnancyApiPush = listener;
+    public void setHistoryApiPush(HistoryApiPush listener) {
+        this.historyApiPush = listener;
     }
 
-    public ImportPregnancy(AppCompatActivity activity) {
-        // Initialize the Room database and DAO
-        appDatabase = AppDatabase.getDatabase(activity);
-        dao = appDatabase.pregnancyDao();  // Assuming the DAO method is named profileDao()
-        this.activity = activity;
+
+    public ExportHistory(Context context) {
+        this.context = context;
+        appDatabase = AppDatabase.getDatabase(context); // Use context instead of activity
+        dao = appDatabase.medHistoryDao();
         client = HttpClientBuilder.create().build();
     }
 
-    private static class FetchPregnancyAsyncTask extends AsyncTask<Void, Void, List<Pregnancy>> {
-        private final ImportPregnancy importRecords;
+    private static class FetchHistoryAsyncTask extends AsyncTask<Void, Void, List<MedHistory>> {
+        private final ExportHistory importRecords;
 
-        public FetchPregnancyAsyncTask(ImportPregnancy importRecords) {
+        public FetchHistoryAsyncTask(ExportHistory importRecords) {
             this.importRecords = importRecords;
         }
 
         @Override
-        protected List<Pregnancy> doInBackground(Void... voids) {
-            return importRecords.appDatabase.pregnancyDao().sync();
+        protected List<MedHistory> doInBackground(Void... voids) {
+            return importRecords.appDatabase.medHistoryDao().sync();
         }
 
         @Override
-        protected void onPostExecute(List<Pregnancy> pregnancies) {
+        protected void onPostExecute(List<MedHistory> medHistorys) {
             try {
-                importRecords.onPregnancyFetched(pregnancies);
+                importRecords.onHistoryFetched(medHistorys);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void fetchPregnancyAndPost() {
-        new FetchPregnancyAsyncTask(this).execute();
+    public void fetchHistoryAndPost() {
+        new FetchHistoryAsyncTask(this).execute();
     }
 
     // Callback method when MomProfile records are fetched
-    private void onPregnancyFetched(List<Pregnancy> pregnancies) throws JSONException {
-        if (pregnancies != null && !pregnancies.isEmpty()) {
+    private void onHistoryFetched(List<MedHistory> medHistorys) throws JSONException {
+        if (medHistorys != null && !medHistorys.isEmpty()) {
             data = new JSONArray();
-            for (Pregnancy pregnancy : pregnancies) {
+            for (MedHistory medHistory : medHistorys) {
 
                 record = new JSONObject();
-                record.put("tel", pregnancy.getTel());
-                record.put("insertdate", pregnancy.getInsertdate());
-                record.put("first_ga_date", pregnancy.getFirst_ga_date());
-                record.put("first_ga_wks", pregnancy.getFirst_ga_wks());
-                record.put("edd", pregnancy.getEdd());
-                record.put("next_anc_schedule_date", pregnancy.getNext_anc_schedule_date());
-                record.put("planned_anc_facility", pregnancy.getPlanned_anc_facility());
-                record.put("planned_delivery_place", pregnancy.getPlanned_delivery_place());
-                record.put("outcome_date", pregnancy.getOutcome_date());
-                record.put("preg_outcome", pregnancy.getPreg_outcome());
+                record.put("tel", medHistory.getTel());
+                record.put("mh1", medHistory.getMh1());
+                record.put("mh2", medHistory.getMh2());
+                record.put("mh3", medHistory.getMh3());
+                record.put("mh4", medHistory.getMh4());
+                record.put("mh5", medHistory.getMh5());
+                record.put("mh6", medHistory.getMh6());
+                record.put("mh7", medHistory.getMh7());
+                record.put("mh8", medHistory.getMh8());
+                record.put("mh9", medHistory.getMh9());
+                record.put("mh10", medHistory.getMh10());
+                record.put("mh11", medHistory.getMh11());
+                record.put("mh12", medHistory.getMh12());
+                record.put("mh13", medHistory.getMh13());
+                record.put("oth", medHistory.getOth());
+                record.put("fh1", medHistory.getFh1());
+                record.put("fh2", medHistory.getFh2());
+                record.put("fh3", medHistory.getFh3());
+                record.put("fh4", medHistory.getFh4());
+                record.put("fh5", medHistory.getFh5());
+                record.put("fh6", medHistory.getFh6());
+                record.put("fh7", medHistory.getFh7());
+                record.put("fh8", medHistory.getFh8());
+                record.put("oth_2", medHistory.getOth_2());
 
                 data.put(record);
             }
@@ -138,9 +151,9 @@ public class ImportPregnancy {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportPregnancy importRecords;
+        private final ExportHistory importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportPregnancy importRecords) {
+        public ExecuteHttpPostAsyncTask(ExportHistory importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -183,12 +196,12 @@ public class ImportPregnancy {
             }
         }
 
-        if (pregnancyApiPush != null) {
+        if (historyApiPush != null) {
             // Notify the listener about the result
             if (respCode == HttpStatus.SC_OK) {
-                pregnancyApiPush.onSuccess(result.toString());
+                historyApiPush.onSuccess(result.toString());
             } else {
-                pregnancyApiPush.onError("HTTP response code: " + respCode);
+                historyApiPush.onError("HTTP response code: History " + respCode);
             }
         }
     }

@@ -66,6 +66,22 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:padding="5dp"
+                    android:hint="@string/GRAVIDITY"
+                    android:text="@string/GRAVIDITY">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/GRAVIDITY"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={obsteric.gravidity}"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:padding="5dp"
                     android:hint="@string/parity"
                     android:text="@string/parity">
 
@@ -77,21 +93,6 @@
                         android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:padding="5dp"
-                    android:hint="@string/GRAVIDITY"
-                    android:text="@string/GRAVIDITY">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/GRAVIDITY"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@={obsteric.gravidity}"
-                        android:inputType="number"/>
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"

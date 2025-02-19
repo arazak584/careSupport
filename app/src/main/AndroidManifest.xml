@@ -27,6 +27,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CareSupport"
         tools:targetApi="31">
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.work.WorkManagerInitializer"
+                tools:replace="android:value"/>
+        </provider>
+
+
         <activity
             android:name=".Client.Activity.TerminateActivity"
             android:exported="false" />
@@ -43,12 +55,14 @@
             android:noHistory="true" />
         <activity
             android:name=".Client.Activity.ChatsActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".Client.Activity.ClientActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ChatActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".Activity.LoginActivity"

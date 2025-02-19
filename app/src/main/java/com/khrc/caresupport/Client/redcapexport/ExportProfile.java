@@ -1,13 +1,11 @@
-package com.khrc.caresupport.redcapsend;
-
+package com.khrc.caresupport.Client.redcapexport;
 
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
@@ -17,11 +15,9 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.e
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpPost;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.BasicNameValuePair;
-import com.khrc.caresupport.Dao.ChatDao;
-import com.khrc.caresupport.Dao.ComplaintsDao;
+import com.khrc.caresupport.Dao.ProfileDao;
 import com.khrc.caresupport.Utility.AppDatabase;
-import com.khrc.caresupport.entity.ChatResponse;
-import com.khrc.caresupport.entity.Complaints;
+import com.khrc.caresupport.entity.MomProfile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportChatresponse {
+public class ExportProfile {
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -45,68 +41,87 @@ public class ImportChatresponse {
     private String line;
     private JSONObject record;
     private JSONArray data;
-    private ChatApiPush chatApiPush;
+    private RedcapApiPush redcapApiPushListener;
 
-    private ChatDao dao;
+    private ProfileDao dao;
     private AppDatabase appDatabase;
-    private AppCompatActivity activity;
+    private Context context;
 
-    public interface ChatApiPush {
+    public interface RedcapApiPush {
         void onSuccess(String response);
         void onError(String error);
     }
 
-    public void setChatApiPush(ChatApiPush listener) {
-        this.chatApiPush = listener;
+    public void setRedcapApiPush(RedcapApiPush listener) {
+        this.redcapApiPushListener = listener;
     }
 
-    public ImportChatresponse(AppCompatActivity activity) {
+    public ExportProfile(Context context) {
         // Initialize the Room database and DAO
-        appDatabase = AppDatabase.getDatabase(activity);
-        dao = appDatabase.chatDao();  // Assuming the DAO method is named profileDao()
-        this.activity = activity;
+        this.context = context;
+        appDatabase = AppDatabase.getDatabase(context);
+        dao = appDatabase.profileDao();  // Assuming the DAO method is named profileDao()
         client = HttpClientBuilder.create().build();
     }
 
-    private static class FetchChatAsyncTask extends AsyncTask<Void, Void, List<ChatResponse>> {
-        private final ImportChatresponse importRecords;
+    private static class FetchMomProfilesAsyncTask extends AsyncTask<Void, Void, List<MomProfile>> {
+        private final ExportProfile importRecords;
 
-        public FetchChatAsyncTask(ImportChatresponse importRecords) {
+        public FetchMomProfilesAsyncTask(ExportProfile importRecords) {
             this.importRecords = importRecords;
         }
 
         @Override
-        protected List<ChatResponse> doInBackground(Void... voids) {
-            return importRecords.appDatabase.chatDao().sync();
+        protected List<MomProfile> doInBackground(Void... voids) {
+            return importRecords.appDatabase.profileDao().sync();
         }
 
         @Override
-        protected void onPostExecute(List<ChatResponse> chatResponses) {
+        protected void onPostExecute(List<MomProfile> momProfiles) {
             try {
-                importRecords.onComplaintsFetched(chatResponses);
+                importRecords.onMomProfilesFetched(momProfiles);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void fetchChatAndPost() {
-        new FetchChatAsyncTask(this).execute();
+    public void fetchMomProfilesAndPost() {
+        new FetchMomProfilesAsyncTask(this).execute();
     }
 
     // Callback method when MomProfile records are fetched
-    private void onComplaintsFetched(List<ChatResponse> dailyConditions) throws JSONException {
-        if (dailyConditions != null && !dailyConditions.isEmpty()) {
+    private void onMomProfilesFetched(List<MomProfile> momProfiles) throws JSONException {
+        if (momProfiles != null && !momProfiles.isEmpty()) {
             data = new JSONArray();
-            for (ChatResponse item : dailyConditions) {
+            for (MomProfile momProfile : momProfiles) {
+                System.out.println("MomProfile: " + momProfile.toString());
                 record = new JSONObject();
-                record.put("redcap_repeat_instrument", "chatresponse");
-                record.put("tel", item.getTel());
-                record.put("redcap_repeat_instance", item.getRecord_id());
-                record.put("response_id", item.getRecord_id());
-                record.put("respondent", item.getProviders_name());
-                record.put("response_text", item.getResponse_text());
-                record.put("date_respondent", item.getResponse_date());
+                record.put("tel", momProfile.getTel());
+                record.put("doe", momProfile.getDoe());
+                record.put("tels", momProfile.getTels());
+                record.put("hfac", momProfile.getHfac());
+                record.put("doi", momProfile.getDoi());
+                record.put("nhisno", momProfile.getNhisno());
+                record.put("mothn", momProfile.getMothn());
+                record.put("community", momProfile.getCommunity());
+                record.put("addr", momProfile.getAddr());
+                record.put("lma", momProfile.getLma());
+                record.put("dis", momProfile.getDis());
+                record.put("mstatus", momProfile.getMstatus());
+                record.put("edul", momProfile.getEdul());
+                record.put("occu", momProfile.getOccu());
+//                record.put("eduls", momProfile.getEduls());
+//                record.put("occus", momProfile.getOccus());
+                record.put("g6pd", momProfile.getG6pd());
+                record.put("nos", momProfile.getNos());
+                record.put("dob", momProfile.getDob());
+                record.put("addrs", momProfile.getAddrs());
+                record.put("lmas", momProfile.getLmas());
+                record.put("diss", momProfile.getDiss());
+                record.put("contactn", momProfile.getContactn());
+                record.put("contele", momProfile.getContele());
+                record.put("pin", momProfile.getPin());
 
                 data.put(record);
             }
@@ -137,9 +152,9 @@ public class ImportChatresponse {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportChatresponse importRecords;
+        private final ExportProfile importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportChatresponse importRecords) {
+        public ExecuteHttpPostAsyncTask(ExportProfile importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -166,8 +181,8 @@ public class ImportChatresponse {
                     result.append(line);
                 }
 
-                Log.d("ImportChat", "Chat Response Code: " + respCode);
-                Log.d("ImportChat", "Chat Response Result: " + result.toString());
+                Log.d("ImportRecords", "respCode: " + respCode);
+                Log.d("ImportRecords", "result: " + result.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,12 +197,12 @@ public class ImportChatresponse {
             }
         }
 
-        if (chatApiPush != null) {
+        if (redcapApiPushListener != null) {
             // Notify the listener about the result
             if (respCode == HttpStatus.SC_OK) {
-                chatApiPush.onSuccess(result.toString());
+                redcapApiPushListener.onSuccess(result.toString());
             } else {
-                chatApiPush.onError("HTTP response code: " + respCode);
+                redcapApiPushListener.onError("HTTP response code: " + respCode);
             }
         }
     }

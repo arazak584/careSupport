@@ -17,6 +17,7 @@ public class JsonChatresponse {
     private String response_date;
     private String providers_name;
     private String response_text;
+    private Integer res_status;
 
     public String getId() {
         return id;
@@ -64,5 +65,13 @@ public class JsonChatresponse {
 
     public void setResponse_text(String response_text) {
         this.response_text = response_text;
+    }
+
+    public Integer getRes_status() {
+        return res_status;
+    }
+
+    public void setRes_status(Integer res_status) {
+        this.res_status = res_status;
     }
 }

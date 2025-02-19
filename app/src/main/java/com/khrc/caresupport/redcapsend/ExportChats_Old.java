@@ -3,10 +3,9 @@ package com.khrc.caresupport.redcapsend;
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
@@ -17,10 +16,8 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.m
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.BasicNameValuePair;
 import com.khrc.caresupport.Dao.ChatDao;
-import com.khrc.caresupport.Dao.DailyConditionDao;
 import com.khrc.caresupport.Utility.AppDatabase;
 import com.khrc.caresupport.entity.ChatResponse;
-import com.khrc.caresupport.entity.DailyCondition;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportComplaints_Old {
+public class ExportChats_Old {
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -48,7 +45,7 @@ public class ImportComplaints_Old {
 
     private ChatDao dao;
     private AppDatabase appDatabase;
-    private AppCompatActivity activity;
+    private Context context;
 
     public interface ComplaintApiPush {
         void onSuccess(String response);
@@ -59,18 +56,18 @@ public class ImportComplaints_Old {
         this.complaintsApiPush = listener;
     }
 
-    public ImportComplaints_Old(AppCompatActivity activity) {
+    public ExportChats_Old(Context context) {
         // Initialize the Room database and DAO
-        appDatabase = AppDatabase.getDatabase(activity);
+        this.context = context;
+        appDatabase = AppDatabase.getDatabase(context);
         dao = appDatabase.chatDao();  // Assuming the DAO method is named profileDao()
-        this.activity = activity;
         client = HttpClientBuilder.create().build();
     }
 
     private static class FetchComplaintsAsyncTask extends AsyncTask<Void, Void, List<ChatResponse>> {
-        private final ImportComplaints_Old importRecords;
+        private final ExportChats_Old importRecords;
 
-        public FetchComplaintsAsyncTask(ImportComplaints_Old importRecords) {
+        public FetchComplaintsAsyncTask(ExportChats_Old importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -106,6 +103,7 @@ public class ImportComplaints_Old {
                 record.put("response_date", item.getResponse_date());
                 record.put("response_txt", item.getResponse_text());
                 record.put("providers_name", item.getProviders_name());
+                record.put("res_status", item.getRes_status());
 
                 data.put(record);
             }
@@ -136,9 +134,9 @@ public class ImportComplaints_Old {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportComplaints_Old importRecords;
+        private final ExportChats_Old importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportComplaints_Old importRecords) {
+        public ExecuteHttpPostAsyncTask(ExportChats_Old importRecords) {
             this.importRecords = importRecords;
         }
 

@@ -38,6 +38,9 @@ public class DailyCondition extends BaseObservable {
     @Expose
     public Integer complete;
 
+    @Expose
+    public Integer cpl_status = 0;
+
     public DailyCondition(){}
 
     @Ignore
@@ -91,6 +94,11 @@ public class DailyCondition extends BaseObservable {
         this.tel = tel;
     }
 
+    public Integer getCpl_status() {
+        return cpl_status;
+    }
 
-
+    public void setCpl_status(Integer cpl_status) {
+        this.cpl_status = cpl_status;
+    }
 }

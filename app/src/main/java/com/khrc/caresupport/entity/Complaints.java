@@ -45,6 +45,8 @@ public class Complaints extends BaseObservable implements Parcelable {
     @Expose
     public String hfac;
 
+    @Expose
+    public Integer cpl_status;
 
     @Expose
     public Integer complete;
@@ -124,6 +126,14 @@ public class Complaints extends BaseObservable implements Parcelable {
 
     public void setHfac(String hfac) {
         this.hfac = hfac;
+    }
+
+    public Integer getCpl_status() {
+        return cpl_status;
+    }
+
+    public void setCpl_status(Integer cpl_status) {
+        this.cpl_status = cpl_status;
     }
 
     protected Complaints(Parcel in) {

@@ -1,13 +1,12 @@
-package com.khrc.caresupport.Client.redcapexport;
+package com.khrc.caresupport.redcapsend;
+
 
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.ColumnInfo;
 
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
@@ -17,10 +16,9 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.e
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpPost;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.BasicNameValuePair;
-import com.khrc.caresupport.Dao.MedHistoryDao;
-import com.khrc.caresupport.Dao.ObstericDao;
+import com.khrc.caresupport.Dao.ChatDao;
 import com.khrc.caresupport.Utility.AppDatabase;
-import com.khrc.caresupport.entity.Obsteric;
+import com.khrc.caresupport.entity.ChatResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +30,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportObsteric {
+public class ExportChatresponse {
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -44,67 +42,69 @@ public class ImportObsteric {
     private String line;
     private JSONObject record;
     private JSONArray data;
-    private ObstericApiPush obstericApiPush;
+    private ChatApiPush chatApiPush;
 
-    private ObstericDao dao;
+    private ChatDao dao;
     private AppDatabase appDatabase;
-    private AppCompatActivity activity;
+    private Context context;
 
-    public interface ObstericApiPush {
+    public interface ChatApiPush {
         void onSuccess(String response);
         void onError(String error);
     }
 
-    public void setObstericApiPush(ObstericApiPush listener) {
-        this.obstericApiPush = listener;
+    public void setChatApiPush(ChatApiPush listener) {
+        this.chatApiPush = listener;
     }
 
-    public ImportObsteric(AppCompatActivity activity) {
+    public ExportChatresponse(Context context) {
         // Initialize the Room database and DAO
-        appDatabase = AppDatabase.getDatabase(activity);
-        dao = appDatabase.obstericDao();  // Assuming the DAO method is named profileDao()
-        this.activity = activity;
+        this.context = context;
+        appDatabase = AppDatabase.getDatabase(context);
+        dao = appDatabase.chatDao();  // Assuming the DAO method is named profileDao()
         client = HttpClientBuilder.create().build();
     }
 
-    private static class FetchHistoryAsyncTask extends AsyncTask<Void, Void, List<Obsteric>> {
-        private final ImportObsteric importRecords;
+    private static class FetchChatAsyncTask extends AsyncTask<Void, Void, List<ChatResponse>> {
+        private final ExportChatresponse importRecords;
 
-        public FetchHistoryAsyncTask(ImportObsteric importRecords) {
+        public FetchChatAsyncTask(ExportChatresponse importRecords) {
             this.importRecords = importRecords;
         }
 
         @Override
-        protected List<Obsteric> doInBackground(Void... voids) {
-            return importRecords.appDatabase.obstericDao().sync();
+        protected List<ChatResponse> doInBackground(Void... voids) {
+            return importRecords.appDatabase.chatDao().sync();
         }
 
         @Override
-        protected void onPostExecute(List<Obsteric> obsterics) {
+        protected void onPostExecute(List<ChatResponse> chatResponses) {
             try {
-                importRecords.onObstericFetched(obsterics);
+                importRecords.onComplaintsFetched(chatResponses);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public void fetchObstericAndPost() {
-        new FetchHistoryAsyncTask(this).execute();
+    public void fetchChatAndPost() {
+        new FetchChatAsyncTask(this).execute();
     }
 
     // Callback method when MomProfile records are fetched
-    private void onObstericFetched(List<Obsteric> obsterics) throws JSONException {
-        if (obsterics != null && !obsterics.isEmpty()) {
+    private void onComplaintsFetched(List<ChatResponse> dailyConditions) throws JSONException {
+        if (dailyConditions != null && !dailyConditions.isEmpty()) {
             data = new JSONArray();
-            for (Obsteric obsteric : obsterics) {
-
+            for (ChatResponse item : dailyConditions) {
                 record = new JSONObject();
-                record.put("tel", obsteric.getTel());
-                record.put("parity", obsteric.getParity());
-                record.put("gravidity", obsteric.getGravidity());
-                record.put("spontaneous_abortions", obsteric.getSpontaneous_abortions());
-                record.put("induced_abortions", obsteric.getInduced_abortions());
+                record.put("redcap_repeat_instrument", "chatresponse");
+                record.put("tel", item.getTel());
+                record.put("redcap_repeat_instance", item.getRecord_id());
+                record.put("response_id", item.getRecord_id());
+                record.put("respondent", item.getProviders_name());
+                record.put("response_text", item.getResponse_text());
+                record.put("date_respondent", item.getResponse_date());
+                record.put("res_status", item.getRes_status());
 
                 data.put(record);
             }
@@ -135,9 +135,9 @@ public class ImportObsteric {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportObsteric importRecords;
+        private final ExportChatresponse importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportObsteric importRecords) {
+        public ExecuteHttpPostAsyncTask(ExportChatresponse importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -164,8 +164,8 @@ public class ImportObsteric {
                     result.append(line);
                 }
 
-                Log.d("ImportRecords", "respCode: " + respCode);
-                Log.d("ImportRecords", "result: " + result.toString());
+                Log.d("ImportChat", "Chat Response Code: " + respCode);
+                Log.d("ImportChat", "Chat Response Result: " + result.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -180,14 +180,23 @@ public class ImportObsteric {
             }
         }
 
-        if (obstericApiPush != null) {
+        if (chatApiPush != null) {
             // Notify the listener about the result
             if (respCode == HttpStatus.SC_OK) {
-                obstericApiPush.onSuccess(result.toString());
+                chatApiPush.onSuccess(result.toString());
+
+                // Update getRes_status to 1 in the database after successful push
+                updateResStatusInDatabase();
             } else {
-                obstericApiPush.onError("HTTP response code: " + respCode);
+                chatApiPush.onError("HTTP response code: " + respCode);
             }
         }
+    }
+
+    // Method to update res_status to 1 after successful push
+    private void updateResStatusInDatabase() {
+        // Update res_status for all records where res_status is 0
+        dao.updateResStatus(1);  // Update res_status to 1
     }
 
 

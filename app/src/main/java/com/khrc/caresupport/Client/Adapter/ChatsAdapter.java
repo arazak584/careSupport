@@ -1,7 +1,11 @@
 package com.khrc.caresupport.Client.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,9 +134,31 @@ public class ChatsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     Date date = inputFormat.parse(dateString);
                     String formattedDate = outputFormat.format(date);
 
+                    // Create a SpannableString for the date + Nike symbols
+                    SpannableString spannableString;
+
+                    if (complaint.getCpl_status() == 0) {
+                        // Single Nike symbol in RED color
+                        spannableString = new SpannableString(formattedDate + " ✓");
+                        spannableString.setSpan(new ForegroundColorSpan(Color.RED),
+                                formattedDate.length() + 1, formattedDate.length() + 2,
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } else if (complaint.getCpl_status() == 1) {
+                        // Double Nike symbol in GREEN color
+                        spannableString = new SpannableString(formattedDate + " ✓✓");
+                        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE),
+                                formattedDate.length() + 1, formattedDate.length() + 3,
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } else {
+                        spannableString = new SpannableString(formattedDate); // No icon for other statuses
+                    }
+
+                    // Determine the Nike symbol based on cpl_status
+                    //String nikeSymbol = complaint.getCpl_status() == 0 ? " ✓" : " ✓✓";
+
                     complaintHolder.leftChatLayout.setVisibility(View.VISIBLE);
                     complaintHolder.leftChatTextview.setText(complaint.getComplts());
-                    complaintHolder.leftChatDate.setText(formattedDate);
+                    complaintHolder.leftChatDate.setText(spannableString);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

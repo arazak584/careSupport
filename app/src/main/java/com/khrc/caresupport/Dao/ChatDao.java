@@ -29,6 +29,9 @@ public interface ChatDao {
     @Update
     void update(ChatResponse data);
 
+    @Query("UPDATE chat SET res_status = :status WHERE res_status = 0")
+    void updateResStatus(int status);
+
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<ChatResponse> complaints);

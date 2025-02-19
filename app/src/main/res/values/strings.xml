@@ -68,7 +68,7 @@
     <string name="anc_alert">ANC Alert</string>
     <!--    Prereminder-->
     <string name="PREGID">Pregnancy ID</string>
-    <string name="FIRST_GA_DATE">Which date did you first noticed this pregnancy?</string>
+    <string name="FIRST_GA_DATE">When was your last menstrual cycle?</string>
     <string name="SELECT_DATE">SELECT DATE</string>
     <string name="FIRST_GA_WKS">How old was the pregnancy when you first noticed it? Weeks</string>
     <string name="FIRST_GA_DAYS">How old was the pregnancy when you first noticed it? Days</string>

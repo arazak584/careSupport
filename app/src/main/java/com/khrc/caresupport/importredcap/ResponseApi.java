@@ -168,6 +168,7 @@ public class ResponseApi {
                 chatResponse.setResponse_date(item.getResponse_date());
                 chatResponse.setProviders_name(item.getProviders_name());
                 chatResponse.setResponse_text(item.getResponse_text());
+                chatResponse.setRes_status(item.getRes_status());
 
                 chatResponses.add(chatResponse);
             }
@@ -201,6 +202,7 @@ public class ResponseApi {
                     item.setResponse_date(jsonItemObject.optString("date_respondent", null));
                     item.setProviders_name(jsonItemObject.optString("respondent", null));
                     item.setResponse_text(jsonItemObject.optString("response_text", null));
+                    item.setRes_status(jsonItemObject.optInt("res_status", 0));
 
                     if (item.getResponse_text() != null && !item.getResponse_text().equals("")) {
                         jsonItems.add(item);

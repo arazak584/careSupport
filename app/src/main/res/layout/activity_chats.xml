@@ -157,23 +157,21 @@
 
 
         <RelativeLayout
+            android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:padding="8dp"
-            android:id="@+id/bottom_layout">
+            android:padding="8dp">
 
             <EditText
                 android:id="@+id/chat_message_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="@={comp.complts}"
                 android:layout_marginBottom="10dp"
-                android:layout_toLeftOf="@id/message_send_btn"
+                android:layout_toStartOf="@id/message_send_btn"
                 android:background="@drawable/edit_text_rounded_corner"
                 android:elevation="4dp"
                 android:hint="Write message here"
@@ -181,21 +179,22 @@
                 android:lines="5"
                 android:maxLines="10"
                 android:minLines="1"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:text="@={comp.complts}" />
 
             <ImageButton
                 android:id="@+id/message_send_btn"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="10dp"
+                android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 android:src="@drawable/icon_send"
                 app:tint="@color/my_primary" />
 
         </RelativeLayout>
+
 
     </LinearLayout>
 

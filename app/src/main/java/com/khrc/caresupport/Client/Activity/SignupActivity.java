@@ -121,10 +121,16 @@ public class SignupActivity extends AppCompatActivity {
 
             MomProfile finalData = new MomProfile();
             // Set the date of birth and tel in the finalData object
+            if (binding.getProfile().mothn != null &&
+                    !binding.mothn.getText().toString().trim().isEmpty()) {
+                finalData.mothn = name;
+            } else {
+                finalData.mothn = "Anonymous";
+            }
             finalData.setDob(dobText);
             finalData.setTel(tel);
             finalData.setCommunity(com);
-            finalData.setMothn(name);
+            //finalData.setMothn(name);
             finalData.setPin(pin);
             finalData.setMstatus(mstatus);
             finalData.setHfac(hf);

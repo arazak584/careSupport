@@ -1,12 +1,11 @@
-package com.khrc.caresupport.redcapsend;
+package com.khrc.caresupport.Client.redcapexport;
 
 import static com.khrc.caresupport.Utility.AppConstants.API_TOKEN;
 import static com.khrc.caresupport.Utility.AppConstants.API_URL;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
@@ -30,7 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportLog {
+public class ExportLog {
 
     private List<NameValuePair> params;
     private HttpPost post;
@@ -46,7 +45,7 @@ public class ImportLog {
 
     private LogDao dao;
     private AppDatabase appDatabase;
-    private AppCompatActivity activity;
+    private Context context;
 
     public interface LogApiPush {
         void onSuccess(String response);
@@ -57,18 +56,18 @@ public class ImportLog {
         this.logApiPush = listener;
     }
 
-    public ImportLog(AppCompatActivity activity) {
+    public ExportLog(Context context) {
         // Initialize the Room database and DAO
-        appDatabase = AppDatabase.getDatabase(activity);
+        this.context = context;
+        appDatabase = AppDatabase.getDatabase(context);
         dao = appDatabase.logDao();  // Assuming the DAO method is named profileDao()
-        this.activity = activity;
         client = HttpClientBuilder.create().build();
     }
 
     private static class FetchLogAsyncTask extends AsyncTask<Void, Void, List<LogBook>> {
-        private final ImportLog importRecords;
+        private final ExportLog importRecords;
 
-        public FetchLogAsyncTask(ImportLog importRecords) {
+        public FetchLogAsyncTask(ExportLog importRecords) {
             this.importRecords = importRecords;
         }
 
@@ -131,9 +130,9 @@ public class ImportLog {
     }
 
     private static class ExecuteHttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
-        private final ImportLog importRecords;
+        private final ExportLog importRecords;
 
-        public ExecuteHttpPostAsyncTask(ImportLog importRecords) {
+        public ExecuteHttpPostAsyncTask(ExportLog importRecords) {
             this.importRecords = importRecords;
         }
 

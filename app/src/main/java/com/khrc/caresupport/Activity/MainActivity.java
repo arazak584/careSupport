@@ -31,8 +31,8 @@ import com.khrc.caresupport.importredcap.ComplaintsApi;
 import com.khrc.caresupport.importredcap.JsonComplaints;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
 import com.khrc.caresupport.importredcap.ResponseApi;
-import com.khrc.caresupport.redcapsend.ImportChatresponse;
-import com.khrc.caresupport.redcapsend.ImportComplaints_Old;
+import com.khrc.caresupport.redcapsend.ExportChatresponse;
+import com.khrc.caresupport.redcapsend.ExportChats_Old;
 
 import java.util.List;
 
@@ -223,11 +223,11 @@ public class MainActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    ImportChatresponse importChatresponse = new ImportChatresponse(MainActivity.this);
+                    ExportChatresponse importChatresponse = new ExportChatresponse(MainActivity.this);
                     importChatresponse.fetchChatAndPost();
 
                     // Fetch complaints
-                    ImportComplaints_Old importComplaints = new ImportComplaints_Old(MainActivity.this);
+                    ExportChats_Old importComplaints = new ExportChats_Old(MainActivity.this);
                     importComplaints.fetchComplaintsAndPost();
 
                     return null;
