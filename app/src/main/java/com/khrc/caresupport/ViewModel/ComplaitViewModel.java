@@ -45,6 +45,9 @@ public class ComplaitViewModel extends AndroidViewModel {
         return complaintRepository.replys(id);
     }
 
+    public long count() throws ExecutionException, InterruptedException {
+        return complaintRepository.count();
+    }
 
     public List<Complaints> not() throws ExecutionException, InterruptedException {
         return complaintRepository.not();

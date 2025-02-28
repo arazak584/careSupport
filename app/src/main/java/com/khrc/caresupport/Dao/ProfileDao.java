@@ -47,4 +47,7 @@ public interface ProfileDao {
 
     @Query("SELECT * FROM profile WHERE tel=:id AND pin=:password")
     MomProfile find(String id, String password);
+
+    @Query("SELECT COUNT(DISTINCT tel) FROM profile ")
+    long count();
 }

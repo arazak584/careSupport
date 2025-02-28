@@ -163,12 +163,11 @@ public class ExportChats_Old {
                     result.append(line);
                 }
 
-                Log.d("ImportComplaints", "Complaints Old Code: " + respCode);
-                Log.d("ImportComplaints", "Complaints Old Result: " + result.toString());
+                Log.d("ExportResponse", "Response Code: " + respCode);
+                Log.d("ExportResponse", "Response Result: " + result.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle exception...
         } finally {
             if (reader != null) {
                 try {
@@ -179,14 +178,34 @@ public class ExportChats_Old {
             }
         }
 
-        if (complaintsApiPush != null) {
-            // Notify the listener about the result
-            if (respCode == HttpStatus.SC_OK) {
+        if (respCode == HttpStatus.SC_OK) {
+            // Export successful, update cpl_status
+            updateResStatus();
+
+            if (complaintsApiPush != null) {
                 complaintsApiPush.onSuccess(result.toString());
-            } else {
+            }
+        } else {
+            if (complaintsApiPush != null) {
                 complaintsApiPush.onError("HTTP response code: " + respCode);
             }
         }
+    }
+
+    // Method to update res_status in the database
+    private void updateResStatus() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                List<ChatResponse> exportedResponse = appDatabase.chatDao().sync();
+                for (ChatResponse chatResponse : exportedResponse) {
+                    chatResponse.setRes_status(1); // Set cpl_status to 1
+                    Log.d("Chat", "response status: " + chatResponse.res_status);
+                    appDatabase.chatDao().update(chatResponse); // Update in database
+                }
+                return null;
+            }
+        }.execute();
     }
 
 

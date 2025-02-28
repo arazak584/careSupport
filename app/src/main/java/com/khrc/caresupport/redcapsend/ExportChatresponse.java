@@ -19,6 +19,7 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.message.
 import com.khrc.caresupport.Dao.ChatDao;
 import com.khrc.caresupport.Utility.AppDatabase;
 import com.khrc.caresupport.entity.ChatResponse;
+import com.khrc.caresupport.entity.DailyCondition;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -164,12 +165,11 @@ public class ExportChatresponse {
                     result.append(line);
                 }
 
-                Log.d("ImportChat", "Chat Response Code: " + respCode);
-                Log.d("ImportChat", "Chat Response Result: " + result.toString());
+                Log.d("ExportResponse", "Response Code: " + respCode);
+                Log.d("ExportResponse", "Response Result: " + result.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle exception...
         } finally {
             if (reader != null) {
                 try {
@@ -180,23 +180,34 @@ public class ExportChatresponse {
             }
         }
 
-        if (chatApiPush != null) {
-            // Notify the listener about the result
-            if (respCode == HttpStatus.SC_OK) {
-                chatApiPush.onSuccess(result.toString());
+        if (respCode == HttpStatus.SC_OK) {
+            // Export successful, update cpl_status
+            updateResStatus();
 
-                // Update getRes_status to 1 in the database after successful push
-                updateResStatusInDatabase();
-            } else {
+            if (chatApiPush != null) {
+                chatApiPush.onSuccess(result.toString());
+            }
+        } else {
+            if (chatApiPush != null) {
                 chatApiPush.onError("HTTP response code: " + respCode);
             }
         }
     }
 
-    // Method to update res_status to 1 after successful push
-    private void updateResStatusInDatabase() {
-        // Update res_status for all records where res_status is 0
-        dao.updateResStatus(1);  // Update res_status to 1
+    // Method to update res_status in the database
+    private void updateResStatus() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                List<ChatResponse> exportedResponse = appDatabase.chatDao().sync();
+                for (ChatResponse chatResponse : exportedResponse) {
+                    chatResponse.setRes_status(1); // Set cpl_status to 1
+                    Log.d("Chat", "response status: " + chatResponse.res_status);
+                    appDatabase.chatDao().update(chatResponse); // Update in database
+                }
+                return null;
+            }
+        }.execute();
     }
 
 

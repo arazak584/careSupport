@@ -43,4 +43,7 @@ public interface UsersDao {
 
     @Query("SELECT * FROM users WHERE tel=:id AND pin=:password AND ustatus=1")
     Users find(String id, String password);
+
+    @Query("SELECT COUNT(DISTINCT tel) FROM users ")
+    long count();
 }

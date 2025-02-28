@@ -52,11 +52,20 @@ public interface ComplaintsDao {
 //    @Query("SELECT a.* FROM Complaints as a INNER JOIN chat b ON a.tel = b.tel WHERE a.complaints_date > b.response_date GROUP BY a.tel ORDER BY a.complaints_date DESC")
 //    List<Complaints> not();
 
+//    @Query("SELECT a.* FROM Complaints a " +
+//            "LEFT JOIN chat b ON a.tel = b.tel " +
+//            "WHERE a.complaints_date = (SELECT MAX(c.complaints_date) FROM Complaints c WHERE c.tel = a.tel) " +
+//            "AND b.response_date = (SELECT MAX(d.response_date) FROM chat d WHERE d.tel = b.tel) " +
+//            "AND a.complaints_date > b.response_date " +
+//            "GROUP BY a.tel " +
+//            "ORDER BY a.complaints_date DESC")
+//    List<Complaints> not();
+
     @Query("SELECT a.* FROM Complaints a " +
-            "INNER JOIN chat b ON a.tel = b.tel " +
+            "LEFT JOIN chat b ON a.tel = b.tel " +
             "WHERE a.complaints_date = (SELECT MAX(c.complaints_date) FROM Complaints c WHERE c.tel = a.tel) " +
-            "AND b.response_date = (SELECT MAX(d.response_date) FROM chat d WHERE d.tel = b.tel) " +
-            "AND a.complaints_date > b.response_date " +
+            "AND (b.tel IS NULL OR b.response_date = (SELECT MAX(d.response_date) FROM chat d WHERE d.tel = b.tel)) " +
+            "AND (b.tel IS NULL OR a.complaints_date > b.response_date) " +
             "GROUP BY a.tel " +
             "ORDER BY a.complaints_date DESC")
     List<Complaints> not();
@@ -71,5 +80,14 @@ public interface ComplaintsDao {
 
     @Query("SELECT COUNT(DISTINCT c.tel) FROM (SELECT a.tel FROM chat AS a Inner JOIN (SELECT tel, MAX(complaints_date) AS max_comp_date FROM complaints GROUP BY tel) AS b ON a.tel = b.tel WHERE a.tel=:id AND a.response_date > b.max_comp_date) AS c")
     long replys(String id);
+
+    @Query("SELECT count(DISTINCT a.tel) FROM Complaints a " +
+            "INNER JOIN chat b ON a.tel = b.tel " +
+            "WHERE a.complaints_date = (SELECT MAX(c.complaints_date) FROM Complaints c WHERE c.tel = a.tel) " +
+            "AND b.response_date = (SELECT MAX(d.response_date) FROM chat d WHERE d.tel = b.tel) " +
+            "AND a.complaints_date > b.response_date " +
+            "GROUP BY a.tel " +
+            "ORDER BY a.complaints_date DESC")
+    long cnt();
 
 }

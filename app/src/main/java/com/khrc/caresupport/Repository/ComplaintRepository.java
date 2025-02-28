@@ -86,4 +86,10 @@ public class ComplaintRepository {
         return future.get();
     }
 
+    public long count() throws ExecutionException, InterruptedException {
+        Callable<Long> callable = () -> dao.cnt();
+        Future<Long> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
 }

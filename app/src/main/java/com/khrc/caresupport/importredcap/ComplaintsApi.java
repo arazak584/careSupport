@@ -163,6 +163,7 @@ public class ComplaintsApi {
                 dailyCondition.setComplts(item.getComplts());
                 dailyCondition.setHfac(item.getHfac());
                 dailyCondition.setMothn(item.getMothn());
+                dailyCondition.setCpl_status(item.getCpl_status());
 
                 dailyConditions.add(dailyCondition);
             }
@@ -212,6 +213,7 @@ public class ComplaintsApi {
                     item.setComplts(jsonItemObject.optString("complts", null));
                     item.setMothn(nam);
                     item.setHfac(hf);
+                    item.setCpl_status(jsonItemObject.optInt("cpl_status", 0));
 
                     if (item.getComplts() != null && !item.getComplts().equals("")) {
                         jsonItems.add(item);

@@ -28,6 +28,9 @@ public class UsersViewModel extends AndroidViewModel {
         return usersRepository.find(id, password);
     }
 
+    public long count() throws ExecutionException, InterruptedException {
+        return usersRepository.count();
+    }
 
     public void add(Users data){
         usersRepository.create(data);

@@ -32,6 +32,10 @@ public class ProfileViewModel extends AndroidViewModel {
         return profileRepository.sync();
     }
 
+    public long count() throws ExecutionException, InterruptedException {
+        return profileRepository.count();
+    }
+
     public void add(MomProfile data){
         profileRepository.create(data);
     }

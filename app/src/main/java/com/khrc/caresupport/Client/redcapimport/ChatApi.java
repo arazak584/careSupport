@@ -164,6 +164,7 @@ public class ChatApi {
                 chat.setResponse_date(item.getResponse_date());
                 chat.setProviders_name(item.getProviders_name());
                 chat.setResponse_text(item.getResponse_text());
+                chat.setRes_status(item.getRes_status());
 
                 chats.add(chat);
             }
@@ -194,6 +195,7 @@ public class ChatApi {
                     item.setResponse_date(jsonItemObject.optString("date_respondent", null));
                     item.setProviders_name(jsonItemObject.optString("respondent", null));
                     item.setResponse_text(jsonItemObject.optString("response_text", null));
+                    item.setRes_status(jsonItemObject.optInt("res_status", 0));
 
                     //jsonItems.add(item);
                     if (uniqueTels.add(item.getId()) && (item.getResponse_text() != null && !item.getResponse_text().equals(""))) {

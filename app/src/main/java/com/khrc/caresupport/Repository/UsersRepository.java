@@ -49,4 +49,10 @@ public class UsersRepository {
         return future.get();
     }
 
+    public long count() throws ExecutionException, InterruptedException {
+        Callable<Long> callable = () -> dao.count();
+        Future<Long> future = Executors.newSingleThreadExecutor().submit(callable);
+        return future.get();
+    }
+
 }
