@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/pregnantWomanTab"
+        android:icon="@drawable/ic_pregnant_woman"
+        android:title="Pregnant Woman" />
+    <item
+        android:id="@+id/healthcareProviderTab"
+        android:icon="@drawable/ic_healthcare_provider"
+        android:title="Healthcare Provider" />
+</menu>

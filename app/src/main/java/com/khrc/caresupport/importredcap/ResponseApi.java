@@ -169,6 +169,7 @@ public class ResponseApi {
                 chatResponse.setProviders_name(item.getProviders_name());
                 chatResponse.setResponse_text(item.getResponse_text());
                 chatResponse.setRes_status(item.getRes_status());
+                chatResponse.rem_date = new Date();
 
                 chatResponses.add(chatResponse);
             }

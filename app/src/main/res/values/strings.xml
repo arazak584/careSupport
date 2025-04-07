@@ -181,5 +181,14 @@
     <string name="inactive">There is no Active Pregnancy?</string>
     <string name="ancerrors">Cannot Be a Future Date</string>
     <string name="anc">Date of Outcome Cannot be before Pregnancy Outcome</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Login</string>
+    <string name="password">PIN</string>
+    <string name="email">User ID/Email</string>
+    <string name="pregnant_woman_icon">Pregnant Woman</string>
+    <string name="pregnant_woman_login">Client Login</string>
+    <string name="healthcare_provider_login">Provider Login</string>
+    <string name="healthcare_provider_icon">Provider</string>
 
 </resources>

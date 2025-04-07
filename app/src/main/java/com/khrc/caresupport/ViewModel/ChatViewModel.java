@@ -40,6 +40,10 @@ public class ChatViewModel extends AndroidViewModel {
         return chatRepository.retrieve(id);
     }
 
+    public long count() throws ExecutionException, InterruptedException {
+        return chatRepository.count();
+    }
+
     public List<ChatResponse> repo(String id) throws ExecutionException, InterruptedException {
         return chatRepository.repo(id);
     }

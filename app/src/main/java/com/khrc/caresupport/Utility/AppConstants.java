@@ -7,14 +7,20 @@ public class AppConstants {
 
 
     //Ghana
-//    public static final String API_URL = "https://kcap.ksurvey.org/redcap/api/";
+    public static final String API_URL = "https://kcap.ksurvey.org/redcap/api/";
 //    public static final String API_TOKEN = "E25FFECCB5F745178EF3649C3D61B34B";
-//    public static final String API_TOKEN_CODEBOOK = "615095D09AAA2654EE46B5CDDD1241F8";
+//    EVI TEST
+    public static final String API_TOKEN = "0E5005E37190B5C72CD3DDE18C482979";
+    public static final String API_TOKEN_CODEBOOK = "615095D09AAA2654EE46B5CDDD1241F8";
+
+
+
 //    public static final String API_URL = "https://cermeldata.net/redcap/api/";
+
 //    Malawi
-    public static final String API_URL = "https://redcap.must.ac.mw/redcap/api/";
-    public static final String API_TOKEN = "C62619BAD8F74849BE663535CBB8AB0E";
-    public static final String API_TOKEN_CODEBOOK = "40DB25890B86A61B2019B6D0FE76975F";
+//    public static final String API_URL = "https://redcap.must.ac.mw/redcap/api/";
+//    public static final String API_TOKEN = "C62619BAD8F74849BE663535CBB8AB0E";
+//    public static final String API_TOKEN_CODEBOOK = "40DB25890B86A61B2019B6D0FE76975F";
 
 //    BENIN
 //    REGISTER: 7B415699552DE92117C7F9DFAA342533

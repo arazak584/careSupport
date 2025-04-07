@@ -41,6 +41,9 @@ public class ChatResponse {
     public Integer complete;
     @Expose
     public Integer res_status =0;
+    @Expose
+    public Date rem_date;
+
 
     public ChatResponse() {
     }

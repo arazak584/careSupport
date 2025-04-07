@@ -37,7 +37,7 @@ import java.util.concurrent.Executors;
 
 @Database(  entities = {Complaints.class, Users.class, LogBook.class, ChatResponse.class, Pregnancy.class, MedHistory.class,
         MomProfile.class, CodeBook.class, DailyCondition.class, Obsteric.class},
-        version = 5 , exportSchema = true)
+        version = 6 , exportSchema = true)
 
 @TypeConverters({Converter.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -67,13 +67,21 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE chat ADD COLUMN rem_date TEXT");
+
+        }
+    };
+
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                 AppDatabase.class, "providers")
                         .addCallback(sRoomDatabaseCallback)
-                        .addMigrations(MIGRATION_4_5)
+                        .addMigrations(MIGRATION_4_5,MIGRATION_5_6)
                         //.fallbackToDestructiveMigrationOnDowngrade()
                         .fallbackToDestructiveMigration()
                         .build();

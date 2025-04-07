@@ -15,10 +15,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
+        android:name=".CareSupportApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -28,8 +29,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CareSupport"
-        android:name=".CareSupportApp"
         tools:targetApi="31">
+        <activity
+            android:name=".Client.Activity.LoginsActivity"
+            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -38,9 +41,8 @@
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.work.WorkManagerInitializer"
-                tools:replace="android:value"/>
+                tools:replace="android:value" />
         </provider>
-
 
         <activity
             android:name=".Client.Activity.TerminateActivity"
@@ -58,15 +60,15 @@
             android:noHistory="true" />
         <activity
             android:name=".Client.Activity.ChatsActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Client.Activity.ClientActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ChatActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activity.LoginActivity"
             android:exported="false" />
@@ -82,8 +84,9 @@
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".Client.Activity.LoginsActivity"
-            android:exported="true">
+            android:name=".Activity.SuperActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

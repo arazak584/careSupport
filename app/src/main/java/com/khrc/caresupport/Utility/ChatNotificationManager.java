@@ -1,23 +1,25 @@
 package com.khrc.caresupport.Utility;
 
+import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
-import androidx.work.WorkManager;
-import androidx.work.Constraints;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.lifecycle.ViewModelProvider;
-import android.app.Application;
 
 import com.khrc.caresupport.Activity.LoginActivity;
+import com.khrc.caresupport.Client.Activity.LoginsActivity;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.ChatViewModel;
 import com.khrc.caresupport.ViewModel.ComplaitViewModel;
@@ -27,22 +29,22 @@ import com.khrc.caresupport.ViewModel.UsersViewModel;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-public class NotificationManager {
+public class ChatNotificationManager {
     private static final String TAG = "NotificationManager";
     private static final String NOTIFICATION_WORK_TAG = "notificationWork";
     private static final String CHANNEL_ID = "care_support_channel";
     private static final int NOTIFICATION_ID = 1001;
 
     public static class NotificationWorker extends Worker {
-        private final UsersViewModel usersViewModel;
-        private final ComplaitViewModel complaitViewModel;
+        private final ProfileViewModel profileViewModel;
+        private final ChatViewModel chatViewModel;
 
         public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters params) {
             super(context, params);
             Application app = (Application) context.getApplicationContext();
             ViewModelProvider.AndroidViewModelFactory factory = new ViewModelProvider.AndroidViewModelFactory(app);
-            usersViewModel = factory.create(UsersViewModel.class);
-            complaitViewModel = factory.create(ComplaitViewModel.class);
+            profileViewModel = factory.create(ProfileViewModel.class);
+            chatViewModel = factory.create(ChatViewModel.class);
         }
 
         @NonNull
@@ -58,21 +60,21 @@ public class NotificationManager {
         }
 
         private void checkAndNotify() throws ExecutionException, InterruptedException {
-            long userCount = usersViewModel.count();
-            long complaintCount = complaitViewModel.count();
+            long userCount = profileViewModel.count();
+            long chatCount = chatViewModel.count();
 
-            if (userCount > 0 && complaintCount > 0) {
+            if (userCount > 0 && chatCount > 0) {
                 createAndShowNotification(
                         getApplicationContext(),
-                        "New Enquiry",
-                        "You have a new enquiry from a mother",
+                        "New Response",
+                        "You have a new message",
                         createNotificationIntent()
                 );
             }
         }
 
         private PendingIntent createNotificationIntent() {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             return PendingIntent.getActivity(

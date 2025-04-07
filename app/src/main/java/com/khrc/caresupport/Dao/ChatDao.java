@@ -55,6 +55,9 @@ public interface ChatDao {
     @Query("SELECT tel FROM chat WHERE tel=:id ORDER BY record_id DESC limit 1 ")
     String retrieve(String id);
 
+    @Query("SELECT COUNT(DISTINCT tel) FROM chat WHERE rem_date = DATE('now')")
+    long count();
+
     @Query("SELECT a.* FROM chat a INNER JOIN complaints b on a.tel=b.tel WHERE a.record_id=b.record_id")
     List<ChatResponse> syncs();
 

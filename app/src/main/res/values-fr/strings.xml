@@ -178,4 +178,5 @@
     <string name="placede">Lieu d’accouchement</string>
     <string name="inactive">Il n’y a pas de grossesse en cours?</string>
     <string name="ancerrors">Peut ne pas être une date future</string>
+    <string name="email">User ID/Email</string>
 </resources>
