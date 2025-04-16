@@ -1,4 +1,4 @@
-package com.khrc.caresupport.Activity;
+package com.khrc.caresupport.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.khrc.caresupport.Activity.MainActivity;
 import com.khrc.caresupport.R;
 import com.khrc.caresupport.ViewModel.LogViewModel;
 import com.khrc.caresupport.ViewModel.UsersViewModel;

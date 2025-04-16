@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.khrc.caresupport.Fragment.HealthcareFragmentProviderLogin;
+import com.khrc.caresupport.Fragment.PregnantFragmentWomanLogin;
 import com.khrc.caresupport.R;
 
 public class SuperActivity extends AppCompatActivity {

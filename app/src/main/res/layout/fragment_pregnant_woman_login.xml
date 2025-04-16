@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center_horizontal"
-    tools:context=".Activity.PregnantFragmentWomanLogin">
+    tools:context=".Fragment.PregnantFragmentWomanLogin">
 
     <ImageView
         android:layout_width="120dp"
@@ -56,5 +56,14 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         style="@style/PrimaryButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSignUpPregnantWoman"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        style="@style/SecondaryButton" />
 
 </LinearLayout>

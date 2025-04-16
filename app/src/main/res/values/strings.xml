@@ -190,5 +190,6 @@
     <string name="pregnant_woman_login">Client Login</string>
     <string name="healthcare_provider_login">Provider Login</string>
     <string name="healthcare_provider_icon">Provider</string>
+    <string name="sign_up">Sign Up</string>
 
 </resources>

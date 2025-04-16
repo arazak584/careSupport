@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.khrc.caresupport.Activity.HealthcareFragmentProviderLogin;
-import com.khrc.caresupport.Activity.PregnantFragmentWomanLogin;
+import com.khrc.caresupport.Fragment.HealthcareFragmentProviderLogin;
+import com.khrc.caresupport.Fragment.PregnantFragmentWomanLogin;
 
 public class LoginPagerAdapter extends FragmentStateAdapter {
 

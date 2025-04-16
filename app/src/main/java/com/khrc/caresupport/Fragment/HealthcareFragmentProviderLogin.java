@@ -1,4 +1,4 @@
-package com.khrc.caresupport.Activity;
+package com.khrc.caresupport.Fragment;
 
 import android.os.Bundle;
 
